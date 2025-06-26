@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35919.96 d17.13
+VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoiponeWebAPI", "MoiponeWebAPI.csproj", "{92A97F52-F556-48B4-8744-468E1C7A12EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "..\Moipone.Domain\Domain.csproj", "{F8847A40-109F-49E1-9C10-B28B1793950C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{92A97F52-F556-48B4-8744-468E1C7A12EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A97F52-F556-48B4-8744-468E1C7A12EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A97F52-F556-48B4-8744-468E1C7A12EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8847A40-109F-49E1-9C10-B28B1793950C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8847A40-109F-49E1-9C10-B28B1793950C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8847A40-109F-49E1-9C10-B28B1793950C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8847A40-109F-49E1-9C10-B28B1793950C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
