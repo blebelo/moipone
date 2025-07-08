@@ -1,13 +1,8 @@
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using WebAPI.Data;
 
-
-// First load the environment variables
 Env.Load();
-
-// Get the connection string directly from environment
 string? connectionString = Environment.GetEnvironmentVariable("MoiponeAPIContext");
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,4 +30,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Run($"http://0.0.0.0:{port}");
