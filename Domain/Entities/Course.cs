@@ -1,26 +1,31 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Interfaces;
 
 namespace Domain.Entities
 {
     public class Course
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; private set; }
 
         private string _name;
-        [Required]
+        [Required(ErrorMessage = "Name is a required field")]
         public required string Name
         {
             get => _name;
             set => _name = value.Trim();
         }
 
+        private string _instructorName;
+        [Required(ErrorMessage = "InstructorName is a required field")]
+        public required string InstructorName
+        {
+            get => _instructorName;
+            set => _instructorName = value.Trim();
+        }
+
         private int _maxStudents;
-        [Required]
+        [Required(ErrorMessage = "MaxStudents is a required field")]
         public int MaxStudents
         {
             get => _maxStudents;
@@ -28,7 +33,7 @@ namespace Domain.Entities
         }
 
         private DateOnly _startDate;
-        [Required]
+        [Required(ErrorMessage = "StartDate is a required field")]
         public DateOnly StartDate
         {
             get => _startDate;
@@ -36,7 +41,7 @@ namespace Domain.Entities
         }
 
         private DateOnly _applicationClose;
-        [Required]
+        [Required(ErrorMessage = "ApplicationClose is a required field")]
         public DateOnly ApplicationClose
         {
             get => _applicationClose;
@@ -44,7 +49,7 @@ namespace Domain.Entities
         }
 
         private bool _enrolmentOpen;
-        [Required]
+        [Required(ErrorMessage = "EnrolmentOpen is a required field")]
         public bool EnrolmentOpen
         {
             get => _enrolmentOpen;
@@ -60,14 +65,15 @@ namespace Domain.Entities
 
         private Course() { }
 
-        public Course(ICourse course)
+        public Course(string name, int maxStudents, DateOnly startDate, DateOnly applicationClose, bool enrolmentOpen, string instructorName)
         {
-            Name = course.Name;
-            MaxStudents = course.MaxStudents;
-            StartDate = course.StartDate;
-            ApplicationClose = course.ApplicationClose;
-            EnrolmentOpen = course.EnrolmentOpen;
-            Enrollments = course.Enrollments;
+            Name = name;
+            MaxStudents = maxStudents;
+            StartDate = startDate;
+            ApplicationClose = applicationClose;
+            EnrolmentOpen = enrolmentOpen;
+            Enrollments = new List<Student>();
+            InstructorName = instructorName;
         }
     }
 }

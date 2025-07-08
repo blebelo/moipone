@@ -8,7 +8,6 @@ namespace Domain.Entities
     public class Address
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; private set; }
 
         private string _street;
@@ -52,13 +51,13 @@ namespace Domain.Entities
         }
 
         private Address() { }
-        public Address(IAddress address)
+        public Address(string street, string city, string province, string postalCode, string country )
         {
-            Street = address.Street;
-            City = address.City;
-            Province = address.Province;
-            PostalCode = address.PostalCode;
-            Country = address.Country;
+            Street = street;
+            City = city;
+            Province = province;
+            PostalCode = postalCode;
+            Country = country;
         }
     }
 }

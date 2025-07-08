@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Enums;
-using Domain.Interfaces;
+﻿using Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
     public class Student
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; private set; }
 
         private string _firstName;
@@ -97,18 +94,19 @@ namespace Domain.Entities
 
         private Student() { }
 
-        public Student(IStudent student)
+        public Student(string firstName, string lastName, int age, string phoneNumber, string email, DateOnly dateOfBirth, Sex sex, string identityNumber, Address address, Qualification highestQualification)
         {
-            FirstName = student.FirstName;
-            LastName = student.LastName;
-            Age = student.Age;
-            PhoneNumber = student.PhoneNumber;
-            Email = student.Email;
-            DateOfBirth = student.DateOfBirth;
-            Sex = student.Sex;
-            IdentityNumber = student.IdentityNumber;
-            Address = student.Address;
-            HighestQualification = student.HighestQualification;
+            FirstName = firstName;
+            LastName = lastName;
+            Age = age;
+            PhoneNumber = phoneNumber;
+            Email = email;
+            DateOfBirth = dateOfBirth;
+            Sex = sex;
+            IdentityNumber = identityNumber;
+            Address = address;
+            HighestQualification = highestQualification;
         }
     }
+
 }
