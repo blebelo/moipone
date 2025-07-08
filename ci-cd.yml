@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore ./WebAPI/WebAPI.csproj
 
     - name: Build
-      run: dotnet build --no-restore WebAPI/WebAPI.csproj -c Release
+      run: dotnet build --no-restore ./WebAPI/WebAPI.csproj -c Release
 
     # - name: Publish
     #   run: dotnet publish WebAPI/WebAPI.csproj -c Release -o ./publish /p:UseAppHost=false
