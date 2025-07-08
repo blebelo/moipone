@@ -1,14 +1,12 @@
-name: CI/CD Pipeline
+name: Deployment Pipeline
 
 on:
   push:
     branches:
       - main
-      - feature/baseModels
   pull_request:
     branches:
       - main
-      - feature/baseModels
 
 jobs:
   build-and-deploy:
@@ -24,10 +22,21 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore MoiponeWebAPI/MoiponeWebAPI.csproj
+      run: dotnet restore MoiponeWebAPI.sln
 
     - name: Build
-      run: dotnet build --no-restore MoiponeWebAPI/MoiponeWebAPI.csproj -c Release
+      run: dotnet build --no-restore MoiponeWebAPI.sln -c Release
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal MoiponeWebAPI.sln
+
+    - name: Publish
+      run: dotnet publish WebAPI/WebAPI.csproj -c Release -o ./publish
+
+    # Optional: Add Docker build step if needed
+    - name: Build Docker image
+      run: |
+        docker build -f Dockerfile -t moiponeapi:latest .
 
     # - name: Publish
     #   run: dotnet publish MoiponeWebAPI/MoiponeWebAPI.csproj -c Release -o ./publish /p:UseAppHost=false
