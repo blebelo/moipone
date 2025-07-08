@@ -1,9 +1,9 @@
-﻿namespace MoiponeWebAPI.Models
+﻿namespace Domain.Enums
 {
     public enum EnrollmentStatus
     {
         Pending,
-        Confirmed,
+        Approved,
         Rejected
     }
 }
