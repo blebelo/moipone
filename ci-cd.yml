@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore MoiponeWebAPI/MoiponeWebAPI.csproj
+      run: dotnet restore ./WebAPI/WebAPI.csproj
 
     - name: Build
       run: dotnet build --no-restore MoiponeWebAPI/MoiponeWebAPI.csproj -c Release
