@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <VersionPrefix>1.0.0.0</VersionPrefix>
+    <TargetFramework>net9.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>Moipone.PublicSite.Web.Core</AssemblyName>
+    <PackageId>Moipone.PublicSite.Web.Core</PackageId>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
+    <RootNamespace>Moipone.PublicSite</RootNamespace>
+    <LangVersion>7.2</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Moipone.PublicSite.Application\Moipone.PublicSite.Application.csproj" />
+    <ProjectReference Include="..\Moipone.PublicSite.EntityFrameworkCore\Moipone.PublicSite.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+    <PackageReference Include="Abp.AspNetCore" Version="10.2.0" />
+    <PackageReference Include="Abp.ZeroCore" Version="10.2.0" />
+    <PackageReference Include="Abp.AspNetCore.SignalR" Version="10.2.0" />
+  </ItemGroup>
+</Project>
