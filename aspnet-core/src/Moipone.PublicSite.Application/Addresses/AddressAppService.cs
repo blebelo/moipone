@@ -6,7 +6,10 @@ using Moipone.PublicSite.Addresses.Dto;
 using Moipone.PublicSite.Domain.Addresses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Moipone.PublicSite.Addresses
 {
@@ -48,9 +51,16 @@ namespace Moipone.PublicSite.Addresses
         {
             try
             {
-                var addresses = await _addressRepository.GetAllListAsync();
+                var query = Repository.GetAll();
+                var totalCount = await AsyncQueryableExecuter.CountAsync(query);
+
+                var addresses = await AsyncQueryableExecuter.ToListAsync(
+                query.OrderBy(a => a.Id)
+                                     .Skip(input.SkipCount)
+                                     .Take(input.MaxResultCount)
+                            );
                 var result = ObjectMapper.Map<List<AddressDto>>(addresses);
-                return new PagedResultDto<AddressDto>(result.Count, result);
+                return new PagedResultDto<AddressDto>(totalCount, result);
             }
             catch (Exception ex)
             {
@@ -104,14 +114,9 @@ namespace Moipone.PublicSite.Addresses
 
                 var address = await _addressRepository.GetAsync(input.Id);
 
-                if (address == null)
-                {
-                    throw new UserFriendlyException($"Address with ID {input.Id} not found.", Abp.Logging.LogSeverity.Warn);
-                }
-
-                var updatedAddress = ObjectMapper.Map<Address>(input);
-                var action = await _addressRepository.UpdateAsync(updatedAddress);
-                return ObjectMapper.Map<AddressDto>(action);
+                ObjectMapper.Map(input, address);
+                var updatedAddress = await _addressRepository.UpdateAsync(address);
+                return ObjectMapper.Map<AddressDto>(updatedAddress);
             }
             catch (UserFriendlyException)
             {

@@ -26,14 +26,5 @@ namespace Moipone.PublicSite.Students.Dto
         public byte[] CertifiedHighestQualification { get; set; }
         #endregion
 
-        #region Audit Fields 
-        public DateTime CreationTime { get; set; }
-        public long? CreatorUserId { get; set; }
-        public DateTime? LastModificationTime { get; set; }
-        public long? LastModifierUserId { get; set; }
-        public DateTime? DeletionTime { get; set; }
-        public long? DeleterUserId { get; set; }
-        public bool IsDeleted { get; set; }
-        #endregion
     }
 }

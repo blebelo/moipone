@@ -19,7 +19,6 @@ namespace Moipone.PublicSite.Students
             _studentRepository = studentRepository;
         }
 
-
         public async Task<StudentDto> CreateAsync(StudentDto input)
         {
             throw new NotImplementedException();
@@ -40,7 +39,7 @@ namespace Moipone.PublicSite.Students
             throw new NotImplementedException();
         }
 
-        public Task<ActionResult> GetStudentByEmailAsync(Guid? studentId, string emailAddress)
+        public Task<StudentDto> GetStudentByEmailAsync(string emailAddress)
         {
             throw new NotImplementedException();
         }
@@ -49,5 +48,6 @@ namespace Moipone.PublicSite.Students
         {
             throw new NotImplementedException();
         }
+
     }
 }

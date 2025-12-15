@@ -5,12 +5,12 @@ namespace Moipone.PublicSite.Domain.CourseApplications
     public enum RefListApplicationStatus
     {
         [Display(Name = "Pending", Description = "Application submitted but not yet reviewed")]
-        Pending,
+        Pending = 1,
 
         [Display(Name = "Approved", Description = "Application approved by the admin")]
-        Approved,
+        Approved = 2,
 
         [Display(Name = "Declined", Description = "Application declined by the admin")]
-        Declined
+        Declined = 3
     }
 }
