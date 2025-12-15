@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moipone.PublicSite.Migrations
 {
     [DbContext(typeof(PublicSiteDbContext))]
-    [Migration("20251215232604_Refactored_Documents")]
+    [Migration("20251215234558_Refactored_Documents")]
     partial class Refactored_Documents
     {
         /// <inheritdoc />
@@ -1641,26 +1641,11 @@ namespace Moipone.PublicSite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CertifiedHighestQualification")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("CertifiedId")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("CurriculumVitae")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
 
                     b.Property<DateTime?>("DecisionDate")
                         .HasColumnType("timestamp with time zone");
@@ -1683,11 +1668,6 @@ namespace Moipone.PublicSite.Migrations
 
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("ProofOfResidence")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
 
                     b.Property<Guid>("ShortCourseId")
                         .HasColumnType("uuid");
@@ -1783,11 +1763,26 @@ namespace Moipone.PublicSite.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("integer");
 
+                    b.Property<string>("CertifiedHighestQualification")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("CertifiedId")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("CurriculumVitae")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
@@ -1830,7 +1825,12 @@ namespace Moipone.PublicSite.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<Guid>("ResidentialAddressId")
+                    b.Property<string>("ProofOfResidence")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<Guid?>("ResidentialAddressId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ShortCourseId")
@@ -2161,9 +2161,7 @@ namespace Moipone.PublicSite.Migrations
                 {
                     b.HasOne("Moipone.PublicSite.Domain.Addresses.Address", "ResidentialAddress")
                         .WithMany()
-                        .HasForeignKey("ResidentialAddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ResidentialAddressId");
 
                     b.HasOne("Moipone.PublicSite.Domain.ShortCourses.ShortCourse", null)
                         .WithMany("EnrolledStudents")

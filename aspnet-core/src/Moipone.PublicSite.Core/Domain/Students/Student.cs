@@ -12,6 +12,8 @@ namespace Moipone.PublicSite.Domain.Students;
 [Index(nameof(IdNumber), IsUnique = true)]
 public class Student : FullAuditedEntity<Guid>
 {
+
+    #region Personal Information
     [Required]
     [StringLength(50, MinimumLength = 2)]
     [RegularExpression(@"^[a-zA-Z\s'-]+$", ErrorMessage = "Name contains invalid characters.")]
@@ -50,4 +52,28 @@ public class Student : FullAuditedEntity<Guid>
     public string PhoneNumber { get; set; }
 
     public Address ResidentialAddress { get; set; }
+    #endregion
+
+    #region Submitted Documents
+    [Required]
+    [StringLength(255)]
+    [Url]
+    public string CertifiedId { get; set; }
+
+    [Required]
+    [StringLength(255)]
+    [Url]
+    public string ProofOfResidence { get; set; }
+
+    [Required]
+    [StringLength(255)]
+    [Url]
+    public string CurriculumVitae { get; set; }
+
+    [Required]
+    [StringLength(255)]
+    [Url]
+    public string CertifiedHighestQualification { get; set; }
+    #endregion
+
 }

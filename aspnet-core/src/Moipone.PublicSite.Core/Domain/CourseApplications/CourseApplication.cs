@@ -1,6 +1,5 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using Microsoft.EntityFrameworkCore;
-using Moipone.PublicSite.Domain.CourseApplications;
 using Moipone.PublicSite.Domain.ShortCourses;
 using Moipone.PublicSite.Domain.Students;
 using System;
@@ -35,25 +34,4 @@ public class CourseApplication : FullAuditedEntity<Guid>
     public DateTime? DecisionDate { get; set; }
     #endregion
 
-    #region Submitted Documents
-    [Required]
-    [StringLength(255)]
-    [Url]
-    public string CertifiedId { get; set; }
-
-    [Required]
-    [StringLength(255)]
-    [Url]
-    public string ProofOfResidence { get; set; }
-
-    [Required]
-    [StringLength(255)]
-    [Url]
-    public string CurriculumVitae { get; set; }
-
-    [Required]
-    [StringLength(255)]
-    [Url]
-    public string CertifiedHighestQualification { get; set; }
-    #endregion
 }
