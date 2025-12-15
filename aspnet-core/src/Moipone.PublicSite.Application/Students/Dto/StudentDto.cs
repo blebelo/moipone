@@ -20,10 +20,10 @@ namespace Moipone.PublicSite.Students.Dto
         #endregion
 
         #region Documents
-        public byte[] CertifiedId { get; set; }
-        public byte[] ProofOfResidence { get; set; }
-        public byte[] CurriculumVitae { get; set; }
-        public byte[] CertifiedHighestQualification { get; set; }
+        public string CertifiedId { get; set; }
+        public string ProofOfResidence { get; set; }
+        public string CurriculumVitae { get; set; }
+        public string CertifiedHighestQualification { get; set; }
         #endregion
 
     }
