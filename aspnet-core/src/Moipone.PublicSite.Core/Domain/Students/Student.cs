@@ -49,6 +49,5 @@ public class Student : FullAuditedEntity<Guid>
     [RegularExpression(@"^\+?\d{9,15}$", ErrorMessage = "Invalid phone number format.")]
     public string PhoneNumber { get; set; }
 
-    [Required]
     public Address ResidentialAddress { get; set; }
 }

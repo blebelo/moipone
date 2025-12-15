@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.Domain.Students;
 using Moipone.PublicSite.Domain.Addresses;
 using Moipone.PublicSite.Domain.ShortCourses;
+using Moipone.PublicSite.Domain.CourseApplications;
 
 namespace Moipone.PublicSite.EntityFrameworkCore;
 
