@@ -407,8 +407,8 @@ namespace Moipone.PublicSite.ShortCourses
                     );
                 }
 
-                var capacity = course.Capacity - course.EnrolledStudents.Count;
-                return capacity;
+                var availableCapacity = course.Capacity - course.EnrolledStudents.Count;
+                return Math.Max(0, availableCapacity);
             }
             catch (UserFriendlyException)
             {

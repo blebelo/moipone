@@ -12,7 +12,7 @@ on:
 jobs:
   auto-pr:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.draft == false
     permissions:
        pull-requests: write
        contents: read
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Wait for other workflows and CodeRabbit review to complete
+      - name: Wait for checks to complete
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -29,66 +29,47 @@ jobs:
           REPO=${{ github.repository }}
           HEAD_SHA=${{ github.event.pull_request.head.sha }}
       
-          echo "Waiting for all checks and reviews to complete on commit $HEAD_SHA..."
+          echo "Waiting for all checks to complete on commit $HEAD_SHA (including CodeRabbit)..."
       
-          max_wait=1800  # 30 minutes maximum wait
+          max_wait=1800  # 30 minutes max wait
           elapsed=0
       
           while [ $elapsed -lt $max_wait ]; do
-            # Get all check runs for this commit (excluding this workflow)
+            # Get all check runs for this commit except this workflow
             check_runs=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
               --jq '.check_runs[] | select(.name != "auto-pr") | {name: .name, status: .status, conclusion: .conclusion}')
       
-            echo "Current checks:"
-            echo "$check_runs"
+            # Count pending checks
+            pending=$(echo "$check_runs" | jq '[. | select(.status=="queued" or .status=="in_progress")] | length')
       
-            # Count pending/in_progress checks (excluding this workflow)
-            pending=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
-              --jq '[.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress")] | length')
-      
-            # Check the latest CodeRabbit review state
-            latest_state=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
-              --jq '[.[] | select(.user.login == "coderabbitai[bot]")] | last | .state')
-      
-            if [ "$latest_state" = "PENDING" ]; then
-              coderabbit_pending=1
-            else
-              coderabbit_pending=0
+            echo "Pending checks: $pending"
+            
+            # Ensure CodeRabbit check exists and is completed
+            coderabbit_status=$(echo "$check_runs" | jq -r '. | select(.name=="CodeRabbit") | .status')
+            if [ -z "$coderabbit_status" ]; then
+              echo "CodeRabbit check not found yet."
+              pending=$((pending+1))
+            elif [ "$coderabbit_status" != "completed" ]; then
+              echo "CodeRabbit check is not completed yet."
+              pending=$((pending+1))
             fi
       
-            total_pending=$((pending + coderabbit_pending))
-      
-            echo "Pending/running checks: $pending"
-            echo "Pending CodeRabbit review: $coderabbit_pending"
-            echo "Total pending: $total_pending"
-      
-            if [ "$total_pending" -eq 0 ]; then
-              echo "All checks and CodeRabbit review completed!"
-              echo "Waiting an additional 1m30s before proceeding..."
-              sleep 90
+            if [ "$pending" -eq 0 ]; then
+              echo "All checks including CodeRabbit completed!"
+              sleep 30  # short buffer before next step
               break
             fi
       
-            # Show which checks are still running
-            if [ "$pending" -gt 0 ]; then
-              still_running=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
-                --jq '.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress") | .name')
-              echo "Still waiting for checks: $still_running"
-            fi
-      
-            if [ "$coderabbit_pending" -gt 0 ]; then
-              echo "Still waiting for CodeRabbit review..."
-            fi
-      
-            echo "Checking again in 30 seconds... (${elapsed}s elapsed)"
+            echo "Still waiting for checks to complete..."
             sleep 30
-            elapsed=$((elapsed + 30))
+            elapsed=$((elapsed+30))
           done
       
           if [ $elapsed -ge $max_wait ]; then
-            echo "Timeout reached. Some checks or reviews may still be running."
+            echo "Timeout reached. Some checks may still be running."
             exit 1
           fi
+      
       
       
 
