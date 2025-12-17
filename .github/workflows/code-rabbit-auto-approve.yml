@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Wait for other workflows to complete
+      - name: Wait for other workflows and CodeRabbit review to complete
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -46,18 +46,24 @@ jobs:
             pending=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
               --jq '[.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress")] | length')
       
-            # Check for pending CodeRabbit reviews
-            coderabbit_pending=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
-              --jq '[.[] | select(.user.login == "coderabbitai[bot]") | select(.state == "PENDING")] | length')
+            # Check the latest CodeRabbit review state
+            latest_state=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
+              --jq '[.[] | select(.user.login == "coderabbitai[bot]")] | last | .state')
+      
+            if [ "$latest_state" = "PENDING" ]; then
+              coderabbit_pending=1
+            else
+              coderabbit_pending=0
+            fi
       
             total_pending=$((pending + coderabbit_pending))
       
             echo "Pending/running checks: $pending"
-            echo "Pending CodeRabbit reviews: $coderabbit_pending"
+            echo "Pending CodeRabbit review: $coderabbit_pending"
             echo "Total pending: $total_pending"
       
             if [ "$total_pending" -eq 0 ]; then
-              echo "All checks and reviews completed!"
+              echo "All checks and CodeRabbit review completed!"
               echo "Waiting an additional 1m30s before proceeding..."
               sleep 90
               break
@@ -80,9 +86,10 @@ jobs:
           done
       
           if [ $elapsed -ge $max_wait ]; then
-            echo "Timeout reached. Some checks may still be running."
+            echo "Timeout reached. Some checks or reviews may still be running."
             exit 1
           fi
+      
       
 
       - name: Check all checks passed
