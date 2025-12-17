@@ -12,10 +12,14 @@ on:
 jobs:
   auto-approve:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+       pull-requests: write
+       contents: read
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check if all conversations are resolved
         id: check_threads
@@ -30,7 +34,7 @@ jobs:
             | jq '[.[] | select(.resolved==false)] | length')
 
           echo "Unresolved threads: $unresolved"
-          echo "::set-output name=unresolved::$unresolved"
+          echo echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
       - name: Approve PR if all conversations resolved
         if: steps.check_threads.outputs.unresolved == '0'
