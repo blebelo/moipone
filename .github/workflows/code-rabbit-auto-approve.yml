@@ -40,7 +40,7 @@ jobs:
         if: steps.check_threads.outputs.unresolved == '0'
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+          gh pr review $PR_NUMBER --approve --body "All conversations resolved ✅" --repo ${{ github.repository }}
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
 
