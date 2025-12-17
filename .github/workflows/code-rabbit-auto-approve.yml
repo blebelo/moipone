@@ -21,8 +21,70 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Wait for other workflows to complete
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          
+          echo "Waiting for all checks to complete on commit $HEAD_SHA..."
+          
+          max_wait=1800  # 30 minutes maximum wait
+          elapsed=0
+          
+          while [ $elapsed -lt $max_wait ]; do
+            # Get all check runs for this commit
+            check_runs=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '.check_runs[] | select(.name != "auto-pr") | {name: .name, status: .status, conclusion: .conclusion}')
+            
+            # Count pending/in_progress checks (excluding this workflow)
+            pending=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '[.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress")] | length')
+            
+            echo "Pending/running checks: $pending"
+            
+            if [ "$pending" -eq 0 ]; then
+              echo "All checks completed!"
+              break
+            fi
+            
+            echo "Still waiting... (${elapsed}s elapsed)"
+            sleep 30
+            elapsed=$((elapsed + 30))
+          done
+          
+          if [ $elapsed -ge $max_wait ]; then
+            echo "Timeout reached. Some checks may still be running."
+            exit 1
+          fi
+
+      - name: Check all checks passed
+        id: check_status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          
+          # Get all check runs excluding this workflow
+          failed=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+            --jq '[.check_runs[] | select(.name != "auto-pr") | select(.conclusion != "success" and .conclusion != "skipped" and .conclusion != null)] | length')
+          
+          echo "Failed checks: $failed"
+          echo "failed=$failed" >> $GITHUB_OUTPUT
+          
+          if [ "$failed" -gt 0 ]; then
+            echo "Some checks failed. Listing failed checks:"
+            gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '.check_runs[] | select(.name != "auto-pr") | select(.conclusion != "success" and .conclusion != "skipped" and .conclusion != null) | "- \(.name): \(.conclusion)"'
+          fi
+
       - name: Check unresolved threads
         id: check_threads
+        if: steps.check_status.outputs.failed == '0'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -47,7 +109,7 @@ jobs:
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
       - name: Mark all changed files as viewed
-        if: success() && steps.check_threads.outputs.unresolved == '0'
+        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
@@ -64,15 +126,15 @@ jobs:
           done
 
       - name: Approve PR
-        if: success() && steps.check_threads.outputs.unresolved == '0'
+        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
 
       - name: Merge PR
-        if: success() && steps.check_threads.outputs.unresolved == '0'
+        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
