@@ -1,4 +1,4 @@
-name: Auto-Approve & Merge PR
+name: Fully Autonomous PR Handling
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ on:
       - synchronize
 
 jobs:
-  auto-approve:
+  auto-pr:
     runs-on: ubuntu-latest
     if: github.event.pull_request.head.repo.full_name == github.repository
     permissions:
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Check if all conversations are resolved
+      - name: Check unresolved threads
         id: check_threads
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
@@ -36,15 +36,32 @@ jobs:
           echo "Unresolved threads: $unresolved"
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
-      - name: Approve PR if all conversations resolved
+      - name: Mark all changed files as viewed
         if: steps.check_threads.outputs.unresolved == '0'
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "All conversations resolved ✅" --repo ${{ github.repository }}
+          REPO=${{ github.repository }}
+          FILES=$(gh api repos/$REPO/pulls/$PR_NUMBER/files | jq -r '.[].filename')
+
+          for FILE in $FILES; do
+            gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
+              -f event="COMMENT" \
+              -f comments="[ {\"path\":\"$FILE\",\"position\":1,\"body\":\"\"} ]" \
+              -H "Accept: application/vnd.github+json" \
+              -F draft=false
+          done
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
 
-      - name: Merge PR if all conversations resolved
+      - name: Approve PR
+        if: steps.check_threads.outputs.unresolved == '0'
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
+
+      - name: Merge PR
         if: steps.check_threads.outputs.unresolved == '0'
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
