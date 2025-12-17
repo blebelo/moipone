@@ -109,23 +109,6 @@ jobs:
           echo "Unresolved threads: $unresolved"
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
-      - name: Mark all changed files as viewed
-        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
-        env:
-          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
-        run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          REPO=${{ github.repository }}
-          FILES=$(gh api repos/$REPO/pulls/$PR_NUMBER/files | jq -r '.[].filename')
-
-          for FILE in $FILES; do
-            gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
-              -f event="COMMENT" \
-              -f comments="[ {\"path\":\"$FILE\",\"position\":1,\"body\":\"\"} ]" \
-              -H "Accept: application/vnd.github+json" \
-              -F draft=false
-          done
-
       - name: Approve PR
         if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
         env:
