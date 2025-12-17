@@ -1,4 +1,4 @@
-name: Code RabbitAI Auto-Approve PR
+name: Auto-Approve & Merge PR
 
 on:
   pull_request:
@@ -34,12 +34,20 @@ jobs:
             | jq '[.[] | select(.resolved==false)] | length')
 
           echo "Unresolved threads: $unresolved"
-          echo echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
+          echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
       - name: Approve PR if all conversations resolved
         if: steps.check_threads.outputs.unresolved == '0'
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
+
+      - name: Merge PR if all conversations resolved
+        if: steps.check_threads.outputs.unresolved == '0'
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr merge $PR_NUMBER --merge --repo ${{ github.repository }}
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
