@@ -1,0 +1,126 @@
+name: Fully Autonomous PR Handling
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+
+jobs:
+  auto-pr:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+       pull-requests: write
+       contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Wait for other workflows to complete
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          
+          echo "Waiting for all checks to complete on commit $HEAD_SHA..."
+          
+          max_wait=1800  # 30 minutes maximum wait
+          elapsed=0
+          
+          while [ $elapsed -lt $max_wait ]; do
+            # Get all check runs for this commit
+            check_runs=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '.check_runs[] | select(.name != "auto-pr") | {name: .name, status: .status, conclusion: .conclusion}')
+            
+            # Count pending/in_progress checks (excluding this workflow)
+            pending=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '[.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress")] | length')
+            
+            echo "Pending/running checks: $pending"
+            
+            if [ "$pending" -eq 0 ]; then
+              echo "All checks completed!"
+              break
+            fi
+            
+            echo "Still waiting... (${elapsed}s elapsed)"
+            sleep 30
+            elapsed=$((elapsed + 30))
+          done
+          
+          if [ $elapsed -ge $max_wait ]; then
+            echo "Timeout reached. Some checks may still be running."
+            exit 1
+          fi
+
+      - name: Check all checks passed
+        id: check_status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          
+          # Get all check runs excluding this workflow
+          failed=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+            --jq '[.check_runs[] | select(.name != "auto-pr") | select(.conclusion != "success" and .conclusion != "skipped" and .conclusion != null)] | length')
+          
+          echo "Failed checks: $failed"
+          echo "failed=$failed" >> $GITHUB_OUTPUT
+          
+          if [ "$failed" -gt 0 ]; then
+            echo "Some checks failed. Listing failed checks:"
+            gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
+              --jq '.check_runs[] | select(.name != "auto-pr") | select(.conclusion != "success" and .conclusion != "skipped" and .conclusion != null) | "- \(.name): \(.conclusion)"'
+          fi
+
+      - name: Check unresolved threads
+        id: check_threads
+        if: steps.check_status.outputs.failed == '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          REPO=${{ github.repository }}
+
+          # Use the GraphQL API to get unresolved review threads
+          unresolved=$(gh api graphql -f query='
+            query($owner: String!, $repo: String!, $number: Int!) {
+              repository(owner: $owner, name: $repo) {
+                pullRequest(number: $number) {
+                  reviewThreads(first: 100) {
+                    nodes {
+                      isResolved
+                    }
+                  }
+                }
+              }
+            }' -f owner="${REPO%/*}" -f repo="${REPO#*/}" -F number=$PR_NUMBER \
+            --jq '.data.repository.pullRequest.reviewThreads.nodes | map(select(.isResolved == false)) | length')
+
+          echo "Unresolved threads: $unresolved"
+          echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
+
+      - name: Approve PR
+        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
+
+      - name: Merge PR
+        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr merge $PR_NUMBER --merge --repo ${{ github.repository }}
