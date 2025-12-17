@@ -21,66 +21,76 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Wait for other workflows to complete
+      - name: Wait for other workflows and CodeRabbit review to complete
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           REPO=${{ github.repository }}
           HEAD_SHA=${{ github.event.pull_request.head.sha }}
-          
+      
           echo "Waiting for all checks and reviews to complete on commit $HEAD_SHA..."
-          
+      
           max_wait=1800  # 30 minutes maximum wait
           elapsed=0
-          
+      
           while [ $elapsed -lt $max_wait ]; do
             # Get all check runs for this commit (excluding this workflow)
             check_runs=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
               --jq '.check_runs[] | select(.name != "auto-pr") | {name: .name, status: .status, conclusion: .conclusion}')
-            
+      
             echo "Current checks:"
             echo "$check_runs"
-            
+      
             # Count pending/in_progress checks (excluding this workflow)
             pending=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
               --jq '[.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress")] | length')
-            
-            # Check for pending CodeRabbit reviews
-            coderabbit_pending=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
-              --jq '[.[] | select(.user.login == "coderabbitai[bot]") | select(.state == "PENDING")] | length')
-            
+      
+            # Check the latest CodeRabbit review state
+            latest_state=$(gh api repos/$REPO/pulls/$PR_NUMBER/reviews \
+              --jq '[.[] | select(.user.login == "coderabbitai[bot]")] | last | .state')
+      
+            if [ "$latest_state" = "PENDING" ]; then
+              coderabbit_pending=1
+            else
+              coderabbit_pending=0
+            fi
+      
             total_pending=$((pending + coderabbit_pending))
-            
+      
             echo "Pending/running checks: $pending"
-            echo "Pending CodeRabbit reviews: $coderabbit_pending"
+            echo "Pending CodeRabbit review: $coderabbit_pending"
             echo "Total pending: $total_pending"
-            
+      
             if [ "$total_pending" -eq 0 ]; then
-              echo "All checks and reviews completed!"
+              echo "All checks and CodeRabbit review completed!"
+              echo "Waiting an additional 1m30s before proceeding..."
+              sleep 90
               break
             fi
-            
+      
             # Show which checks are still running
             if [ "$pending" -gt 0 ]; then
               still_running=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
                 --jq '.check_runs[] | select(.name != "auto-pr") | select(.status == "queued" or .status == "in_progress") | .name')
               echo "Still waiting for checks: $still_running"
             fi
-            
+      
             if [ "$coderabbit_pending" -gt 0 ]; then
               echo "Still waiting for CodeRabbit review..."
             fi
-            
+      
             echo "Checking again in 30 seconds... (${elapsed}s elapsed)"
             sleep 30
             elapsed=$((elapsed + 30))
           done
-          
+      
           if [ $elapsed -ge $max_wait ]; then
-            echo "Timeout reached. Some checks may still be running."
+            echo "Timeout reached. Some checks or reviews may still be running."
             exit 1
           fi
+      
+      
 
       - name: Check all checks passed
         id: check_status
@@ -137,7 +147,7 @@ jobs:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
+          gh pr review $PR_NUMBER --approve --body "All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
 
       - name: Merge PR
         if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
