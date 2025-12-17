@@ -1,0 +1,41 @@
+name: Code RabbitAI Auto-Approve PR
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Check if all conversations are resolved
+        id: check_threads
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          OWNER=${{ github.repository_owner }}
+          REPO=${{ github.event.repository.name }}
+
+          unresolved=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            /repos/$OWNER/$REPO/pulls/$PR_NUMBER/review_threads \
+            | jq '[.[] | select(.resolved==false)] | length')
+
+          echo "Unresolved threads: $unresolved"
+          echo "::set-output name=unresolved::$unresolved"
+
+      - name: Approve PR if all conversations resolved
+        if: steps.check_threads.outputs.unresolved == '0'
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
