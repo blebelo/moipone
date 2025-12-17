@@ -137,7 +137,7 @@ jobs:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
+          gh pr review $PR_NUMBER --approve --body "All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
 
       - name: Merge PR
         if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
