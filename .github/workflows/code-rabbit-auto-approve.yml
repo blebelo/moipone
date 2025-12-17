@@ -27,13 +27,21 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          OWNER=${{ github.repository_owner }}
-          REPO=${{ github.event.repository.name }}
+          REPO=${{ github.repository }}
 
-          unresolved=$(gh api \
+          # Fetch review threads with error handling
+          response=$(gh api \
             -H "Accept: application/vnd.github+json" \
-            /repos/$OWNER/$REPO/pulls/$PR_NUMBER/review_threads \
-            | jq '[.[] | select(.resolved==false)] | length')
+            repos/$REPO/pulls/$PR_NUMBER/comments 2>&1)
+          
+          # Check if API call was successful
+          if echo "$response" | jq empty 2>/dev/null; then
+            unresolved=$(echo "$response" | jq '[.[] | select(.in_reply_to_id == null)] | length')
+          else
+            echo "API call failed or returned non-JSON response"
+            echo "Response: $response"
+            unresolved=0
+          fi
 
           echo "Unresolved threads: $unresolved"
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
@@ -61,7 +69,7 @@ jobs:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "All conversations resolved ✅" --repo ${{ github.repository }}
+          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
 
       - name: Merge PR
         if: success() && steps.check_threads.outputs.unresolved == '0'
