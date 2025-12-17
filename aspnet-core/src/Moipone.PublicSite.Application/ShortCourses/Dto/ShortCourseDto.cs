@@ -1,6 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using Moipone.PublicSite.CourseApplications.Dto;
 using Moipone.PublicSite.Domain.ShortCourses;
 using Moipone.PublicSite.Students.Dto;
 using System;
@@ -24,7 +23,7 @@ namespace Moipone.PublicSite.ShortCourses.Dto
 
         #region Enrollment Data
         public ICollection<StudentDto> EnrolledStudents { get; set; }
-        public ICollection<CourseApplicationDto> Applications { get; set; }
+        //public ICollection<CourseApplicationDto> Applications { get; set; }
         #endregion
     }
 }
