@@ -91,19 +91,20 @@ jobs:
           PR_NUMBER=${{ github.event.pull_request.number }}
           REPO=${{ github.repository }}
 
-          # Fetch review threads with error handling
-          response=$(gh api \
-            -H "Accept: application/vnd.github+json" \
-            repos/$REPO/pulls/$PR_NUMBER/comments 2>&1)
-          
-          # Check if API call was successful
-          if echo "$response" | jq empty 2>/dev/null; then
-            unresolved=$(echo "$response" | jq '[.[] | select(.in_reply_to_id == null)] | length')
-          else
-            echo "API call failed or returned non-JSON response"
-            echo "Response: $response"
-            unresolved=0
-          fi
+          # Use the GraphQL API to get unresolved review threads
+          unresolved=$(gh api graphql -f query='
+            query($owner: String!, $repo: String!, $number: Int!) {
+              repository(owner: $owner, name: $repo) {
+                pullRequest(number: $number) {
+                  reviewThreads(first: 100) {
+                    nodes {
+                      isResolved
+                    }
+                  }
+                }
+              }
+            }' -f owner="${REPO%/*}" -f repo="${REPO#*/}" -F number=$PR_NUMBER \
+            --jq '.data.repository.pullRequest.reviewThreads.nodes | map(select(.isResolved == false)) | length')
 
           echo "Unresolved threads: $unresolved"
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
