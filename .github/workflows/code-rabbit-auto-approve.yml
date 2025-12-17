@@ -23,6 +23,8 @@ jobs:
 
       - name: Check unresolved threads
         id: check_threads
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           OWNER=${{ github.repository_owner }}
@@ -37,7 +39,9 @@ jobs:
           echo "unresolved=$unresolved" >> $GITHUB_OUTPUT
 
       - name: Mark all changed files as viewed
-        if: steps.check_threads.outputs.unresolved == '0'
+        if: success() && steps.check_threads.outputs.unresolved == '0'
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           REPO=${{ github.repository }}
@@ -50,21 +54,19 @@ jobs:
               -H "Accept: application/vnd.github+json" \
               -F draft=false
           done
-        env:
-          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
 
       - name: Approve PR
-        if: steps.check_threads.outputs.unresolved == '0'
-        run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr review $PR_NUMBER --approve --body "Code RabbitAI: All conversations resolved ✅" --repo ${{ github.repository }}
+        if: success() && steps.check_threads.outputs.unresolved == '0'
         env:
           GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          gh pr review $PR_NUMBER --approve --body "All conversations resolved ✅" --repo ${{ github.repository }}
 
       - name: Merge PR
-        if: steps.check_threads.outputs.unresolved == '0'
+        if: success() && steps.check_threads.outputs.unresolved == '0'
+        env:
+          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           gh pr merge $PR_NUMBER --merge --repo ${{ github.repository }}
-        env:
-          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
