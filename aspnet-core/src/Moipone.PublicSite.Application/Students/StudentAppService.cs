@@ -231,7 +231,7 @@ namespace Moipone.PublicSite.Students
             }
             catch (Exception ex)
             {
-                Logger.Error($"Error retrieving student with email {emailAddress}", ex);
+                Logger.Error("Error retrieving student by email", ex);
                 throw new UserFriendlyException(
                     $"Could not retrieve Student. Error: {ex.Message}",
                     Abp.Logging.LogSeverity.Error
