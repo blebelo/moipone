@@ -8489,3 +8489,67 @@ INFO  2025-12-18 00:21:09,737 [15   ] .Mvc.Infrastructure.ObjectResultExecutor -
 INFO  2025-12-18 00:21:09,775 [15   ] c.Infrastructure.ControllerActionInvoker - Executed action Moipone.PublicSite.ShortCourses.ShortCourseAppService.GetAllAsync (Moipone.PublicSite.Application) in 2759.8662ms
 INFO  2025-12-18 00:21:09,779 [15   ] ft.AspNetCore.Routing.EndpointMiddleware - Executed endpoint 'Moipone.PublicSite.ShortCourses.ShortCourseAppService.GetAllAsync (Moipone.PublicSite.Application)'
 INFO  2025-12-18 00:21:09,782 [15   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request finished HTTP/2 GET https://localhost:44311/api/services/app/ShortCourse/GetAll - 200 - application/json;+charset=utf-8 2816.2327ms
+DEBUG 2025-12-18 01:21:17,224 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2025-12-18 01:21:17,954 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2025-12-18 01:21:17,998 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,003 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,004 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,005 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,006 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,007 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,008 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,010 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,011 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,012 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,013 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,014 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,015 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,015 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,016 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.2.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:18,021 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2025-12-18 01:21:18,184 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2025-12-18 01:21:18,184 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2025-12-18 01:21:18,184 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2025-12-18 01:21:18,184 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2025-12-18 01:21:19,029 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2025-12-18 01:21:19,517 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2025-12-18 01:21:19,604 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2025-12-18 01:21:19,622 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2025-12-18 01:21:19,635 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2025-12-18 01:21:19,644 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2025-12-18 01:21:19,673 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2025-12-18 01:21:19,693 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2025-12-18 01:21:19,754 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 11 classes define auto mapping attributes
+DEBUG 2025-12-18 01:21:19,754 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2025-12-18 01:21:19,762 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2025-12-18 01:21:19,763 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2025-12-18 01:21:19,765 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2025-12-18 01:21:19,765 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2025-12-18 01:21:19,766 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2025-12-18 01:21:19,766 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2025-12-18 01:21:19,766 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2025-12-18 01:21:19,766 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2025-12-18 01:21:19,767 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2025-12-18 01:21:19,767 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+INFO  2025-12-18 01:21:38,469 [2    ] tCore.Builder.RequestLocalizationOptions - Supported Request Localization Cultures: en,es-MX,fr,de,it,nl,pt-BR,tr,ru,ar,fa,ja,zh-Hans
+INFO  2025-12-18 01:21:39,244 [16   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request starting HTTP/2 GET https://localhost:44311/ - - -
+INFO  2025-12-18 01:21:39,353 [2    ] Microsoft.Hosting.Lifetime               - Application started. Press Ctrl+C to shut down.
+INFO  2025-12-18 01:21:39,357 [2    ] Microsoft.Hosting.Lifetime               - Hosting environment: Development
+INFO  2025-12-18 01:21:39,361 [2    ] Microsoft.Hosting.Lifetime               - Content root path: C:\Users\benny\Code\Projects\moipone\aspnet-core\src\Moipone.PublicSite.Web.Host
+INFO  2025-12-18 01:21:39,645 [14   ] ft.AspNetCore.Routing.EndpointMiddleware - Executing endpoint 'Moipone.PublicSite.Web.Host.Controllers.HomeController.Index (Moipone.PublicSite.Web.Host)'
+INFO  2025-12-18 01:21:39,781 [14   ] c.Infrastructure.ControllerActionInvoker - Route matched with {action = "Index", controller = "Home", area = ""}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller Moipone.PublicSite.Web.Host.Controllers.HomeController (Moipone.PublicSite.Web.Host).
+INFO  2025-12-18 01:21:42,163 [14   ] vc.Infrastructure.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2025-12-18 01:21:42,196 [14   ] c.Infrastructure.ControllerActionInvoker - Executed action Moipone.PublicSite.Web.Host.Controllers.HomeController.Index (Moipone.PublicSite.Web.Host) in 2386.144ms
+INFO  2025-12-18 01:21:42,200 [14   ] ft.AspNetCore.Routing.EndpointMiddleware - Executed endpoint 'Moipone.PublicSite.Web.Host.Controllers.HomeController.Index (Moipone.PublicSite.Web.Host)'
+INFO  2025-12-18 01:21:42,251 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request finished HTTP/2 GET https://localhost:44311/ - 302 - - 3019.4941ms
+INFO  2025-12-18 01:21:42,592 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request starting HTTP/2 GET https://localhost:44311/_vs/browserLink - - -
+INFO  2025-12-18 01:21:42,679 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request finished HTTP/2 GET https://localhost:44311/_vs/browserLink - 200 - text/javascript;+charset=UTF-8 85.6174ms
+INFO  2025-12-18 01:21:42,919 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request starting HTTP/2 GET https://localhost:44311/AntiForgery/SetCookie - - -
+INFO  2025-12-18 01:21:42,928 [14   ] ft.AspNetCore.Routing.EndpointMiddleware - Executing endpoint 'Moipone.PublicSite.Web.Host.Controllers.AntiForgeryController.SetCookie (Moipone.PublicSite.Web.Host)'
+INFO  2025-12-18 01:21:42,941 [14   ] c.Infrastructure.ControllerActionInvoker - Route matched with {action = "SetCookie", controller = "AntiForgery", area = ""}. Executing controller action with signature Void SetCookie() on controller Moipone.PublicSite.Web.Host.Controllers.AntiForgeryController (Moipone.PublicSite.Web.Host).
+INFO  2025-12-18 01:21:42,987 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request starting HTTP/2 GET https://localhost:44311/swagger/v1/swagger.json - - -
+INFO  2025-12-18 01:21:43,050 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request finished HTTP/2 GET https://localhost:44311/swagger/v1/swagger.json - 200 - application/json;charset=utf-8 63.9468ms
+INFO  2025-12-18 01:21:44,419 [14   ] .Mvc.Infrastructure.ObjectResultExecutor - Executing ObjectResult, writing value of type 'Abp.Web.Models.AjaxResponse'.
+INFO  2025-12-18 01:21:44,432 [14   ] c.Infrastructure.ControllerActionInvoker - Executed action Moipone.PublicSite.Web.Host.Controllers.AntiForgeryController.SetCookie (Moipone.PublicSite.Web.Host) in 1488.3667ms
+INFO  2025-12-18 01:21:44,435 [14   ] ft.AspNetCore.Routing.EndpointMiddleware - Executed endpoint 'Moipone.PublicSite.Web.Host.Controllers.AntiForgeryController.SetCookie (Moipone.PublicSite.Web.Host)'
+INFO  2025-12-18 01:21:44,438 [14   ] Microsoft.AspNetCore.Hosting.Diagnostics - Request finished HTTP/2 GET https://localhost:44311/AntiForgery/SetCookie - 200 - application/json;+charset=utf-8 1520.7274ms

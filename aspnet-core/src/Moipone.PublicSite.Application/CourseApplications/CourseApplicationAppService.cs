@@ -231,5 +231,48 @@ namespace Moipone.PublicSite.CourseApplications
                 );
             }
         }
+
+        public async Task<List<CourseApplicationDto>> GetApprovedApplicationsAsync()
+        {
+            try
+            {
+                var query = _courseApplicationRepository.GetAll()
+                    .Where(a => a.Status == RefListApplicationStatus.Approved);
+
+                var applications = await AsyncQueryableExecuter.ToListAsync(query);
+
+                return ObjectMapper.Map<List<CourseApplicationDto>>(applications);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error retrieving approved course applications", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve approved course applications. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
+
+        public async Task<List<CourseApplicationDto>> GetDeclinedApplicationsAsync()
+        {
+            try
+            {
+                var query = _courseApplicationRepository.GetAll()
+                    .Where(a => a.Status == RefListApplicationStatus.Declined);
+
+                var applications = await AsyncQueryableExecuter.ToListAsync(query);
+
+                return ObjectMapper.Map<List<CourseApplicationDto>>(applications);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error retrieving declined course applications", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve declined course applications. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
+
     }
 }
