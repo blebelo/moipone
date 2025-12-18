@@ -21,6 +21,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Wait 5 minutes
+        run: sleep 300
+      
+
       - name: Wait for all checks and CodeRabbit comments
         env:
           GH_TOKEN: ${{ github.token }}
