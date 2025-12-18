@@ -21,6 +21,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Wait 5 minutes
+        run: sleep 300
+      
+
       - name: Wait for all checks and CodeRabbit comments
         env:
           GH_TOKEN: ${{ github.token }}
@@ -140,11 +144,3 @@ jobs:
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
           gh pr review $PR_NUMBER --approve --body "All checks passed and conversations resolved ✅" --repo ${{ github.repository }}
-
-      - name: Merge PR
-        if: success() && steps.check_status.outputs.failed == '0' && steps.check_threads.outputs.unresolved == '0'
-        env:
-          GH_TOKEN: ${{ secrets.CODE_RABBIT_TOKEN }}
-        run: |
-          PR_NUMBER=${{ github.event.pull_request.number }}
-          gh pr merge $PR_NUMBER --merge --repo ${{ github.repository }}
