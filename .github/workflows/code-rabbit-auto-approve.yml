@@ -21,7 +21,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Wait for checks and CodeRabbit comments
+        - name: Wait for all checks and CodeRabbit comments
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -29,56 +29,61 @@ jobs:
           REPO=${{ github.repository }}
           HEAD_SHA=${{ github.event.pull_request.head.sha }}
       
-          echo "Waiting for all checks to complete on commit $HEAD_SHA (including CodeRabbit comments)..."
+          echo "Waiting for all checks and CodeRabbit comments on commit $HEAD_SHA..."
       
-          max_wait=900
+          max_wait=1800  # 30 minutes max wait
           elapsed=0
+          sleep_interval=30  # seconds between status checks
       
           while [ $elapsed -lt $max_wait ]; do
-            # Get all check runs for this commit except this workflow
+            # Fetch all check runs for this commit except this workflow
             check_runs=$(gh api repos/$REPO/commits/$HEAD_SHA/check-runs \
               --jq '.check_runs[] | select(.name != "auto-pr") | {name: .name, status: .status, conclusion: .conclusion}')
       
             # Count pending checks
-            pending=$(echo "$check_runs" | jq '[. | select(.status=="queued" or .status=="in_progress")] | length')
+            pending_checks=$(echo "$check_runs" | jq '[. | select(.status=="queued" or .status=="in_progress")] | length')
       
-            # Ensure CodeRabbit check exists and is completed
+            # Get CodeRabbit check status
             coderabbit_status=$(echo "$check_runs" | jq -r '. | select(.name=="CodeRabbit") | .status')
+      
             if [ -z "$coderabbit_status" ]; then
               echo "CodeRabbit check not found yet."
-              pending=$((pending+1))
+              pending_checks=$((pending_checks+1))
             elif [ "$coderabbit_status" != "completed" ]; then
               echo "CodeRabbit check is not completed yet."
-              pending=$((pending+1))
+              pending_checks=$((pending_checks+1))
             fi
       
-            # Check if CodeRabbit has 2 or more comments
+            # Get number of CodeRabbit comments
+            comment_count=0
             if [ "$coderabbit_status" == "completed" ]; then
-              comment_count=$(gh pr review-comments list $PR_NUMBER --repo $REPO --author CodeRabbit --json totalCount --jq '.totalCount')
+              comment_count=$(gh pr review-comments list $PR_NUMBER --repo $REPO --author CodeRabbit --json id --jq 'length')
               if [ "$comment_count" -lt 2 ]; then
-                echo "CodeRabbit has only $comment_count comments, waiting 90s for more..."
+                echo "CodeRabbit has only $comment_count comments. Waiting 90s for more..."
                 sleep 90
                 elapsed=$((elapsed+90))
                 continue
               fi
             fi
       
-            if [ "$pending" -eq 0 ]; then
-              echo "All checks including CodeRabbit completed and has enough comments!"
-              sleep 30  # short buffer before next step
+            total_pending=$((pending_checks))
+      
+            if [ "$total_pending" -eq 0 ]; then
+              echo "All checks completed and CodeRabbit has sufficient comments!"
+              sleep 5  # short buffer before next step
               break
             fi
       
-            echo "Still waiting for checks to complete..."
-            sleep 30
-            elapsed=$((elapsed+30))
+            echo "Still waiting for checks or CodeRabbit comments..."
+            sleep $sleep_interval
+            elapsed=$((elapsed+sleep_interval))
           done
       
           if [ $elapsed -ge $max_wait ]; then
-            echo "Timeout reached. Some checks or comments may still be pending."
+            echo "Timeout reached. Some checks or CodeRabbit comments may still be pending."
             exit 1
+          fi
       
-           
       - name: Check all checks passed
         id: check_status
         env:
