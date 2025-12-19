@@ -7,7 +7,7 @@ export const axiosInstance = () => {
     baseURL: BASE_URL,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `${token}` } : {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
 };
