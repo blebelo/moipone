@@ -55,9 +55,9 @@ export const createStudentSuccess = createAction<IStudentStateContext, IStudent>
   })
 );
 
-export const createStudentError = createAction<IStudentStateContext>(
+export const createStudentError = createAction<IStudentStateContext, string>(
   StudentActionEnums.createStudentError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );
 
 // ==================== GET ALL STUDENTS ====================
@@ -74,9 +74,9 @@ export const getAllStudentsSuccess = createAction<IStudentStateContext, IStudent
   })
 );
 
-export const getAllStudentsError = createAction<IStudentStateContext>(
+export const getAllStudentsError = createAction<IStudentStateContext, string>(
   StudentActionEnums.getAllStudentsError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );
 
 // ==================== GET STUDENT BY ID ====================
@@ -93,9 +93,9 @@ export const getStudentByIdSuccess = createAction<IStudentStateContext, IStudent
   })
 );
 
-export const getStudentByIdError = createAction<IStudentStateContext>(
+export const getStudentByIdError = createAction<IStudentStateContext, string>(
   StudentActionEnums.getStudentByIdError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );
 
 // ==================== UPDATE STUDENT ====================
@@ -112,9 +112,9 @@ export const updateStudentSuccess = createAction<IStudentStateContext, IStudent>
   })
 );
 
-export const updateStudentError = createAction<IStudentStateContext>(
+export const updateStudentError = createAction<IStudentStateContext, string>(
   StudentActionEnums.updateStudentError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );
 
 // ==================== DELETE STUDENT ====================
@@ -128,9 +128,9 @@ export const deleteStudentSuccess = createAction<IStudentStateContext>(
   () => RequestState.Success
 );
 
-export const deleteStudentError = createAction<IStudentStateContext>(
+export const deleteStudentError = createAction<IStudentStateContext, string>(
   StudentActionEnums.deleteStudentError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );
 
 // ==================== GET STUDENT BY EMAIL ====================
@@ -147,7 +147,7 @@ export const getStudentByEmailSuccess = createAction<IStudentStateContext, IStud
   })
 );
 
-export const getStudentByEmailError = createAction<IStudentStateContext>(
+export const getStudentByEmailError = createAction<IStudentStateContext, string>(
   StudentActionEnums.getStudentByEmailError,
-  () => RequestState.Error
+  (error: string) => ({ ...RequestState.Error, error })
 );

@@ -39,8 +39,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(createStudentSuccess(response.data.result));
             }
         ).catch(
-            () => {
-                dispatch(createStudentError());
+            (err) => {
+                dispatch(createStudentError(err.message));
             }
         )        
     };
@@ -54,8 +54,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(getAllStudentsSuccess(response.data.result));
             }
         ).catch(
-            () => {
-                dispatch(getAllStudentsError());
+            (err) => {
+                dispatch(getAllStudentsError(err.message));
             }
         )        
     };
@@ -70,8 +70,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(getStudentByIdSuccess(response.data.result));
             }
         ).catch(
-            () => {
-                dispatch(getStudentByIdError());
+            (err) => {
+                dispatch(getStudentByIdError(err.message));
             }
         )        
     };
@@ -86,8 +86,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(updateStudentSuccess(response.data.result));
             }
         ).catch(
-            () => {
-                dispatch(updateStudentError());
+            (err) => {
+                dispatch(updateStudentError(err.message));
             }
         )        
     };
@@ -102,8 +102,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(deleteStudentSuccess());
             }
         ).catch(
-            () => {
-                dispatch(deleteStudentError());
+            (err) => {
+                dispatch(deleteStudentError(err.message));
             }
         )        
     };
@@ -118,8 +118,8 @@ export const StudentProvider = ({children}: {children: React.ReactNode}) => {
                 dispatch(getStudentByEmailSuccess(response.data.result));
             }
         ).catch(
-            () => {
-                dispatch(getStudentByEmailError());
+            (err) => {
+                dispatch(getStudentByEmailError(err.message));
             }
         )        
     };
