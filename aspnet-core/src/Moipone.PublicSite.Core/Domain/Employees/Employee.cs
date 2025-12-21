@@ -94,7 +94,6 @@ namespace Moipone.PublicSite.Domain.Employees
         [RegularExpression(@"^\+?\d{9,15}$", ErrorMessage = "Invalid phone number format.")]
         public string EmergencyContactPhone { get; set; }
 
-        [StringLength(50)]
         public RefListRelationship EmergencyContactRelationship { get; set; }
         #endregion
 
