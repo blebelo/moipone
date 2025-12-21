@@ -2,6 +2,7 @@
 using Abp.AutoMapper;
 using Moipone.PublicSite.Addresses.Dto;
 using Moipone.PublicSite.Domain.Employees;
+using Moipone.PublicSite.Domain.Students;
 using System;
 
 namespace Moipone.PublicSite.Employees.Dto
