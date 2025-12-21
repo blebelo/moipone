@@ -13,7 +13,7 @@ namespace Moipone.PublicSite.Employees.Dto
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public int? Age { get; set; }
-        public string? Gender { get; set; }
+        public RefListGender? Gender { get; set; }
         public string? PersonalEmail { get; set; }
         public string? EmployeeEmail { get; set; }
         public string? IdNumber { get; set; }
