@@ -27,7 +27,7 @@ namespace Moipone.PublicSite.Employees.Dto
         public DateOnly? EndDate { get; set; }
         public string? Position { get; set; }
         public RefListDepartment? Department { get; set; }
-        public string? EmploymentStatus { get; set; }
+        public RefListEmploymentStatus? EmploymentStatus { get; set; }
         public decimal? Salary { get; set; }
         public string? EmployeeNumber { get; set; }
         #endregion
