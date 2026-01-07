@@ -1,4 +1,3 @@
-'use client'
 import { createContext } from "react";
 import { IStudent } from "../student-provider/context";
 
@@ -40,7 +39,7 @@ export interface ICourseStateContext {
 
 // ==================== COURSE ACTION CONTEXT ====================
 export interface ICourseActionContext {
-  createCourses: (course: ICourse) => Promise<void>;
+  createCourse: (course: ICourse) => Promise<void>;
   getAllCourses: () => Promise<void>;
   getCourseById: (id: string) => Promise<void>;
   updateCourse: (id: string, course: ICourse) => Promise<void>;

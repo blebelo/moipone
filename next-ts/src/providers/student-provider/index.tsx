@@ -22,7 +22,7 @@ import {
   getStudentByEmailError,
 
 } from "./actions";
-import { axiosInstance } from "./axiosInstance";
+import { axiosInstance } from "../../lib/utils/axiosInstance";
 import { StudentReducer } from "./reducer";
 
 export const StudentProvider = ({children}: {children: React.ReactNode}) => {
