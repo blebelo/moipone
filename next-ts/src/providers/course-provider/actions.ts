@@ -63,11 +63,11 @@ export const createCourseSuccess = createAction<ICourseStateContext,ICourse>(
         course })
 );
 
-export const createCourseError = createAction<ICourseStateContext,ICourse>(
+export const createCourseError = createAction<ICourseStateContext,string>(
     CourseActionEnums.createCourseError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== GET ALL COURSES ====================
@@ -84,11 +84,11 @@ export const getAllCoursesSuccess = createAction<ICourseStateContext, ICourse[]>
     })
 );
 
-export const getAllCoursesError = createAction<ICourseStateContext, ICourse[]>(
+export const getAllCoursesError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getAllCoursesError,
-    (courses: ICourse[]) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        courses })
+        error })
 );
 
 // ==================== GET COURSE BY ID ====================
@@ -104,11 +104,11 @@ export const getCourseByIdSuccess = createAction<ICourseStateContext, ICourse>(
         course })
 );
 
-export const getCourseByIdError = createAction<ICourseStateContext, ICourse>(
+export const getCourseByIdError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getCourseByIdError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== GET COURSE BY TITLE ====================
@@ -124,11 +124,11 @@ export const getCourseByTitleSuccess = createAction<ICourseStateContext, ICourse
         course })
 );
 
-export const getCourseByTitleError = createAction<ICourseStateContext, ICourse>(
+export const getCourseByTitleError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getCourseByTitleError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== GET COURSE BY CODE ====================
@@ -144,11 +144,11 @@ export const getCourseByCodeSuccess = createAction<ICourseStateContext, ICourse>
         course })
 );
 
-export const getCourseByCodeError = createAction<ICourseStateContext, ICourse>(
+export const getCourseByCodeError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getCourseByCodeError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== UPDATE COURSE ====================
@@ -164,11 +164,11 @@ export const updateCourseSuccess = createAction<ICourseStateContext, ICourse>(
         course })
 );
 
-export const updateCourseError = createAction<ICourseStateContext, ICourse>(
+export const updateCourseError = createAction<ICourseStateContext, string>(
     CourseActionEnums.updateCourseError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== DELETE COURSE ====================
@@ -184,11 +184,11 @@ export const deleteCourseSuccess = createAction<ICourseStateContext, ICourse>(
         course })
 );
 
-export const deleteCourseError = createAction<ICourseStateContext, ICourse>(
+export const deleteCourseError = createAction<ICourseStateContext, string>(
     CourseActionEnums.deleteCourseError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
 
 // ==================== ENROLL STUDENT ====================
@@ -204,9 +204,9 @@ export const enrollStudentSuccess = createAction<ICourseStateContext, ICourse>(
         course })
 );
 
-export const enrollStudentError = createAction<ICourseStateContext, ICourse>(
+export const enrollStudentError = createAction<ICourseStateContext, string>(
     CourseActionEnums.enrollStudentError,
-    (course: ICourse) => ({ 
+    (error: string) => ({ 
         ...RequestState.Error,
-        course })
+        error })
 );
