@@ -1,6 +1,7 @@
 'use client'
 import { createAction } from 'redux-actions';
 import { ICourse,ICourseStateContext } from './context';
+import { RequestState } from '@/src/lib/common/requestState';
 
 export enum CourseActionEnums  {
     // Create Course
@@ -42,12 +43,6 @@ export enum CourseActionEnums  {
     enrollStudentPending = 'ENROLL_STUDENT_PENDING',
     enrollStudentSuccess = 'ENROLL_STUDENT_SUCCESS',
     enrollStudentError = 'ENROLL_STUDENT_ERROR',
-}
-
-export const RequestState = {
-    Pending: { isPending: true, isSuccess: false, isError: false },
-    Success: { isPending: false, isSuccess: true, isError: false },
-    Error: { isPending: false, isSuccess: false, isError: true },
 }
 
 // ==================== CREATE COURSE ====================
