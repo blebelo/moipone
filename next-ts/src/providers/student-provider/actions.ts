@@ -1,7 +1,7 @@
 'use client'
 import { createAction } from 'redux-actions';
 import { IStudent, IStudentStateContext} from './context';
-import { RequestState } from '@/src/lib/common/requestState';
+import { RequestState } from '@/src/lib/common/constants';
 
 export enum StudentActionEnums {
   // Create Student

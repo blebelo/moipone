@@ -1,12 +1,6 @@
 import { createContext } from "react";
 import { IStudent } from "../student-provider/context";
-
-// ==================== ENUMS ====================
-export enum RefListCourseLevel {
-  Beginner = 1,
-  Intermediate = 2,
-  Advanced = 3,
-}
+import { INITIAL_STATE } from "@/src/lib/common/constants";
 
 // ==================== ENTITIES ====================
 export interface ICourse {
@@ -17,13 +11,10 @@ export interface ICourse {
   requirements?: string;
   code?: string;
   isActive?: boolean;
-  level: RefListCourseLevel;
-  startDate: string;
+  startDate: Date;
   duration: number;
-  endDate: string;
-  instructorId?: string;
-  instructorName: string;
   enrolledStudents?: IStudent[];
+  // applicaions: IApplication[];
 }
 
 // ==================== COURSE STATE CONTEXT ====================
@@ -42,25 +33,14 @@ export interface ICourseActionContext {
   createCourse: (course: ICourse) => Promise<void>;
   getAllCourses: () => Promise<void>;
   getCourseById: (id: string) => Promise<void>;
-  updateCourse: (id: string, course: ICourse) => Promise<void>;
+  updateCourse: (course: ICourse) => Promise<void>;
   deleteCourse: (id: string) => Promise<void>;
-  getCourseByTitle: (title: string) => Promise<void>;
-  enrollStudent?: (courseId: string, studentId: string) => Promise<void>;
   getCourseByCode: (code: string) => Promise<void>;
   openApplications: (id: string) => Promise<void>;
   closeApplications: (id: string) => Promise<void>;
-  ReopenApplications: (id: string) => Promise<void>;
-  GetOpenCourses: () => Promise<void>;
-  GetCurrentCapacity: () => Promise<void>;
+  getOpenCourses: () => Promise<void>;
 }
 
-// ==================== INITIAL STATE ====================
-export const COURSE_INITIAL_STATE: ICourseStateContext = {
-  isPending: false,
-  isSuccess: false,
-  isError: false,
-};
-
 // ==================== CONTEXTS ====================
-export const CourseStateContext = createContext<ICourseStateContext>(COURSE_INITIAL_STATE);
+export const CourseStateContext = createContext<ICourseStateContext>(INITIAL_STATE);
 export const CourseActionContext = createContext<ICourseActionContext | undefined>(undefined);

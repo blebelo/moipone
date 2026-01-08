@@ -1,6 +1,6 @@
 'use client'
 import React, { useContext, useReducer } from "react";
-import { COURSE_INITIAL_STATE, ICourse, CourseStateContext, CourseActionContext } from "./context";
+import { ICourse, CourseStateContext, CourseActionContext } from "./context";
 import {
   createCoursePending,
   createCourseSuccess,
@@ -11,9 +11,6 @@ import {
   getCourseByIdPending,
   getCourseByIdSuccess,
   getCourseByIdError,
-  getCourseByTitlePending,
-  getCourseByTitleSuccess,
-  getCourseByTitleError,
   getCourseByCodePending,
   getCourseByCodeSuccess,
   getCourseByCodeError,
@@ -23,35 +20,27 @@ import {
   deleteCoursePending,
   deleteCourseSuccess,
   deleteCourseError,
-  enrollStudentPending,
-  enrollStudentSuccess,
-  enrollStudentError,
   openApplicationsPending,
   openApplicationsSuccess,
   openApplicationsError,
   closeApplicationsPending,
   closeApplicationsSuccess,
   closeApplicationsError,
-  reopenApplicationsPending,
-  reopenApplicationsSuccess,
-  reopenApplicationsError,
   getOpenCoursesPending,
   getOpenCoursesSuccess,
   getOpenCoursesError,
-  getCurrentCapacityPending,
-  getCurrentCapacitySuccess,
-  getCurrentCapacityError,
 } from "./actions";
 import { axiosInstance } from "../../lib/utils/axiosInstance";
 import { CourseReducer } from "./reducer";
+import { INITIAL_STATE } from "@/src/lib/common/constants";
 
 export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
-    const [state, dispatch] = useReducer(CourseReducer, COURSE_INITIAL_STATE);
+    const [state, dispatch] = useReducer(CourseReducer, INITIAL_STATE);
     const instance = axiosInstance();
 
     const createCourse = async (course: ICourse) => {
         dispatch(createCoursePending());
-        const endpoint = 'services/app/ShortCourse/Create';
+        const endpoint = 'ShortCourse/Create';
 
         await instance.post(endpoint, course)
         .then(
@@ -68,7 +57,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getAllCourses = async () => {
         dispatch(getAllCoursesPending());
-        const endpoint = 'services/app/ShortCourse/GetAll';
+        const endpoint = 'ShortCourse/GetAll';
 
         await instance.get(endpoint)
         .then(
@@ -82,9 +71,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
+
     const getCourseById = async (id: string) => {
         dispatch(getCourseByIdPending());
-        const endpoint = `services/app/ShortCourse/Get?Id=${id}`;
+        const endpoint = `ShortCourse/Get?Id=${id}`;
 
         await instance.get(endpoint)
         .then(
@@ -98,28 +88,12 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
-    const getCourseByTitle = async (title: string) => {
-        dispatch(getCourseByTitlePending());
-        const endpoint = `services/app/ShortCourse/Get?Title=${title}`;
 
-        await instance.get(endpoint)
-        .then(
-            (response) => {
-                dispatch(getCourseByTitleSuccess(response.data.result));
-            }
-        )
-        .catch(
-            (error) => {
-                dispatch(getCourseByTitleError(error.message));
-            }
-        )
-    };
-
-    const updateCourse = async (id: string, course: ICourse) => {
+    const updateCourse = async (course: ICourse) => {
         dispatch(updateCoursePending());
-        const endpoint = `services/app/ShortCourse/Update/${id}`;
+        const endpoint = `ShortCourse/Update`;
 
-        await instance.put(endpoint, {...course, id})
+        await instance.put(endpoint, course)
         .then(
             (response) => {
                 dispatch(updateCourseSuccess(response.data.result));
@@ -134,7 +108,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const deleteCourse = async (id: string) => {
         dispatch(deleteCoursePending());
-        const endpoint = `services/app/ShortCourse/Delete?Id=${id}`;
+        const endpoint = `ShortCourse/Delete?Id=${id}`;
 
         await instance.delete(endpoint)
         .then(
@@ -148,26 +122,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
-    const enrollStudent = async (id: string) => {
-        dispatch(enrollStudentPending());
-        const endpoint = `services/app/ShortCourse/EnrollStudent?Id=${id}`;
-
-        await instance.get(endpoint)
-        .then(
-            (response) => {
-                dispatch(enrollStudentSuccess(response.data.result));
-            }
-        )
-        .catch(
-            (error) => {
-                dispatch(enrollStudentError(error.message));
-            }
-        )
-    };
 
     const getCourseByCode = async (code: string) => {
         dispatch(getCourseByCodePending());
-        const endpoint = `services/app/ShortCourse/GetByCode?Code=${code}`;
+        const endpoint = `ShortCourse/GetByCode?code=${code}`;
 
         await instance.get(endpoint)
         .then(
@@ -181,9 +139,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
+
     const openApplications = async (id: string) => {
         dispatch(openApplicationsPending());
-        const endpoint = `services/app/ShortCourse/OpenApplications?Id=${id}`;
+        const endpoint = `ShortCourse/OpenApplications?id=${id}`;
 
         await instance.get(endpoint)
         .then(
@@ -200,7 +159,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const closeApplications = async (id: string) => {
         dispatch(closeApplicationsPending());
-        const endpoint = `services/app/ShortCourse/CloseApplications?Id=${id}`;
+        const endpoint = `ShortCourse/CloseApplications?id=${id}`;
 
         await instance.get(endpoint)
         .then(
@@ -214,25 +173,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
-    const ReopenApplications = async (id: string) => {
-        dispatch(reopenApplicationsPending());
-        const endpoint = `services/app/ShortCourse/ReopenApplications?Id=${id}`;
-
-        await instance.get(endpoint)
-        .then(
-            (response) => {
-                dispatch(reopenApplicationsSuccess(response.data.result));
-            }
-        )
-        .catch(
-            (error) => {
-                dispatch(reopenApplicationsError(error.message));
-            }
-        )
-    };
-    const GetOpenCourses = async () => {
+    
+    const getOpenCourses = async () => {
         dispatch(getOpenCoursesPending());
-        const endpoint = `services/app/ShortCourse/GetOpenCourses`;
+        const endpoint = `ShortCourse/GetOpenCourses`;
 
         await instance.get(endpoint)
         .then(
@@ -246,22 +190,6 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             }
         )
     };
-    const GetCurrentCapacity = async () => {
-        dispatch(getCurrentCapacityPending());
-        const endpoint = `services/app/ShortCourse/GetCurrentCapacity`;
-
-        await instance.get(endpoint)
-        .then(
-            (response) => {
-                dispatch(getCurrentCapacitySuccess(response.data.result));
-            }
-        )
-        .catch(
-            (error) => {
-                dispatch(getCurrentCapacityError(error.message));
-            }
-        )
-    };
 
     return (
         <CourseActionContext.Provider value={{
@@ -270,14 +198,10 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
             getCourseById,
             updateCourse,
             deleteCourse,
-            enrollStudent,
-            getCourseByTitle,
             getCourseByCode,
             openApplications,
             closeApplications,
-            ReopenApplications,
-            GetOpenCourses,
-            GetCurrentCapacity
+            getOpenCourses
         }}>
             <CourseStateContext.Provider value={state}>
                 {children}

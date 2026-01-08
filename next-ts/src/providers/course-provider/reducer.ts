@@ -1,7 +1,8 @@
 'use client'
 import { handleActions } from "redux-actions";
-import {COURSE_INITIAL_STATE , ICourseStateContext } from "./context";
 import { CourseActionEnums } from "./actions";
+import { INITIAL_STATE } from "@/src/lib/common/constants";
+import { ICourseStateContext } from "./context";
 
 export const CourseReducer = handleActions<ICourseStateContext, ICourseStateContext>({
     // Create Course
@@ -18,14 +19,6 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
     [CourseActionEnums.getAllCoursesSuccess]: (state, action) => (
         { ...state,...action.payload }),
     [CourseActionEnums.getAllCoursesError]: (state, action) => (
-        { ...state,...action.payload }),
-
-    // Get Course By Title
-    [CourseActionEnums.getCourseByTitlePending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByTitleSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByTitleError]: (state, action) => (
         { ...state,...action.payload }),
 
     // Get Course By ID
@@ -60,13 +53,6 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
     [CourseActionEnums.deleteCourseError]: (state, action) => (
         { ...state,...action.payload }),
 
-    // Enroll Student
-    [CourseActionEnums.enrollStudentPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.enrollStudentSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.enrollStudentError]: (state, action) => (
-        { ...state,...action.payload }),
     // Open Applications
     [CourseActionEnums.openApplicationsPending]: (state, action) => (
         { ...state,...action.payload }),
@@ -74,6 +60,7 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
         { ...state,...action.payload }),
     [CourseActionEnums.openApplicationsError]: (state, action) => (
         { ...state,...action.payload }),
+
     // Close Applications
     [CourseActionEnums.closeApplicationsPending]: (state, action) => (
         { ...state,...action.payload }),
@@ -81,13 +68,7 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
         { ...state,...action.payload }),
     [CourseActionEnums.closeApplicationsError]: (state, action) => (
         { ...state,...action.payload }),
-    // Reopen Applications
-    [CourseActionEnums.reopenApplicationsPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.reopenApplicationsSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.reopenApplicationsError]: (state, action) => (
-        { ...state,...action.payload }),
+
     // Get Open Courses
     [CourseActionEnums.getOpenCoursesPending]: (state, action) => (
         { ...state,...action.payload }),
@@ -95,11 +76,4 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
         { ...state,...action.payload }),
     [CourseActionEnums.getOpenCoursesError]: (state, action) => (
         { ...state,...action.payload }),
-    // Get Current Capacity
-    [CourseActionEnums.getCurrentCapacityPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCurrentCapacitySuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCurrentCapacityError]: (state, action) => (
-        { ...state,...action.payload }),
-}, COURSE_INITIAL_STATE)
+}, INITIAL_STATE)

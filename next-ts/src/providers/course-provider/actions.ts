@@ -1,7 +1,7 @@
 'use client'
 import { createAction } from 'redux-actions';
 import { ICourse, ICourseStateContext } from './context';
-import { RequestState } from '@/src/lib/common/requestState';
+import { RequestState } from '@/src/lib/common/constants';
 
 export enum CourseActionEnums {
     // Create Course
@@ -14,35 +14,25 @@ export enum CourseActionEnums {
     getAllCoursesSuccess = 'GET_ALL_COURSES_SUCCESS',
     getAllCoursesError = 'GET_ALL_COURSES_ERROR',
 
-    // Get Course By Title
-    getCourseByTitlePending = 'GET_COURSE_BY_TITLE_PENDING',
-    getCourseByTitleSuccess = 'GET_COURSE_BY_TITLE_SUCCESS',
-    getCourseByTitleError = 'GET_COURSE_BY_TITLE_ERROR',
-
     // Get Course By ID
     getCourseByIdPending = 'GET_COURSE_BY_ID_PENDING',
     getCourseByIdSuccess = 'GET_COURSE_BY_ID_SUCCESS',
     getCourseByIdError = 'GET_COURSE_BY_ID_ERROR',
-
-    //Get Course By Code
-    getCourseByCodePending = 'GET_COURSE_BY_CODE_PENDING',
-    getCourseByCodeSuccess = 'GET_COURSE_BY_CODE_SUCCESS',
-    getCourseByCodeError = 'GET_COURSE_BY_CODE_ERROR',
 
     // Update Course
     updateCoursePending = 'UPDATE_COURSE_PENDING',
     updateCourseSuccess = 'UPDATE_COURSE_SUCCESS',
     updateCourseError = 'UPDATE_COURSE_ERROR',
 
-    // Remove/Deactivate Course
+    // Delete Course
     deleteCoursePending = 'DELETE_COURSE_PENDING',
     deleteCourseSuccess = 'DELETE_COURSE_SUCCESS',
     deleteCourseError = 'DELETE_COURSE_ERROR',
 
-    // Enroll Student
-    enrollStudentPending = 'ENROLL_STUDENT_PENDING',
-    enrollStudentSuccess = 'ENROLL_STUDENT_SUCCESS',
-    enrollStudentError = 'ENROLL_STUDENT_ERROR',
+    //Get Course By Code
+    getCourseByCodePending = 'GET_COURSE_BY_CODE_PENDING',
+    getCourseByCodeSuccess = 'GET_COURSE_BY_CODE_SUCCESS',
+    getCourseByCodeError = 'GET_COURSE_BY_CODE_ERROR',
 
     // Open Applications
     openApplicationsPending = 'OPEN_APPLICATIONS_PENDING',
@@ -54,20 +44,10 @@ export enum CourseActionEnums {
     closeApplicationsSuccess = 'CLOSE_APPLICATIONS_SUCCESS',
     closeApplicationsError = 'CLOSE_APPLICATIONS_ERROR',
 
-    // Reopen Applications
-    reopenApplicationsPending = 'REOPEN_APPLICATIONS_PENDING',
-    reopenApplicationsSuccess = 'REOPEN_APPLICATIONS_SUCCESS',
-    reopenApplicationsError = 'REOPEN_APPLICATIONS_ERROR',
-
     // Get Open Courses
     getOpenCoursesPending = 'GET_OPEN_COURSES_PENDING',
     getOpenCoursesSuccess = 'GET_OPEN_COURSES_SUCCESS',
     getOpenCoursesError = 'GET_OPEN_COURSES_ERROR',
-
-    // Get Current Capacity
-    getCurrentCapacityPending = 'GET_CURRENT_CAPACITY_PENDING',
-    getCurrentCapacitySuccess = 'GET_CURRENT_CAPACITY_SUCCESS',
-    getCurrentCapacityError = 'GET_CURRENT_CAPACITY_ERROR',
 }
 
 // ==================== CREATE COURSE ====================
@@ -130,28 +110,6 @@ export const getCourseByIdSuccess = createAction<ICourseStateContext, ICourse>(
 
 export const getCourseByIdError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getCourseByIdError,
-    (error: string) => ({
-        ...RequestState.Error,
-        error
-    })
-);
-
-// ==================== GET COURSE BY TITLE ====================
-export const getCourseByTitlePending = createAction<ICourseStateContext>(
-    CourseActionEnums.getCourseByTitlePending,
-    () => RequestState.Pending
-);
-
-export const getCourseByTitleSuccess = createAction<ICourseStateContext, ICourse>(
-    CourseActionEnums.getCourseByTitleSuccess,
-    (course: ICourse) => ({
-        ...RequestState.Success,
-        course
-    })
-);
-
-export const getCourseByTitleError = createAction<ICourseStateContext, string>(
-    CourseActionEnums.getCourseByTitleError,
     (error: string) => ({
         ...RequestState.Error,
         error
@@ -224,28 +182,6 @@ export const deleteCourseError = createAction<ICourseStateContext, string>(
     })
 );
 
-// ==================== ENROLL STUDENT ====================
-export const enrollStudentPending = createAction<ICourseStateContext>(
-    CourseActionEnums.enrollStudentPending,
-    () => RequestState.Pending
-);
-
-export const enrollStudentSuccess = createAction<ICourseStateContext, ICourse>(
-    CourseActionEnums.enrollStudentSuccess,
-    (course: ICourse) => ({
-        ...RequestState.Success,
-        course
-    })
-);
-
-export const enrollStudentError = createAction<ICourseStateContext, string>(
-    CourseActionEnums.enrollStudentError,
-    (error: string) => ({
-        ...RequestState.Error,
-        error
-    })
-);
-
 // ==================== OPEN APPLICATIONS ====================
 export const openApplicationsPending = createAction<ICourseStateContext>(
     CourseActionEnums.openApplicationsPending,
@@ -290,28 +226,6 @@ export const closeApplicationsError = createAction<ICourseStateContext, string>(
     })
 );
 
-// ==================== REOPEN APPLICATIONS ====================
-export const reopenApplicationsPending = createAction<ICourseStateContext>(
-    CourseActionEnums.reopenApplicationsPending,
-    () => RequestState.Pending
-);
-
-export const reopenApplicationsSuccess = createAction<ICourseStateContext, ICourse>(
-    CourseActionEnums.reopenApplicationsSuccess,
-    (course: ICourse) => ({
-        ...RequestState.Success,
-        course
-    })
-);
-
-export const reopenApplicationsError = createAction<ICourseStateContext, string>(
-    CourseActionEnums.reopenApplicationsError,
-    (error: string) => ({
-        ...RequestState.Error,
-        error
-    })
-);
-
 // ==================== GET OPEN COURSES ====================
 export const getOpenCoursesPending = createAction<ICourseStateContext>(
     CourseActionEnums.getOpenCoursesPending,
@@ -328,28 +242,6 @@ export const getOpenCoursesSuccess = createAction<ICourseStateContext, ICourse[]
 
 export const getOpenCoursesError = createAction<ICourseStateContext, string>(
     CourseActionEnums.getOpenCoursesError,
-    (error: string) => ({
-        ...RequestState.Error,
-        error
-    })
-);
-
-// ==================== GET CURRENT CAPACITY ====================
-export const getCurrentCapacityPending = createAction<ICourseStateContext>(
-    CourseActionEnums.getCurrentCapacityPending,
-    () => RequestState.Pending
-);
-
-export const getCurrentCapacitySuccess = createAction<ICourseStateContext, ICourse[]>(
-    CourseActionEnums.getCurrentCapacitySuccess,
-    (courses: ICourse[]) => ({
-        ...RequestState.Success,
-        courses
-    })
-);
-
-export const getCurrentCapacityError = createAction<ICourseStateContext, string>(
-    CourseActionEnums.getCurrentCapacityError,
     (error: string) => ({
         ...RequestState.Error,
         error
