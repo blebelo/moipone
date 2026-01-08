@@ -67,4 +67,39 @@ export const CourseReducer = handleActions<ICourseStateContext, ICourseStateCont
         { ...state,...action.payload }),
     [CourseActionEnums.enrollStudentError]: (state, action) => (
         { ...state,...action.payload }),
+    // Open Applications
+    [CourseActionEnums.openApplicationsPending]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.openApplicationsSuccess]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.openApplicationsError]: (state, action) => (
+        { ...state,...action.payload }),
+    // Close Applications
+    [CourseActionEnums.closeApplicationsPending]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.closeApplicationsSuccess]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.closeApplicationsError]: (state, action) => (
+        { ...state,...action.payload }),
+    // Reopen Applications
+    [CourseActionEnums.reopenApplicationsPending]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.reopenApplicationsSuccess]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.reopenApplicationsError]: (state, action) => (
+        { ...state,...action.payload }),
+    // Get Open Courses
+    [CourseActionEnums.getOpenCoursesPending]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.getOpenCoursesSuccess]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.getOpenCoursesError]: (state, action) => (
+        { ...state,...action.payload }),
+    // Get Current Capacity
+    [CourseActionEnums.getCurrentCapacityPending]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.getCurrentCapacitySuccess]: (state, action) => (
+        { ...state,...action.payload }),
+    [CourseActionEnums.getCurrentCapacityError]: (state, action) => (
+        { ...state,...action.payload }),
 }, COURSE_INITIAL_STATE)

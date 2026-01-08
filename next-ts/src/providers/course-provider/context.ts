@@ -45,7 +45,13 @@ export interface ICourseActionContext {
   updateCourse: (id: string, course: ICourse) => Promise<void>;
   deleteCourse: (id: string) => Promise<void>;
   getCourseByTitle: (title: string) => Promise<void>;
-  enrollStudent?: (courseId: string, studentId: string) => Promise<void>; 
+  enrollStudent?: (courseId: string, studentId: string) => Promise<void>;
+  getCourseByCode: (code: string) => Promise<void>;
+  openApplications: (id: string) => Promise<void>;
+  closeApplications: (id: string) => Promise<void>;
+  ReopenApplications: (id: string) => Promise<void>;
+  GetOpenCourses: () => Promise<void>;
+  GetCurrentCapacity: () => Promise<void>;
 }
 
 // ==================== INITIAL STATE ====================
