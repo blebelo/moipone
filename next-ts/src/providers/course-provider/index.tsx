@@ -144,7 +144,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch(openApplicationsPending());
         const endpoint = `ShortCourse/OpenApplications?id=${id}`;
 
-        await instance.get(endpoint)
+        await instance.post(endpoint)
         .then(
             (response) => {
                 dispatch(openApplicationsSuccess(response.data.result));
@@ -161,7 +161,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch(closeApplicationsPending());
         const endpoint = `ShortCourse/CloseApplications?id=${id}`;
 
-        await instance.get(endpoint)
+        await instance.post(endpoint)
         .then(
             (response) => {
                 dispatch(closeApplicationsSuccess(response.data.result));
