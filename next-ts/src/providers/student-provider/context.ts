@@ -1,3 +1,4 @@
+import { INITIAL_STATE } from "@/src/lib/common/constants";
 import { createContext } from "react";
 
 // ==================== ENUMS ====================
@@ -55,11 +56,5 @@ export interface IStudentActionContext {
 }
 
 
-export const STUDENT_INITIAL_STATE: IStudentStateContext = {
-  isPending: false,
-  isSuccess: false,
-  isError: false,
-};
-
-export const StudentStateContext = createContext<IStudentStateContext>(STUDENT_INITIAL_STATE);
+export const StudentStateContext = createContext<IStudentStateContext>(INITIAL_STATE);
 export const StudentActionContext = createContext<IStudentActionContext | undefined>(undefined);

@@ -1,6 +1,7 @@
 'use client'
 import { createAction } from 'redux-actions';
 import { IStudent, IStudentStateContext} from './context';
+import { RequestState } from '@/src/lib/common/constants';
 
 export enum StudentActionEnums {
   // Create Student
@@ -34,12 +35,6 @@ export enum StudentActionEnums {
   getStudentByEmailError = 'GET_STUDENT_BY_EMAIL_ERROR',
   
 }
-
-export const RequestState = {
-  Pending: { isPending: true, isSuccess: false, isError: false },
-  Success: { isPending: false, isSuccess: true, isError: false },
-  Error: { isPending: false, isSuccess: false, isError: true },
-};
 
 // ==================== CREATE STUDENT ====================
 export const createStudentPending = createAction<IStudentStateContext>(
