@@ -142,9 +142,9 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const openApplications = async (id: string) => {
         dispatch(openApplicationsPending());
-        const endpoint = `ShortCourse/OpenApplications?id=${id}`;
+        const endpoint = `ShortCourse/OpenApplications`;
 
-        await instance.get(endpoint)
+        await instance.post(endpoint, { id })
         .then(
             (response) => {
                 dispatch(openApplicationsSuccess(response.data.result));
