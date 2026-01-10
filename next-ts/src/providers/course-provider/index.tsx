@@ -142,7 +142,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
 
     const openApplications = async (id: string) => {
         dispatch(openApplicationsPending());
-        const endpoint = `ShortCourse/OpenApplications?id=${id}`;
+        const endpoint = `ShortCourse/OpenApplications`;
 
         await instance.post(endpoint)
         .then(
