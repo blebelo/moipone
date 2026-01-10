@@ -53,7 +53,6 @@ export const StudentProvider = ({
     await instance
       .get(endpoint)
       .then((response) => {
-        console.log(JSON.stringify(response.data.result.items, null, 2));
         dispatch(getAllStudentsSuccess(response.data.result.items));
       })
       .catch((err) => {

@@ -1,3 +1,6 @@
+import { ICourseStateContext } from "@/src/providers/course-provider/context";
+import { IStudentStateContext } from "@/src/providers/student-provider/context";
+
 export const RequestState = {
     Pending: { isPending: true, isSuccess: false, isError: false },
     Success: { isPending: false, isSuccess: true, isError: false },
@@ -9,3 +12,8 @@ export const INITIAL_STATE = {
     isSuccess: false,
     isError: false,
   };
+
+export type StateMap = (
+    IStudentStateContext | 
+    ICourseStateContext
+);

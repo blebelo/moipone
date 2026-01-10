@@ -3,77 +3,57 @@ import { handleActions } from "redux-actions";
 import { CourseActionEnums } from "./actions";
 import { INITIAL_STATE } from "@/src/lib/common/constants";
 import { ICourseStateContext } from "./context";
+import { mergePayloadHandler } from "@/src/lib/common/helper-methods";
 
-export const CourseReducer = handleActions<ICourseStateContext, ICourseStateContext>({
+export const CourseReducer = handleActions<
+  ICourseStateContext,
+  ICourseStateContext
+>(
+  {
     // Create Course
-    [CourseActionEnums.createCoursePending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.createCourseSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.createCourseError]: (state, action) => (
-        { ...state,...action.payload }),
-   
+    [CourseActionEnums.createCoursePending]: mergePayloadHandler,
+    [CourseActionEnums.createCourseSuccess]: mergePayloadHandler,
+    [CourseActionEnums.createCourseError]: mergePayloadHandler,
+
     // Get All Courses
-    [CourseActionEnums.getAllCoursesPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getAllCoursesSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getAllCoursesError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.getAllCoursesPending]: mergePayloadHandler,
+    [CourseActionEnums.getAllCoursesSuccess]: mergePayloadHandler,
+    [CourseActionEnums.getAllCoursesError]: mergePayloadHandler,
 
     // Get Course By ID
-    [CourseActionEnums.getCourseByIdPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByIdSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByIdError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.getCourseByIdPending]: mergePayloadHandler,
+    [CourseActionEnums.getCourseByIdSuccess]: mergePayloadHandler,
+    [CourseActionEnums.getCourseByIdError]: mergePayloadHandler,
 
     // Get Course By Code
-    [CourseActionEnums.getCourseByCodePending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByCodeSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getCourseByCodeError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.getCourseByCodePending]: mergePayloadHandler,
+    [CourseActionEnums.getCourseByCodeSuccess]: mergePayloadHandler,
+    [CourseActionEnums.getCourseByCodeError]: mergePayloadHandler,
 
     // Update Course
-    [CourseActionEnums.updateCoursePending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.updateCourseSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.updateCourseError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.updateCoursePending]: mergePayloadHandler,
+    [CourseActionEnums.updateCourseSuccess]: mergePayloadHandler,
+    [CourseActionEnums.updateCourseError]: mergePayloadHandler,
 
     // Delete Course
-    [CourseActionEnums.deleteCoursePending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.deleteCourseSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.deleteCourseError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.deleteCoursePending]: mergePayloadHandler,
+    [CourseActionEnums.deleteCourseSuccess]: mergePayloadHandler,
+    [CourseActionEnums.deleteCourseError]: mergePayloadHandler,
 
     // Open Applications
-    [CourseActionEnums.openApplicationsPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.openApplicationsSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.openApplicationsError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.openApplicationsPending]: mergePayloadHandler,
+    [CourseActionEnums.openApplicationsSuccess]: mergePayloadHandler,
+    [CourseActionEnums.openApplicationsError]: mergePayloadHandler,
 
     // Close Applications
-    [CourseActionEnums.closeApplicationsPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.closeApplicationsSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.closeApplicationsError]: (state, action) => (
-        { ...state,...action.payload }),
+    [CourseActionEnums.closeApplicationsPending]: mergePayloadHandler,
+    [CourseActionEnums.closeApplicationsSuccess]: mergePayloadHandler,
+    [CourseActionEnums.closeApplicationsError]: mergePayloadHandler,
 
     // Get Open Courses
-    [CourseActionEnums.getOpenCoursesPending]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getOpenCoursesSuccess]: (state, action) => (
-        { ...state,...action.payload }),
-    [CourseActionEnums.getOpenCoursesError]: (state, action) => (
-        { ...state,...action.payload }),
-}, INITIAL_STATE)
+    [CourseActionEnums.getOpenCoursesPending]: mergePayloadHandler,
+    [CourseActionEnums.getOpenCoursesSuccess]: mergePayloadHandler,
+    [CourseActionEnums.getOpenCoursesError]: mergePayloadHandler,
+  },
+  INITIAL_STATE
+);
