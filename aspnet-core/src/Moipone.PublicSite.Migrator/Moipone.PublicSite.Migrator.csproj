@@ -17,7 +17,6 @@
   <ItemGroup>
     <PackageReference Include="Abp.Castle.Log4Net" Version="10.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="10.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moipone.PublicSite.Core\Moipone.PublicSite.Core.csproj" />
