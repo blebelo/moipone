@@ -65,6 +65,7 @@ namespace Moipone.PublicSite.CourseApplications
             return ObjectMapper.Map<CourseApplicationDto>(entity);
         }
 
+        [AbpAuthorize]
         public override async Task<CourseApplicationDto> UpdateAsync(CourseApplicationDto input)
         {
             if (input == null || input.Id == Guid.Empty)
