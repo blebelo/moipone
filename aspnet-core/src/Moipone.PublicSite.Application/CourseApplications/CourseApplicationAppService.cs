@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.Authorization;
 
 namespace Moipone.PublicSite.CourseApplications
 {
@@ -88,6 +89,7 @@ namespace Moipone.PublicSite.CourseApplications
             await _courseApplicationRepository.DeleteAsync(input.Id);
         }
 
+        [AbpAuthorize]
         public async Task<List<CourseApplicationDto>> GetApplicationsByCourseIdAsync(Guid courseId)
         {
             if (courseId == Guid.Empty)
@@ -99,7 +101,8 @@ namespace Moipone.PublicSite.CourseApplications
             var applications = await AsyncQueryableExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<CourseApplicationDto>>(applications);
         }
-
+        
+        [AbpAuthorize]
         public async Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason)
         {
             if (input == Guid.Empty)
@@ -121,7 +124,8 @@ namespace Moipone.PublicSite.CourseApplications
             var updated = await _courseApplicationRepository.UpdateAsync(application);
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
-
+        
+        [AbpAuthorize]
         public async Task<CourseApplicationDto> RejectApplication(Guid input, string? reason)
         {
             if (input == Guid.Empty)
