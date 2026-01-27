@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Moipone.PublicSite.Domain.ShortCourses;
@@ -79,7 +80,7 @@ namespace Moipone.PublicSite.ShortCourses
                 );
             }
         }
-
+        [AbpAuthorize]
         public async override Task<ShortCourseDto> GetAsync(EntityDto<Guid> input)
         {
             try
@@ -118,6 +119,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async override Task<ShortCourseDto> UpdateAsync(ShortCourseDto input)
         {
             try
@@ -159,6 +161,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async override Task DeleteAsync(EntityDto<Guid> input)
         {
             try
@@ -197,6 +200,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<ShortCourseDto> GetByCodeAsync(string code)
         {
             try
@@ -239,6 +243,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<ShortCourseDto> OpenApplicationsAsync(Guid id)
         {
             try
@@ -280,6 +285,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<ShortCourseDto> CloseApplicationsAsync(Guid id)
         {
             try
@@ -321,6 +327,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<ShortCourseDto> ReopenApplicationsAsync(Guid id)
         {
             try
@@ -362,6 +369,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<List<ShortCourseDto>> GetOpenCoursesAsync()
         {
             try
@@ -385,6 +393,7 @@ namespace Moipone.PublicSite.ShortCourses
             }
         }
 
+        [AbpAuthorize]
         public async Task<int> GetCurrentCapacityAsync(Guid id)
         {
             try

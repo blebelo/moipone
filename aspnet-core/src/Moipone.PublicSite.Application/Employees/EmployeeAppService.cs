@@ -1,5 +1,6 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Moipone.PublicSite.Domain.Employees;
@@ -23,6 +24,7 @@ namespace Moipone.PublicSite.Employees
             _employeeRepository = employeeRepository;
         }
 
+        [AbpAuthorize]
         public override async Task<EmployeeDto> CreateAsync(EmployeeDto input)
         {
             if (input == null)
@@ -35,7 +37,8 @@ namespace Moipone.PublicSite.Employees
 
             return ObjectMapper.Map<EmployeeDto>(result);
         }
-
+        
+        [AbpAuthorize]
         public override async Task<PagedResultDto<EmployeeDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             var query = Repository.GetAll();
@@ -52,7 +55,8 @@ namespace Moipone.PublicSite.Employees
                 ObjectMapper.Map<List<EmployeeDto>>(items)
             );
         }
-
+        
+        [AbpAuthorize]
         public override async Task<EmployeeDto> GetAsync(EntityDto<Guid> input)
         {
             if (input == null || input.Id == Guid.Empty)
@@ -64,6 +68,7 @@ namespace Moipone.PublicSite.Employees
             return ObjectMapper.Map<EmployeeDto>(entity);
         }
 
+        [AbpAuthorize]
         public override async Task<EmployeeDto> UpdateAsync(EmployeeDto input)
         {
             if (input == null || input.Id == Guid.Empty)
@@ -78,6 +83,7 @@ namespace Moipone.PublicSite.Employees
             return ObjectMapper.Map<EmployeeDto>(updated);
         }
 
+        [AbpAuthorize]
         public override async Task DeleteAsync(EntityDto<Guid> input)
         {
             if (input == null || input.Id == Guid.Empty)
