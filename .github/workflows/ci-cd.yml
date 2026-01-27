@@ -61,11 +61,6 @@ jobs:
     if: github.ref == 'refs/heads/main'
 
     env:
-      PGHOST: ${{ secrets.DB_HOST }}
-      PGPORT: ${{ secrets.DB_PORT }}
-      PGNAME: ${{ secrets.DB_NAME }}
-      PGUSERNAME: ${{ secrets.DB_USERNAME }}
-      PGPASSWORD: ${{ secrets.DB_PASSWORD }}
       ASPNETCORE_ENVIRONMENT: Production
 
     steps:
@@ -85,7 +80,7 @@ jobs:
       - name: Update Database
         run: |
           cd aspnet-core/src/Moipone.PublicSite.EntityFrameworkCore
-          dotnet ef database update
+          dotnet-ef database update
 
   deploy:
     name: Deploy Stage
