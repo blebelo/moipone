@@ -1,6 +1,6 @@
-﻿using Abp.Application.Services.Dto;
+using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using Moipone.PublicSite.Addresses.Dto;
+using Moipone.PublicSite.Domain.Addresses;
 using Moipone.PublicSite.Domain.Employees;
 using Moipone.PublicSite.Domain.Students;
 using System;
@@ -20,7 +20,7 @@ namespace Moipone.PublicSite.Employees.Dto
         public string? IdNumber { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
-        public AddressDto? Address { get; set; }
+        public Address? Address { get; set; }
         #endregion
 
         #region Employment Information
@@ -39,7 +39,7 @@ namespace Moipone.PublicSite.Employees.Dto
         public RefListRelationship? EmergencyContactRelationship { get; set; }
         #endregion
 
-        #region Documents
+        #region Submitted Documents
         public string? CertifiedId { get; set; }
         public string? ProofOfResidence { get; set; }
         public string? CurriculumVitae { get; set; }
