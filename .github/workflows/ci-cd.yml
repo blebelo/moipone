@@ -52,7 +52,8 @@ jobs:
   
       - name: Run tests
         run: |
-          (cd aspnet-core && dotnet test --verbosity normal)
+          cd aspnet-core
+          dotnet test --verbosity normal
   
   db_update:
     name: Database Update
@@ -74,13 +75,14 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore aspnet-core/Moipone.PublicSite.sln
 
-      - name: Install EF Core 
-        run: dotnet tool install --global dotnet-ef
+      - name: Install EF Core CLI (pinned)
+        run: dotnet tool install --global dotnet-ef --version 10.0.1
 
       - name: Update Database
         run: |
           cd aspnet-core/src/Moipone.PublicSite.EntityFrameworkCore
-          dotnet-ef database update
+          dotnet ef database update \
+            --startup-project ../Moipone.PublicSite.HttpApi.Host
 
   deploy:
     name: Deploy Stage
