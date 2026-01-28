@@ -10026,3 +10026,297 @@ DEBUG 2026-01-27 16:55:31,248 [2    ] Abp.AutoMapper.AbpAutoMapperModule       -
 DEBUG 2026-01-27 16:55:31,248 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
 DEBUG 2026-01-27 16:55:31,249 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
 DEBUG 2026-01-27 16:55:31,249 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 15:31:19,616 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 15:31:19,634 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 15:31:19,651 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,652 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,653 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,653 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,653 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,653 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,654 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,654 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,655 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,655 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,655 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,656 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,656 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,656 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,656 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:19,658 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 15:31:19,713 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:31:19,713 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:31:19,713 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:31:19,713 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:31:20,012 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:31:20,162 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 15:31:20,201 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 15:31:20,212 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 15:31:20,216 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 15:31:20,220 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 15:31:20,230 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:31:20,235 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:31:20,251 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 15:31:20,251 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 15:31:20,254 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 15:31:20,255 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 15:31:20,256 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 15:31:20,256 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 15:32:49,905 [15   ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 15:32:49,906 [15   ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:32:49,907 [15   ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:32:49,907 [15   ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:32:49,907 [15   ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:32:49,907 [15   ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2026-01-28 15:37:14,058 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 15:37:14,079 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 15:37:14,095 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,097 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,098 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,098 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,098 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,098 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,099 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,099 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,100 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,100 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,101 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,101 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,101 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,101 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,102 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,103 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 15:37:14,160 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:37:14,160 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:37:14,160 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:37:14,160 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:37:14,425 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:37:14,567 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 15:37:14,599 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 15:37:14,606 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 15:37:14,611 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 15:37:14,614 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 15:37:14,623 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:37:14,627 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:37:14,642 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 15:37:14,642 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 15:37:14,645 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 15:37:14,645 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 15:37:14,646 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 15:37:14,646 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 15:37:14,646 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 15:37:14,646 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 15:37:14,647 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 15:37:14,647 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 15:37:14,647 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 15:37:14,647 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 15:37:14,647 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 15:42:42,827 [24   ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 15:42:42,838 [24   ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:42:42,838 [24   ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:42:42,839 [24   ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:42:42,839 [24   ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:42:42,839 [24   ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2026-01-28 15:43:22,096 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 15:43:22,105 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 15:43:22,115 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,117 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,117 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,117 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,117 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,117 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,118 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,118 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,118 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,119 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,119 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,119 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,119 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,119 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,120 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,121 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 15:43:22,153 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:43:22,154 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:43:22,154 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:43:22,154 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:43:22,509 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:43:22,665 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 15:43:22,704 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 15:43:22,714 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 15:43:22,720 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 15:43:22,750 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 15:43:22,760 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:43:22,764 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:43:22,779 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 15:43:22,779 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 15:43:22,782 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 15:43:22,782 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 15:43:22,783 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 15:45:05,406 [20   ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 15:45:05,407 [20   ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:45:05,408 [20   ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:45:05,876 [20   ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:45:05,876 [20   ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:45:05,876 [20   ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2026-01-28 15:46:07,817 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 15:46:07,836 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 15:46:07,849 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,851 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,851 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,851 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,851 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,852 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,852 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,852 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,853 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,853 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,854 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,855 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,855 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,855 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,855 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:07,857 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 15:46:07,915 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:46:07,915 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:46:07,915 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:46:07,915 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:46:08,166 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:46:08,358 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 15:46:08,384 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 15:46:08,393 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 15:46:08,398 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 15:46:08,415 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 15:46:08,422 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:46:08,426 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:46:08,440 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 15:46:08,440 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 15:46:08,442 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 15:46:08,443 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 15:46:08,444 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 15:46:08,444 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 15:49:07,743 [12   ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 15:49:07,753 [12   ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:49:07,754 [12   ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:49:07,756 [12   ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:49:07,756 [12   ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:49:07,756 [12   ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2026-01-28 15:49:26,338 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 15:49:26,352 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 15:49:26,362 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,364 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,364 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,364 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,365 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,365 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,365 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,366 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,366 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,366 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,367 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,367 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,367 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,367 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,367 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,368 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 15:49:26,406 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:49:26,406 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:49:26,406 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:49:26,406 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 15:49:26,792 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 15:49:26,991 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 15:49:27,087 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 15:49:27,104 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 15:49:27,113 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 15:49:27,136 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 15:49:27,145 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 15:49:27,162 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 15:49:27,210 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 15:49:27,210 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 15:49:27,212 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 15:49:27,213 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 15:49:27,213 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 15:49:27,213 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 15:49:27,213 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 15:49:27,214 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 16:03:25,698 [11   ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 16:03:25,709 [11   ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 16:03:25,710 [11   ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 16:03:25,711 [11   ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 16:03:25,711 [11   ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 16:03:25,711 [11   ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2026-01-28 16:03:45,754 [2    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2026-01-28 16:03:45,773 [2    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2026-01-28 16:03:45,788 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.Web.Host.Startup.PublicSiteWebHostModule, Moipone.PublicSite.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,790 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteWebCoreModule, Moipone.PublicSite.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,790 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteApplicationModule, Moipone.PublicSite.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,790 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.PublicSiteCoreModule, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,790 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,791 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,791 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,792 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,793 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Moipone.PublicSite.EntityFrameworkCore.PublicSiteEntityFrameworkModule, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,793 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,794 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,794 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,794 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,794 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,795 [2    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=10.3.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:45,796 [2    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2026-01-28 16:03:45,868 [2    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 16:03:45,868 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 16:03:45,868 [2    ] o.Configuration.LanguageManagementConfig - Converted PublicSite (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 16:03:45,868 [2    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2026-01-28 16:03:46,185 [2    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: Moipone.PublicSite.EntityFrameworkCore.PublicSiteDbContext, Moipone.PublicSite.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2026-01-28 16:03:46,409 [2    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2026-01-28 16:03:46,457 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2026-01-28 16:03:46,469 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2026-01-28 16:03:46,476 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: PublicSite
+DEBUG 2026-01-28 16:03:46,507 [2    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2026-01-28 16:03:46,518 [2    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 16:03:46,524 [2    ] , Culture=neutral, PublicKeyToken=null]] - Start background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 16:03:46,542 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 12 classes define auto mapping attributes
+DEBUG 2026-01-28 16:03:46,542 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.CreateUserDto
+DEBUG 2026-01-28 16:03:46,546 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Users.Dto.UserDto
+DEBUG 2026-01-28 16:03:46,547 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Students.Dto.StudentDto
+DEBUG 2026-01-28 16:03:46,547 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.ShortCourses.Dto.ShortCourseDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Sessions.Dto.UserLoginInfoDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Roles.Dto.PermissionDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.MultiTenancy.Dto.TenantDto
+DEBUG 2026-01-28 16:03:46,548 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Employees.Dto.EmployeeDto
+DEBUG 2026-01-28 16:03:46,549 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.CourseApplications.Dto.CourseApplicationDto
+DEBUG 2026-01-28 16:03:46,549 [2    ] Abp.AutoMapper.AbpAutoMapperModule       - Moipone.PublicSite.Addresses.Dto.AddressDto
+DEBUG 2026-01-28 16:07:26,752 [3    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2026-01-28 16:07:26,754 [3    ] Abp.BackgroundJobs.BackgroundJobManager  - Stop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 16:07:26,754 [3    ] , Culture=neutral, PublicKeyToken=null]] - Stop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 16:07:26,755 [3    ] Abp.BackgroundJobs.BackgroundJobManager  - WaitToStop background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2026-01-28 16:07:26,755 [3    ] , Culture=neutral, PublicKeyToken=null]] - WaitToStop background worker: Abp.Authorization.Users.UserTokenExpirationWorker`2[[Moipone.PublicSite.MultiTenancy.Tenant, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null],[Moipone.PublicSite.Authorization.Users.User, Moipone.PublicSite.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+DEBUG 2026-01-28 16:07:26,755 [3    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
