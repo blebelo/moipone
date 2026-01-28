@@ -1,0 +1,92 @@
+"use client";
+import { useState, useEffect } from "react";
+import { Button, Drawer, Image } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+import { useHeaderStyles } from "./style";
+import { useRouter } from "next/navigation";
+
+const navItems = [
+  { label: "Home", href: "#" },
+  { label: "About", href: "#about" },
+  { label: "Programmes", href: "#programmes" },
+  { label: "Contact", href: "#contact" },
+];
+
+const Header = () => {
+  const { styles } = useHeaderStyles();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const goHome = () => {
+    router.push("/");
+  };
+
+  return (
+    <header
+      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
+    >
+      <div className={styles.container}>
+          <Image
+            src="/images/moipone-logo.png"
+            alt="Moipone Academy Logo"
+            className={styles.logo}
+            preview={false}
+            onClick={goHome}
+          />
+
+        <nav className={`${styles.nav} ${styles.desktopNav}`}>
+          {navItems.map((item) => (
+            <a key={item.label} href={item.href} className={styles.navLink}>
+              {item.label}
+            </a>
+          ))}
+          <Button type="primary" className={styles.applyButton}>
+            Apply Now
+          </Button>
+        </nav>
+        <Button
+          type="text"
+          icon={<MenuOutlined />}
+          className={styles.mobileMenuButton}
+          onClick={() => setMobileMenuOpen(true)}
+        />
+      </div>
+
+      <Drawer
+        title="Moipone Academy"
+        placement="right"
+        onClose={() => setMobileMenuOpen(false)}
+        open={mobileMenuOpen}
+      >
+        <div className={styles.mobileMenu}>
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={styles.drawerLink}
+            >
+              {item.label}
+            </a>
+          ))}
+          <Button
+            type="primary"
+            block
+            className={`${styles.applyButton} ${styles.drawerButton}`}
+          >
+            Apply Now
+          </Button>
+        </div>
+      </Drawer>
+    </header>
+  );
+};
+
+export default Header;

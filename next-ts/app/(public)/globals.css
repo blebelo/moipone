@@ -1,0 +1,48 @@
+/* Google Fonts - include in <head> */
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap');
+
+/* Root variables */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Primary color palette */
+  --color-dark-teal: #2C3531;
+  --color-teal: #116466;
+  --color-peach: #D9B08C;
+  --color-light-peach: #FFCB9A;
+  --color-mint: #D1E8E2;
+  
+  /* Text colors */
+  --color-text-dark: #2C3531;
+  --color-text-light: #D1E8E2;
+  
+}
+
+/* Global resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Body styling */
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Lexend', Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
