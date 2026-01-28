@@ -82,7 +82,7 @@ jobs:
         run: |
           cd aspnet-core/src/Moipone.PublicSite.EntityFrameworkCore
           dotnet ef database update \
-            --startup-project ../Moipone.PublicSite.HttpApi.Host
+            --startup-project ../Moipone.PublicSite.Web.Host
 
   deploy:
     name: Deploy Stage
