@@ -8,6 +8,8 @@ import {
   ArrowDownOutlined,
 } from "@ant-design/icons";
 import { useHomePageStyles } from "./style";
+import About from "@/src/components/About";
+import Programmes from "@/src/components/Programmes";
 
 
 const scrollToAbout = () => {
@@ -55,6 +57,10 @@ const HomePage: React.FC = () => {
           <ArrowDownOutlined style={{ fontSize: "24px" }} />
         </div>
       </section>
+
+      <About />
+
+      <Programmes />
     </div>
   );
 };

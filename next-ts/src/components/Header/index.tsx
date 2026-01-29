@@ -62,10 +62,11 @@ const Header = () => {
       </div>
 
       <Drawer
-        title="Moipone Academy"
+        title={<Image src="/images/moipone-logo.png" alt="Moipone Academy Logo" width={120} preview={false} />}
         placement="right"
         onClose={() => setMobileMenuOpen(false)}
         open={mobileMenuOpen}
+        className={styles.drawer}
       >
         {navItems.map((item) => (
           <a

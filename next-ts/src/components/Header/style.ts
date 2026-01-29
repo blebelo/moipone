@@ -14,9 +14,9 @@ export const useHeaderStyles = createStyles(() => ({
   },
 
   headerScrolled: {
-    background: "rgba(255, 255, 255, 0.95)",
+    background: "var(--background)",
     backdropFilter: "blur(0.75rem)",
-    boxShadow: "0 0.25rem 1.5rem -0.25rem rgba(0, 0, 0, 0.08)",
+    boxShadow: "0 0.25rem 1.5rem -0.25rem rgba(0, 0, 0, 0.04)",
     padding: "0.75rem 0",
   },
 
@@ -36,6 +36,18 @@ export const useHeaderStyles = createStyles(() => ({
     display: "flex",
     alignItems: "center",
     gap: "0.5rem",
+
+    /* Responsive logo scaling */
+    "@media(max-width: 1024px)": { /* tablet */
+      height: "6rem !important",
+      width: "auto !important",
+    },
+    "@media(max-width: 768px)": { /* small tablet */
+      height: "5rem !important",
+    },
+    "@media(max-width: 480px)": { /* mobile */
+      height: "5rem !important",
+    },
   },
 
   nav: {
@@ -90,6 +102,11 @@ export const useHeaderStyles = createStyles(() => ({
       backgroundColor: "var(--color-peach)",
       transform: "translateY(-0.0625rem)",
     },
+
+    "@media(max-width: 480px)": {
+      marginLeft: "0",
+      width: "100%", // full width on mobile
+    },
   },
 
   mobileMenuButton: {
@@ -99,24 +116,52 @@ export const useHeaderStyles = createStyles(() => ({
     },
   },
 
-  mobileMenu: {
-    padding: "1rem 1.5rem",
-    borderTop: `1px solid var(--color-mint)`,
+  drawer: {
+    padding: "1rem !important",
+    background: "rgba(255, 255, 255, 0.1) !important", 
+    backdropFilter: "blur(0.15rem) !important", 
+    borderRadius: "1rem",
     display: "flex",
     flexDirection: "column",
-    gap: "1rem",
-    "@media (min-width: 48.0625rem)": {
-      display: "none",
+    gap: "1rem ",
+
+    /* Center the title inside the drawer */
+    "& .ant-drawer-header-title": {
+      width: "100% !important",
+      display: "flex !important",
+      justifyContent: "center !important",
+      alignItems: "center !important",
+    },
+
+    "& .ant-drawer-header": {
+      borderBottom: "none !important",
+      padding: "1rem !important",
+    },
+
+    "& .ant-drawer-content-wrapper": {
+      background: "transparent !important",
+    },
+
+    "@media(min-width: 48.0625rem)": {
+      display: "none !important",
     },
   },
 
   drawerLink: {
     display: "block",
     padding: "1rem 0",
-    fontSize: "1rem",
+    fontSize: "1rem ",
+    color: "var(--color-peach) !important",
+    textAlign: "center",
+    "&:hover": { color: "var(--color-light-peach) !important" },
   },
 
   drawerButton: {
-    marginTop: "1rem",
+    marginTop: "1rem !important",
+    background: "var(--color-peach) !important",
+    color: "var(--color-text-dark) !important",
+    border: "none !important",
+    width: "100% !important",
+    "&:hover": { background: "var(--color-light-peach) !important" },
   },
 }));
