@@ -113,7 +113,7 @@ export const useAboutStyles = createStyles(() => ({
   },
   statLabel: {
     fontSize: "0.875rem",
-    color: "var(--color-teal-dark)",
+    color: "var(--color-dark-teal)",
     marginTop: "0.25rem",
     fontWeight: 500,
     "@media (max-width: 30rem)": {
