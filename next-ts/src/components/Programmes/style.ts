@@ -2,7 +2,7 @@ import { createStyles } from 'antd-style';
 
 export const useProgrammesStyles = createStyles(() => ({
   programmesSection: {
-    padding: '7.5rem 1.5rem',
+    padding: '4rem 1.5rem 1rem',
     background: 'var(--background)',
   },
   container: {

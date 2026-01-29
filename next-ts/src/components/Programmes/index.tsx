@@ -1,33 +1,7 @@
-import { ArrowRightOutlined, CheckCircleOutlined, DesktopOutlined, RobotOutlined, TeamOutlined } from "@ant-design/icons";
+'use client';
+import { ArrowRightOutlined, CheckCircleOutlined } from "@ant-design/icons";
 import { useProgrammesStyles } from "./style";
-
-const programmes = [
-  {
-    icon: <DesktopOutlined />,
-    title: "Computer Literacy",
-    description:
-      "Foundational digital skills for learners of all ages, building confidence and capability in the digital world.",
-    features: [
-      "Microsoft Office Suite",
-      "Internet & Email",
-      "Digital Citizenship",
-    ]
-  },
-  {
-    icon: <RobotOutlined />,
-    title: "Robotics & Coding",
-    description:
-      "Hands-on workshops teaching robotics fundamentals, problem solving, and creative thinking.",
-    features: ["Scratch Programming", "Arduino Projects", "Robot Building"]
-  },
-  {
-    icon: <TeamOutlined/>,
-    title: "Life Skills & Career",
-    description:
-      "Supporting youth with practical life tools, career talks, and pathways to employment.",
-    features: ["CV Writing", "Interview Skills", "Financial Literacy"]
-  },
-];
+import { programmes } from "@/src/lib/common/constants";
 
 const Programmes: React.FC = () => {
   const { styles } = useProgrammesStyles();

@@ -1,3 +1,4 @@
+'use client';
 import {
   FacebookOutlined,
   TwitterOutlined,
@@ -5,9 +6,8 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 import { useFooterStyles } from "./style";
-import { Image } from "antd";
 
-const Footer = () => {
+const Footer : React.FC = () => {
   const { styles } = useFooterStyles();
 
   return (

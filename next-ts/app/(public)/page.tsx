@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Header from "@/src/components/Header";
-import { Button, Image } from "antd";
+import { Button } from "antd";
 import {
   ArrowRightOutlined,
   PlayCircleOutlined,
@@ -11,11 +11,7 @@ import { useHomePageStyles } from "./style";
 import About from "@/src/components/About";
 import Programmes from "@/src/components/Programmes";
 import Footer from "@/src/components/Footer";
-
-
-const scrollToAbout = () => {
-  document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
-};
+import { scrolltoSection } from "@/src/lib/common/helper-methods"
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
@@ -24,13 +20,8 @@ const HomePage: React.FC = () => {
     <div>
       <Header />
       <section className={styles.heroSection}>
-        <div className={styles.heroBackground}>
-          <Image
-            src="/images/hero-pic.jpg"
-            alt="Students learning robotics at Moipone Academy"
-            className={styles.heroImage}
-          />
-        </div>
+        <div className={styles.heroBackground} />
+
 
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
@@ -54,7 +45,14 @@ const HomePage: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.scrollIndicator} onClick={scrollToAbout}>
+        <div className={styles.scrollIndicator} 
+        onClick={() => scrolltoSection("about")}
+        onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              scrolltoSection("about");
+            }
+        }}>
           <ArrowDownOutlined style={{ fontSize: "24px" }} />
         </div>
       </section>

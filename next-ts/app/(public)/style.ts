@@ -9,7 +9,12 @@ export const useHomePageStyles = createStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-    padding: "0 1rem", 
+    padding: "0 1rem",
+
+    backgroundImage: "url('/images/hero-pic.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
   },
   heroBackground: {
     position: "absolute",
@@ -23,90 +28,74 @@ export const useHomePageStyles = createStyles(() => ({
         "linear-gradient(135deg, rgba(44, 53, 49, 0.85) 0%, rgba(17, 100, 102, 0.85) 100%)",
     },
   },
-  heroImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
 
-/* Hero Content */
-heroContent: {
-  position: "relative",
-  zIndex: 10,
-  textAlign: "center",
-  maxWidth: "60vw",
-  width: "100%",
-  padding: "0 1rem",
-
-  "@media(max-width: 1024px)": { // tablet
-    maxWidth: "70vw",
-    padding: "0 0.75rem",
-  },
-  "@media(max-width: 768px)": { // small tablet
-    maxWidth: "85vw",
-    padding: "0 0.5rem",
-  },
-  "@media(max-width: 480px)": { // mobile
-    maxWidth: "95vw",
-    padding: "0 0.5rem",
-  },
-},
-
-heroTitle: {
-  fontSize: "clamp(2rem, 6vw, 4.5rem)",
-  fontWeight: 800,
-  color: "var(--color-text-light)",
-  lineHeight: 1.1,
-  padding: "1rem 0 2rem",
-  marginBottom: "1.5rem",
-  fontFamily: "Lexend, sans-serif",
-  textShadow: "0 0.25rem 1.5rem rgba(0, 0, 0, 0.3)",
-
-  "@media(max-width: 1024px)": {
-    fontSize: "clamp(1.75rem, 5vw, 4rem)",
-    marginBottom: "1.25rem",
-  },
-  "@media(max-width: 768px)": {
-    fontSize: "clamp(1.5rem, 6vw, 3.5rem)",
-    marginBottom: "1rem",
-  },
-  "@media(max-width: 480px)": {
-    fontSize: "clamp(1.25rem, 7vw, 3rem)",
-    marginBottom: "0.75rem",
-  },
-},
-
-heroHighlight: {
-  color: "var(--color-peach)",
-},
-
-heroSubtitle: {
-  fontSize: "clamp(0.9rem, 2vw, 1.35rem)",
-  color: "rgba(255, 255, 255, 0.85)",
-  lineHeight: 1.5,
-  marginBottom: "2rem",
-  maxWidth: "45vw",
-  marginLeft: "auto",
-  marginRight: "auto",
-  fontWeight: 400,
-
-  "@media(max-width: 1024px)": {
+  /* Hero Content */
+  heroContent: {
+    position: "relative",
+    zIndex: 10,
+    textAlign: "center",
     maxWidth: "60vw",
-    fontSize: "clamp(0.85rem, 2vw, 1.25rem)",
-    marginBottom: "1.75rem",
-  },
-  "@media(max-width: 768px)": {
-    maxWidth: "80vw",
-    fontSize: "clamp(0.8rem, 2.5vw, 1.1rem)",
-    marginBottom: "1.5rem",
-  },
-  "@media(max-width: 480px)": {
-    maxWidth: "95vw",
-    fontSize: "clamp(0.75rem, 3vw, 1rem)",
-    marginBottom: "1rem",
-  },
-},
+    width: "100%",
+    padding: "0 1rem",
 
+    "@media(max-width: 1024px)": {
+      // tablet
+      maxWidth: "70vw",
+      padding: "0 0.75rem",
+    },
+    "@media(max-width: 768px)": {
+      // small tablet
+      maxWidth: "85vw",
+      padding: "0 0.5rem",
+    },
+    "@media(max-width: 480px)": {
+      // mobile
+      maxWidth: "95vw",
+      padding: "0 0.5rem",
+    },
+  },
+
+  heroTitle: {
+    fontSize: "clamp(2rem, 6vw, 4.5rem)",
+    fontWeight: 800,
+    color: "var(--color-text-light)",
+    lineHeight: 1.1,
+    padding: "1rem 0 2rem",
+    marginBottom: "1.5rem",
+    fontFamily: "Lexend, sans-serif",
+    textShadow: "0 0.25rem 1.5rem rgba(0, 0, 0, 0.3)",
+  },
+
+  heroHighlight: {
+    color: "var(--color-peach)",
+  },
+
+  heroSubtitle: {
+    fontSize: "clamp(0.9rem, 2vw, 1.35rem)",
+    color: "rgba(255, 255, 255, 0.85)",
+    lineHeight: 1.5,
+    marginBottom: "2rem",
+    maxWidth: "45vw",
+    marginLeft: "auto",
+    marginRight: "auto",
+    fontWeight: 400,
+
+    "@media(max-width: 1024px)": {
+      maxWidth: "60vw",
+      fontSize: "clamp(0.85rem, 2vw, 1.25rem)",
+      marginBottom: "1.75rem",
+    },
+    "@media(max-width: 768px)": {
+      maxWidth: "80vw",
+      fontSize: "clamp(0.8rem, 2.5vw, 1.1rem)",
+      marginBottom: "1.5rem",
+    },
+    "@media(max-width: 480px)": {
+      maxWidth: "95vw",
+      fontSize: "clamp(0.75rem, 3vw, 1rem)",
+      marginBottom: "1rem",
+    },
+  },
 
   /* Hero Buttons */
   heroButtons: {
@@ -169,7 +158,6 @@ heroSubtitle: {
 
   /* Media queries */
   "@media(max-width: 768px)": {
-    
     heroTitle: {
       fontSize: "clamp(1.8rem, 7vw, 3rem)",
     },
@@ -187,23 +175,23 @@ heroSubtitle: {
   },
 
   "@media(max-width: 480px)": {
-      heroBackground: {
-    position: "absolute",
-    inset: 0,
-    zIndex: 0,
-    "&::after": {
-      content: '""',
+    heroBackground: {
       position: "absolute",
       inset: 0,
-      background:
-        "linear-gradient(135deg, rgba(44, 53, 49, 0.85) 0%, rgba(17, 100, 102, 0.85) 100%)",
+      zIndex: 0,
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        inset: 0,
+        background:
+          "linear-gradient(135deg, rgba(44, 53, 49, 0.85) 0%, rgba(17, 100, 102, 0.85) 100%)",
+      },
     },
-  },
-  heroImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
+    heroImage: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+    },
     heroTitle: {
       fontSize: "clamp(1.5rem, 8vw, 2.5rem)",
     },

@@ -1,20 +1,10 @@
-"use client";
+'use client';
 import { Image } from "antd";
 import { useAboutStyles } from "./style";
-
-interface Stat {
-  number: string;
-  label: string;
-}
+import { stats } from "@/src/lib/common/constants";
 
 const About: React.FC = () => {
   const { styles } = useAboutStyles();
-
-  const stats: Stat[] = [
-    { number: "500+", label: "Students Trained" },
-    { number: "7", label: "Active Programmes" },
-    { number: "95%", label: "Success Rate" },
-  ];
 
   return (
     <section id="about" className={styles.aboutSection}>
@@ -50,7 +40,7 @@ const About: React.FC = () => {
           {/* Content Section */}
           <div className={styles.content}>
             <h2 className={styles.title}>
-              Building Tomorrow's{" "}
+              Building Tomorrow&apos;s{" "}
               <span className={styles.titleHighlight}>Innovators</span> Today
             </h2>
 
@@ -73,13 +63,11 @@ const About: React.FC = () => {
                 <div key={index} className={styles.statItem}>
                   <div
                     className={styles.statNumber}
-                    style={{ color: "var(--color-peach)" }}
                   >
                     {stat.number}
                   </div>
                   <div
                     className={styles.statLabel}
-                    style={{ color: "var(--color-text-dark)" }}
                   >
                     {stat.label}
                   </div>

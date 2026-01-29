@@ -2,7 +2,7 @@ import { createStyles } from "antd-style";
 
 export const useAboutStyles = createStyles(() => ({
   aboutSection: {
-    padding: "7.7rem 1.5rem",
+    padding: "4rem 1.5rem 1rem ",
   },
   container: {
     maxWidth: "75rem",
@@ -28,7 +28,7 @@ export const useAboutStyles = createStyles(() => ({
   header: {
     textAlign: "center",
     maxWidth: "43.75rem",
-    margin: "0 auto 4rem",
+    margin: "0 auto 2rem",
   },
   tag: {
     display: "inline-flex",
@@ -38,7 +38,6 @@ export const useAboutStyles = createStyles(() => ({
       "linear-gradient(135deg, rgba(44, 53, 49, 0.1) 0%, rgba(17, 100, 102, 0.1) 100%)",
     borderRadius: "3.125rem",
     padding: "0.5rem 1.25rem",
-    marginBottom: "1.25rem",
     color: "var(--color-dark-teal)",
     fontSize: "0.875rem",
     fontWeight: 600,
@@ -59,11 +58,11 @@ export const useAboutStyles = createStyles(() => ({
     },
   },
   titleHighlight: {
-    color: "var(--color-teal-dark)",
+    color: "var(--color-dark-teal)",
   },
   description: {
     fontSize: "1.0625rem",
-    color: "var(--color-text-muted)",
+    color: "var(--color-dark-teal)",
     lineHeight: 1.8,
     marginBottom: "2rem",
     "@media (max-width: 48rem)": {
@@ -90,15 +89,14 @@ export const useAboutStyles = createStyles(() => ({
     },
   },
   statItem: {
-    textAlign: "center" as const,
+    textAlign: "center",
     padding: "1.5rem 1rem",
-    background: "var(--color-bg-white)",
+    background: "var(--color-background)",
     borderRadius: "1rem",
     boxShadow: "0 0.25rem 1.5rem -0.5rem rgba(0,0,0,0.06)",
     transition: "all 0.3s ease",
     "&:hover": {
       transform: "translateY(-0.25rem)",
-      boxShadow: "0 0.5rem 2rem -0.5rem var(--color-peach-shadow)",
     },
     "@media (max-width: 30rem)": {
       padding: "1rem 0.75rem",
@@ -115,7 +113,7 @@ export const useAboutStyles = createStyles(() => ({
   },
   statLabel: {
     fontSize: "0.875rem",
-    color: "var(--color-text-muted)",
+    color: "var(--color-teal-dark)",
     marginTop: "0.25rem",
     fontWeight: 500,
     "@media (max-width: 30rem)": {

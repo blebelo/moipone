@@ -1,18 +1,13 @@
-"use client";
+'use client';
 import { useState, useEffect } from "react";
 import { Button, Drawer, Image } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { useHeaderStyles } from "./style";
 import { useRouter } from "next/navigation";
+import { scrolltoSection } from "@/src/lib/common/helper-methods";
+import { navItems } from "@/src/lib/common/constants";
 
-const navItems = [
-  { label: "Home", href: "#" },
-  { label: "About", href: "#about" },
-  { label: "Programmes", href: "#programmes" },
-  { label: "Contact", href: "#contact" },
-];
-
-const Header = () => {
+const Header : React.FC = () => {
   const { styles } = useHeaderStyles();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -41,8 +36,8 @@ const Header = () => {
           {navItems.map((item) => (
             <a
               key={item.label}
-              href={item.href}
               className={`${styles.navLink} ${scrolled ? styles.navLinkDark : styles.navLinkLight}`}
+              onClick={() => scrolltoSection(item.label.toLowerCase())}
             >
               {item.label}
             </a>
