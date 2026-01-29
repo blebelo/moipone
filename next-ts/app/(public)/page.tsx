@@ -10,6 +10,7 @@ import {
 import { useHomePageStyles } from "./style";
 import About from "@/src/components/About";
 import Programmes from "@/src/components/Programmes";
+import Footer from "@/src/components/Footer";
 
 
 const scrollToAbout = () => {
@@ -59,8 +60,8 @@ const HomePage: React.FC = () => {
       </section>
 
       <About />
-
       <Programmes />
+      <Footer />
     </div>
   );
 };

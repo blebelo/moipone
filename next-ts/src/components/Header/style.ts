@@ -32,7 +32,6 @@ export const useHeaderStyles = createStyles(() => ({
   logo: {
     height: "7.5rem !important",
     width: "auto !important",
-    cursor: "pointer",
     display: "flex",
     alignItems: "center",
     gap: "0.5rem",
