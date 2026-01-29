@@ -24,26 +24,26 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const goHome = () => {
-    router.push("/");
-  };
+  const goHome = () => router.push("/");
 
   return (
-    <header
-      className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}
-    >
+    <header className={`${styles.header} ${scrolled ? styles.headerScrolled : ""}`}>
       <div className={styles.container}>
-          <Image
-            src="/images/moipone-logo.png"
-            alt="Moipone Academy Logo"
-            className={styles.logo}
-            preview={false}
-            onClick={goHome}
-          />
+        <Image
+          src="/images/moipone-logo.png"
+          alt="Moipone Academy Logo"
+          className={styles.logo}
+          preview={false}
+          onClick={goHome}
+        />
 
         <nav className={`${styles.nav} ${styles.desktopNav}`}>
           {navItems.map((item) => (
-            <a key={item.label} href={item.href} className={styles.navLink}>
+            <a
+              key={item.label}
+              href={item.href}
+              className={`${styles.navLink} ${scrolled ? styles.navLinkDark : styles.navLinkLight}`}
+            >
               {item.label}
             </a>
           ))}
@@ -51,11 +51,13 @@ const Header = () => {
             Apply Now
           </Button>
         </nav>
+
         <Button
           type="text"
           icon={<MenuOutlined />}
           className={styles.mobileMenuButton}
           onClick={() => setMobileMenuOpen(true)}
+          style={{ color: scrolled ? "var(--color-dark-teal)" : "var(--color-peach)" }}
         />
       </div>
 
@@ -65,25 +67,20 @@ const Header = () => {
         onClose={() => setMobileMenuOpen(false)}
         open={mobileMenuOpen}
       >
-        <div className={styles.mobileMenu}>
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={() => setMobileMenuOpen(false)}
-              className={styles.drawerLink}
-            >
-              {item.label}
-            </a>
-          ))}
-          <Button
-            type="primary"
-            block
-            className={`${styles.applyButton} ${styles.drawerButton}`}
+        {navItems.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            onClick={() => setMobileMenuOpen(false)}
+            className={styles.drawerLink}
+            style={{ color: "var(--color-dark-teal)" }}
           >
-            Apply Now
-          </Button>
-        </div>
+            {item.label}
+          </a>
+        ))}
+        <Button type="primary" block className={`${styles.applyButton} ${styles.drawerButton}`}>
+          Apply Now
+        </Button>
       </Drawer>
     </header>
   );
