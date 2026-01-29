@@ -135,7 +135,6 @@ export const useHomePageStyles = createStyles(() => ({
     "&:hover": {
       color: "var(--color-dark-teal) !important",
       background: "var(--color-light-peach) !important",
-      backgroundOpacity: "0.01",
       borderColor: "var(--color-peach) !important",
     },
   },
