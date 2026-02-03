@@ -1,5 +1,6 @@
 import { INITIAL_STATE } from "@/src/lib/common/constants";
 import { createContext } from "react";
+import { IAddress } from "../address-provider/context";
 
 // ==================== ENUMS ====================
 export enum RefListGender {
@@ -10,14 +11,6 @@ export enum RefListGender {
 }
 
 // ==================== ENTITIES ====================
-export interface IAddress {
-  id?: string;
-  street: string;
-  suburb: string;
-  city: string;
-  postalCode: string;
-}
-
 export interface IStudent {
   id?: string;
   name: string;

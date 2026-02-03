@@ -14,7 +14,7 @@ export const useHeaderStyles = createStyles(() => ({
   },
 
   headerScrolled: {
-    background: "var(--background)",
+    background: "transparent",
     backdropFilter: "blur(0.75rem)",
     boxShadow: "0 0.25rem 1.5rem -0.25rem rgba(0, 0, 0, 0.04)",
     padding: "0.75rem 0",

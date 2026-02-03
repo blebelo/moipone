@@ -1,3 +1,4 @@
+import { RefListApplicationStatus } from "@/src/providers/application-provider/context";
 import { ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudentStateContext } from "@/src/providers/student-provider/context";
 import {
@@ -19,6 +20,8 @@ export const INITIAL_STATE = {
 };
 
 export type StateMap = IStudentStateContext | ICourseStateContext;
+
+// ==================== UI CONSTANTS ====================
 
 // Component Data
 interface Stat {
@@ -66,3 +69,69 @@ export const navItems = [
   { label: "Programmes", href: "#programmes" },
   { label: "Contact", href: "#contact" },
 ];
+
+export const steps = [
+  { title: "Personal Info" },
+  { title: "Programme" },
+  { title: "Guardian" },
+  { title: "Review" },
+];
+
+export const programmesList = [
+  {
+    id: "computer-literacy",
+    title: "Computer Literacy",
+    description: "Basic to advanced computer skills training",
+  },
+  {
+    id: "robotics",
+    title: "Robotics & Coding",
+    description: "Learn programming and build robots",
+  },
+  {
+    id: "life-skills",
+    title: "Life Skills Development",
+    description: "Personal development and career readiness",
+  },
+  {
+    id: "science-club",
+    title: "Science Club",
+    description: "Hands-on science experiments and projects",
+  },
+];
+
+export const provinceOptions = [
+  { value: "gauteng", label: "Gauteng" },
+  { value: "western-cape", label: "Western Cape" },
+  { value: "kwazulu-natal", label: "KwaZulu-Natal" },
+  { value: "eastern-cape", label: "Eastern Cape" },
+  { value: "free-state", label: "Free State" },
+  { value: "limpopo", label: "Limpopo" },
+  { value: "mpumalanga", label: "Mpumalanga" },
+  { value: "north-west", label: "North West" },
+  { value: "northern-cape", label: "Northern Cape" },
+];
+
+export const genderOptions = [
+  { value: "male", label: "Male" },
+  { value: "female", label: "Female" },
+  { value: "other", label: "Other" },
+  { value: "prefer-not", label: "Prefer not to say" },
+];
+
+export const experienceOptions = [
+  { value: "none", label: "No prior experience" },
+  {
+    value: "beginner",
+    label: "Beginner - Some basic knowledge",
+  },
+  {
+    value: "intermediate",
+    label: "Intermediate - Have used before",
+  },
+  {
+    value: "advanced",
+    label: "Advanced - Comfortable with concepts",
+  },
+];
+

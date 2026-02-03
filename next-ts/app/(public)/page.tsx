@@ -12,9 +12,11 @@ import About from "@/src/components/About";
 import Programmes from "@/src/components/Programmes";
 import Footer from "@/src/components/Footer";
 import { scrolltoSection } from "@/src/lib/common/helper-methods"
+import { useRouter } from "next/navigation";
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
+  const router = useRouter();
 
   return (
     <div>
@@ -36,7 +38,9 @@ const HomePage: React.FC = () => {
           </p>
 
           <div className={styles.heroButtons}>
-            <Button type="primary" className={styles.primaryButton}>
+            <Button type="primary" 
+            className={styles.primaryButton}
+            onClick={() => {router.push('/apply')}}>
               Apply for a Course <ArrowRightOutlined />
             </Button>
             <Button className={styles.secondaryButton}>
