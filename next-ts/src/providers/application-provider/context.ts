@@ -1,5 +1,7 @@
 import { INITIAL_STATE } from "@/src/lib/common/constants";
 import { createContext } from "react";
+import { IStudent } from "../student-provider/context";
+import { ICourse } from "../course-provider/context";
 
 // ==================== ENUMS ====================
 export enum RefListApplicationStatus {
@@ -11,9 +13,11 @@ export enum RefListApplicationStatus {
 // ==================== ENTITIES ====================
 export interface ICourseApplication {
   id?: string;
+  student?: IStudent
   studentId?: string;
+  shortCourse?: ICourse;
   shortCourseId?: string;
-  status: RefListApplicationStatus;
+  status?: RefListApplicationStatus;
   decisionReason?: string;
   decisionDate?: Date;
 }

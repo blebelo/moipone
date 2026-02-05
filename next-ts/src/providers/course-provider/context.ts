@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { IStudent } from "../student-provider/context";
 import { INITIAL_STATE } from "@/src/lib/common/constants";
+import { ICourseApplication } from "../application-provider/context";
 
 // ==================== ENTITIES ====================
 export interface ICourse {
@@ -14,7 +15,7 @@ export interface ICourse {
   startDate: Date;
   duration: number;
   enrolledStudents?: IStudent[];
-  // applicaions: IApplication[];
+  applicaions: ICourseApplication[];
 }
 
 // ==================== COURSE STATE CONTEXT ====================

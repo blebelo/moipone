@@ -8,6 +8,8 @@ export interface IAddress {
   suburb: string;
   city: string;
   postalCode: string;
+  province: string;
+  country: string;
 }
 
 // ==================== ADDRESS CONTEXT ====================
