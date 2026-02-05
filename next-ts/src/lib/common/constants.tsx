@@ -1,4 +1,5 @@
-import { RefListApplicationStatus } from "@/src/providers/application-provider/context";
+import { IAddressStateContext } from "@/src/providers/address-provider/context";
+import { IApplicationStateContext, RefListApplicationStatus } from "@/src/providers/application-provider/context";
 import { ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudentStateContext } from "@/src/providers/student-provider/context";
 import {
@@ -19,7 +20,15 @@ export const INITIAL_STATE = {
   isError: false,
 };
 
-export type StateMap = IStudentStateContext | ICourseStateContext;
+export type StateMap = IStudentStateContext | ICourseStateContext | IAddressStateContext | IApplicationStateContext;
+
+export interface FileUploadProps {
+  studentId: string;
+  filename: string;
+  label: string;
+  accept?: string;
+  disabled?: boolean;
+};
 
 // ==================== UI CONSTANTS ====================
 
@@ -29,11 +38,21 @@ interface Stat {
   label: string;
 }
 
+export const steps = [
+    { title: "Personal Info" },
+    { title: "Programme" },
+    { title: "Guardian" },
+    { title: "Review" },
+  ];
+
+export const MAX_SIZE = 5 * 1024 * 1024;
+
 export const stats: Stat[] = [
   { number: "500+", label: "Students Trained" },
   { number: "7", label: "Active Programmes" },
   { number: "95%", label: "Success Rate" },
 ];
+
 
 export const programmes = [
   {
@@ -68,13 +87,6 @@ export const navItems = [
   { label: "About", href: "#about" },
   { label: "Programmes", href: "#programmes" },
   { label: "Contact", href: "#contact" },
-];
-
-export const steps = [
-  { title: "Personal Info" },
-  { title: "Programme" },
-  { title: "Guardian" },
-  { title: "Review" },
 ];
 
 export const programmesList = [

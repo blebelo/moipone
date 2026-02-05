@@ -2,14 +2,10 @@ import React, { useState } from "react";
 import { Button, Input, Select, DatePicker, Steps, Radio, message } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { useApplicationFormStyles } from "./style";
-import {
-  genderOptions,
-  programmesList,
-  provinceOptions,
-} from "@/src/lib/common/constants";
+import { genderOptions, programmesList, provinceOptions, steps } from "@/src/lib/common/constants";
 import { ICourseApplication } from "@/src/providers/application-provider/context";
+import { FileUpload } from "../FileUpload";
 
-const { TextArea } = Input;
 
 const ApplicationForm: React.FC = () => {
   const { styles } = useApplicationFormStyles();
@@ -35,13 +31,6 @@ const ApplicationForm: React.FC = () => {
       setCurrentStep(currentStep - 1);
     }
   };
-
-  const steps = [
-    { title: "Personal Info" },
-    { title: "Programme" },
-    { title: "Guardian" },
-    { title: "Review" },
-  ];
 
   if (submitted) {
     return (
@@ -226,8 +215,6 @@ const ApplicationForm: React.FC = () => {
             </div>
           )}
 
-
-
           {/* Step 2: Programme Selection ____________________________________________________________________________________________________ */}
           {currentStep === 1 && (
             <div className={styles.formSection}>
@@ -254,29 +241,44 @@ const ApplicationForm: React.FC = () => {
                 ))}
               </Radio.Group>
 
-              {/* <div className={styles.inputGroup} style={{ marginTop: "24px" }}>
-                <label className={styles.label}>Previous Experience</label>
-                <Select
-                  className={styles.select}
-                  placeholder="Select your experience level"
-                  value={formData.experience || undefined}
-                  onChange={(value) => updateForm("experience", value)}
-                  options={experienceOptions}
+              <div className={styles.inputGroup} style={{ marginTop: "24px" }}>
+                <label className={styles.label}>ID Document</label>
+
+                <FileUpload
+                  studentId={formData?.student?.id || "dummy-id"}
+                  filename="id-document"
+                  label="Upload ID document"
                 />
               </div>
 
               <div className={styles.inputGroup}>
-                <label className={styles.label}>
-                  Why do you want to join this programme?
-                </label>
-                <TextArea
-                  className={styles.textarea}
-                  rows={4}
-                  placeholder="Tell us about your goals and what you hope to achieve..."
-                  value={formData.motivation}
-                  onChange={(e) => updateForm("motivation", e.target.value)}
+                <label className={styles.label}>Proof of Residence</label>
+
+                <FileUpload
+                  studentId={formData?.student?.id || "dummy-id"}
+                  filename="proof-of-residence"
+                  label="Upload proof of residence"
                 />
-              </div> */}
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Curriculum Vitae (CV)</label>
+
+                <FileUpload
+                  studentId={formData?.student?.id || "dummy-id"}
+                  filename="cv"
+                  label="Upload CV / Resume"
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Highest Qualification</label>
+                <FileUpload
+                  studentId={formData?.student?.id || "dummy-id"}
+                  filename="highest-qualification"
+                  label="Upload qualification document"
+                />
+              </div>
             </div>
           )}
           {/* Step 3: Review Application ____________________________________________________________________________________________________ */}

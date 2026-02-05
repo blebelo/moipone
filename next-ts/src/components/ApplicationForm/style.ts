@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 
-export const useApplicationFormStyles = createStyles(({ token }) => ({
+export const useApplicationFormStyles = createStyles(() => ({
   section: {
     minHeight: '100vh',
     paddingTop: '120px',
