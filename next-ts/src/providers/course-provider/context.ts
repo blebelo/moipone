@@ -14,6 +14,8 @@ export interface ICourse {
   isActive?: boolean;
   startDate: Date;
   duration: number;
+  displayIcon: string;
+  features: string[];
   enrolledStudents?: IStudent[];
   applicaions: ICourseApplication[];
 }

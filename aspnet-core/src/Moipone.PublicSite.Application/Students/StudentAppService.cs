@@ -53,12 +53,12 @@ namespace Moipone.PublicSite.Students
             }
         }
 
-        public async override Task<PagedResultDto<StudentDto>> GetAllAsync(
-            PagedAndSortedResultRequestDto input)
+        public async override Task<PagedResultDto<StudentDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             try
             {
-                var query = Repository.GetAll();
+                var query = await Repository.GetAllIncludingAsync(s => s.ResidentialAddress);
+
                 var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
                 var students = await AsyncQueryableExecuter.ToListAsync(
@@ -80,6 +80,7 @@ namespace Moipone.PublicSite.Students
             }
         }
 
+
         public async override Task<StudentDto> GetAsync(EntityDto<Guid> input)
         {
             try
@@ -92,7 +93,11 @@ namespace Moipone.PublicSite.Students
                     );
                 }
 
-                var student = await _studentRepository.GetAsync(input.Id);
+                var query = await _studentRepository.GetAllIncludingAsync(s => s.ResidentialAddress);
+
+                var student = await AsyncQueryableExecuter.FirstOrDefaultAsync(
+                    query.Where(s => s.Id == input.Id)
+                );
 
                 if (student == null)
                 {
@@ -117,6 +122,7 @@ namespace Moipone.PublicSite.Students
                 );
             }
         }
+
 
         public async override Task<StudentDto> UpdateAsync(StudentDto input)
         {

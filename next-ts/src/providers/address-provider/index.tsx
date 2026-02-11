@@ -31,7 +31,7 @@ export const AddressProvider = ({
   const [state, dispatch] = useReducer(AddressReducer, INITIAL_STATE);
   const instance = axiosInstance();
 
-  const createAddress = async (address: IAddress) => {
+  const createAddress = async (address?: IAddress) => {
     dispatch(createAddressPending());
     const endpoint = "Address/Create";
 
@@ -58,7 +58,7 @@ export const AddressProvider = ({
       });
   };
 
-  const getAddressById = async (id: string) => {
+  const getAddressById = async (id?: string) => {
     dispatch(getAddressByIdPending());
     const endpoint = `Address/Get?Id=${id}`;
 
@@ -72,7 +72,7 @@ export const AddressProvider = ({
       });
   };
 
-  const updateAddress = async (id: string, address: IAddress) => {
+  const updateAddress = async (id?: string, address?: IAddress) => {
     dispatch(updateAddressPending());
     const endpoint = "Address/Update";
 
@@ -86,7 +86,7 @@ export const AddressProvider = ({
       });
   };
 
-  const deleteAddress = async (id: string) => {
+  const deleteAddress = async (id?: string) => {
     dispatch(deleteAddressPending());
     const endpoint = `Address/Delete?Id=${id}`;
 

@@ -40,6 +40,16 @@ export const useApplicationFormStyles = createStyles(() => ({
   stepsContainer: {
     marginBottom: '40px',
   },
+  form :{
+    "&& .ant-form-item-required::before": {
+      display: "none",
+    },
+    "&& .ant-form-item-required::after": {
+      content: '" *"',
+      color: "#ff4d4f",
+      fontWeight: 600,
+    },
+  },
   formSection: {
     marginBottom: '32px',
   },
@@ -52,13 +62,12 @@ export const useApplicationFormStyles = createStyles(() => ({
   },
   inputGroup: {
     marginBottom: '20px',
-  },
-  label: {
-    display: 'block',
-    fontSize: '14px',
-    fontWeight: 500,
-    color: '#4a4a68',
-    marginBottom: '8px',
+    ".ant-form-item-label > label": {
+      fontSize: "14px",
+      fontWeight: 500,
+      color: "#4a4a68 !important",
+      
+    },
   },
   input: {
     height: '48px',

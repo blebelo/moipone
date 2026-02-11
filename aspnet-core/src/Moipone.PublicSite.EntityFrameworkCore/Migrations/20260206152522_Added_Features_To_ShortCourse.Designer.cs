@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moipone.PublicSite.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moipone.PublicSite.Migrations
 {
     [DbContext(typeof(PublicSiteDbContext))]
-    partial class PublicSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260206152522_Added_Features_To_ShortCourse")]
+    partial class Added_Features_To_ShortCourse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1870,10 +1873,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
-                    b.Property<string>("DisplayIcon")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("interval");
 
@@ -1923,10 +1922,12 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("CertifiedHighestQualification")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("CertifiedId")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
@@ -1937,6 +1938,7 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CurriculumVitae")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
@@ -1982,6 +1984,7 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<string>("ProofOfResidence")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 

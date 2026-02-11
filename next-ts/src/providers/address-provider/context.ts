@@ -4,12 +4,12 @@ import { createContext } from "react";
 // ==================== ENTITIES ====================
 export interface IAddress {
   id?: string;
-  street: string;
-  suburb: string;
-  city: string;
-  postalCode: string;
-  province: string;
-  country: string;
+  street?: string;
+  suburb?: string;
+  city?: string;
+  postalCode?: string;
+  province?: string;
+  country?: string;
 }
 
 // ==================== ADDRESS CONTEXT ====================
@@ -24,11 +24,11 @@ export interface IAddressStateContext {
 }
 
 export interface IAddressActionContext {
-  createAddress: (address: IAddress) => Promise<void>;
+  createAddress: (address?: IAddress) => Promise<void>;
   getAllAddresses: () => Promise<void>;
-  getAddressById: (id: string) => Promise<void>;
-  updateAddress: (id: string, address: IAddress) => Promise<void>;
-  deleteAddress: (id: string) => Promise<void>;
+  getAddressById: (id?: string) => Promise<void>;
+  updateAddress: (id?: string, address?: IAddress) => Promise<void>;
+  deleteAddress: (id?: string) => Promise<void>;
 }
 
 

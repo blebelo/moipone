@@ -5,15 +5,15 @@ import { InboxOutlined, FileOutlined, CloseCircleOutlined } from "@ant-design/ic
 import type { UploadProps, UploadFile } from "antd";
 import { useState } from "react";
 import { useFileUploadStyles } from "./style";
-import { FileUploadProps } from "@/src/lib/common/constants";
+import { IFileUploadProps } from "@/src/lib/common/constants";
 import { handleUpload, renameFile } from "@/src/lib/common/helper-methods";
 
-export const FileUpload: React.FC<FileUploadProps> = ({
+export const FileUpload: React.FC<IFileUploadProps> = ({
   studentId,
   filename,
   label,
   accept = ".pdf,.jpg,.jpeg,.png",
-}: FileUploadProps) => {
+}: IFileUploadProps) => {
   const { styles } = useFileUploadStyles();
   const [file, setFile] = useState<UploadFile | null>(null);
 

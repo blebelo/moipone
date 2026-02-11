@@ -62,7 +62,7 @@ export const CourseProvider = ({ children }: { children: React.ReactNode }) => {
         await instance.get(endpoint)
         .then(
             (response) => {
-                dispatch(getAllCoursesSuccess(response.data.result));
+                dispatch(getAllCoursesSuccess(response.data.result.items));
             }
         )
         .catch(
@@ -218,7 +218,7 @@ export const useCourseState = () => {
     return context;
 }
 
-export const useCourseAction = () => {
+export const useCourseActions = () => {
     const context = useContext(CourseActionContext);
     if (!context) {
         throw new Error("useCourseAction must be used within a CourseProvider");

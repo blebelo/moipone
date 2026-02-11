@@ -1,17 +1,21 @@
 'use client';
-import { ArrowRightOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, CheckCircleOutlined, ExceptionOutlined } from "@ant-design/icons";
 import { useProgrammesStyles } from "./style";
-import { programmes } from "@/src/lib/common/constants";
+import { ICourse } from "@/src/providers/course-provider/context";
 
-const Programmes: React.FC = () => {
+interface ICourseProps{
+  courseList?: ICourse[];
+}; 
+
+const Courses: React.FC<ICourseProps> = ({courseList}) => {
   const { styles } = useProgrammesStyles();
 
   return (
-    <section id="programmes" className={styles.programmesSection}>
+    <div id="programmes" className={styles.programmesSection}>
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.tag}>
-            <span>Our Programmes</span>
+            <span>Our Courses</span>
           </div>
           <h2 className={styles.title}>Skills for the Future</h2>
           <p className={styles.subtitle}>
@@ -19,19 +23,27 @@ const Programmes: React.FC = () => {
             the skills they need to thrive in the modern economy.
           </p>
         </div>
+        {courseList?.length == 0  
+        ? 
 
-        <div className={styles.grid}>
-          {programmes.map((programme, index) => (
+        (<div className={styles.header}>
+          <ExceptionOutlined className={styles.cardFeatureIcon}/>
+        {/* <h2 className={styles.title}>No Courses Available</h2>  */}
+        </div>)
+
+        :
+        (<div className={styles.grid}>
+          {courseList?.map((course, index) => (
             <div key={index} className={styles.card}>
               <div
                 className={`${styles.cardIcon}`}
               >
-                {programme.icon}
+                {course.displayIcon}
               </div>
-              <h3 className={styles.cardTitle}>{programme.title}</h3>
-              <p className={styles.cardDescription}>{programme.description}</p>
+              <h3 className={styles.cardTitle}>{course.title}</h3>
+              <p className={styles.cardDescription}>{course.description}</p>
               <div className={styles.cardFeatures}>
-                {programme.features.map((feature, idx) => (
+                {course.features.map((feature, idx) => (
                   <div key={idx} className={styles.cardFeature}>
                     <CheckCircleOutlined className={styles.cardFeatureIcon} />
                     <span>{feature}</span>
@@ -43,10 +55,10 @@ const Programmes: React.FC = () => {
               </div>
             </div>
           ))}
-        </div>
+        </div>)}
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Programmes;
+export default Courses;

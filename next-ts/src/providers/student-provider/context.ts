@@ -13,19 +13,19 @@ export enum RefListGender {
 // ==================== ENTITIES ====================
 export interface IStudent {
   id?: string;
-  name: string;
-  surname: string;
-  age: number;
-  gender: RefListGender;
-  emailAddress: string;
-  idNumber: string;
-  dateOfBirth: string;
-  phoneNumber: string;
+  name?: string;
+  surname?: string;
+  age?: number;
+  gender?: RefListGender;
+  emailAddress?: string;
+  idNumber?: string;
+  dateOfBirth?: string;
+  phoneNumber?: string;
   residentialAddress?: IAddress;
-  certifiedId: string;
-  proofOfResidence: string;
-  curriculumVitae: string;
-  certifiedHighestQualification: string;
+  certifiedId?: string;
+  proofOfResidence?: string;
+  curriculumVitae?: string;
+  certifiedHighestQualification?: string;
 }
 
 // ==================== STUDENT CONTEXT ====================
@@ -40,12 +40,12 @@ export interface IStudentStateContext {
 }
 
 export interface IStudentActionContext {
-  createStudent: (student: IStudent) => Promise<void>;
+  createStudent: (student?: IStudent) => Promise<void>;
   getAllStudents: () => Promise<void>;
-  getStudentById: (id: string) => Promise<void>;
-  updateStudent: (id: string, student: IStudent) => Promise<void>;
-  deleteStudent: (id: string) => Promise<void>;
-  getStudentByEmail: (email: string) => Promise<void>;
+  getStudentById: (id?: string) => Promise<void>;
+  updateStudent: (id?: string, student?: IStudent) => Promise<void>;
+  deleteStudent: (id?: string) => Promise<void>;
+  getStudentByEmail: (email?: string) => Promise<void>;
 }
 
 

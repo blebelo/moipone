@@ -1,5 +1,5 @@
 import { IAddressStateContext } from "@/src/providers/address-provider/context";
-import { IApplicationStateContext, RefListApplicationStatus } from "@/src/providers/application-provider/context";
+import { IApplicationStateContext } from "@/src/providers/application-provider/context";
 import { ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudentStateContext } from "@/src/providers/student-provider/context";
 import {
@@ -22,7 +22,7 @@ export const INITIAL_STATE = {
 
 export type StateMap = IStudentStateContext | ICourseStateContext | IAddressStateContext | IApplicationStateContext;
 
-export interface FileUploadProps {
+export interface IFileUploadProps {
   studentId: string;
   filename: string;
   label: string;
@@ -113,22 +113,22 @@ export const programmesList = [
 ];
 
 export const provinceOptions = [
-  { value: "gauteng", label: "Gauteng" },
-  { value: "western-cape", label: "Western Cape" },
-  { value: "kwazulu-natal", label: "KwaZulu-Natal" },
-  { value: "eastern-cape", label: "Eastern Cape" },
-  { value: "free-state", label: "Free State" },
-  { value: "limpopo", label: "Limpopo" },
-  { value: "mpumalanga", label: "Mpumalanga" },
-  { value: "north-west", label: "North West" },
-  { value: "northern-cape", label: "Northern Cape" },
+  { value: "Gauteng", label: "Gauteng" },
+  { value: "Western Cape", label: "Western Cape" },
+  { value: "KwaZulu-Natal", label: "KwaZulu-Natal" },
+  { value: "Eastern Cape", label: "Eastern Cape" },
+  { value: "Free State", label: "Free State" },
+  { value: "Limpopo", label: "Limpopo" },
+  { value: "Mpumalanga", label: "Mpumalanga" },
+  { value: "North West", label: "North West" },
+  { value: "Northern Cape", label: "Northern Cape" },
 ];
 
 export const genderOptions = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-  { value: "other", label: "Other" },
-  { value: "prefer-not", label: "Prefer not to say" },
+  { value: 1, label: "Male" },
+  { value: 2, label: "Female" },
+  { value: 3, label: "Other" },
+  { value: 4, label: "Prefer not to say" },
 ];
 
 export const experienceOptions = [

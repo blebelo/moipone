@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/src/components/Header";
 import { Button } from "antd";
 import {
@@ -9,21 +9,27 @@ import {
 } from "@ant-design/icons";
 import { useHomePageStyles } from "./style";
 import About from "@/src/components/About";
-import Programmes from "@/src/components/Programmes";
 import Footer from "@/src/components/Footer";
 import { scrolltoSection } from "@/src/lib/common/helper-methods"
 import { useRouter } from "next/navigation";
+import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
+import Courses from "@/src/components/Courses";
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
   const router = useRouter();
+  const {isPending, isError, isSuccess, courses} = useCourseState();
+  const { getAllCourses } = useCourseActions();
+
+  useEffect(() => {
+    getAllCourses()
+  }, [])
 
   return (
     <div>
       <Header />
       <section className={styles.heroSection}>
         <div className={styles.heroBackground} />
-
 
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>
@@ -62,7 +68,9 @@ const HomePage: React.FC = () => {
       </section>
 
       <About />
-      <Programmes />
+      <Courses 
+        courseList={courses} 
+      />
       <Footer />
     </div>
   );

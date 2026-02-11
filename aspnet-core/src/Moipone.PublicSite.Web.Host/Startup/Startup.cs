@@ -17,6 +17,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using dotenv.net;
+
 
 namespace Moipone.PublicSite.Web.Host.Startup
 {
@@ -32,6 +34,11 @@ namespace Moipone.PublicSite.Web.Host.Startup
         public Startup(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
+
+            DotEnv.Load(options: new DotEnvOptions(
+                ignoreExceptions: false,        
+                overwriteExistingVars: true   
+            ));
             _appConfiguration = env.GetAppConfiguration();
         }
 
@@ -130,7 +137,7 @@ namespace Moipone.PublicSite.Web.Host.Startup
                     Contact = new OpenApiContact
                     {
                         Name = "PublicSite",
-                        Email = string.Empty,
+                        Email = "info@moiponeacademy.org",
                         Url = new Uri("https://twitter.com/aspboilerplate"),
                     },
                     License = new OpenApiLicense

@@ -20,6 +20,8 @@ namespace Moipone.PublicSite.ShortCourses.Dto
         public bool? IsActive { get; set; }
         public DateTime? StartDate { get; set; }
         public TimeSpan? Duration { get; set; }
+        public string? DisplayIcon { get; set; }
+        public ICollection<string>? Features { get; set; } 
         #endregion
 
         #region Enrollment Data

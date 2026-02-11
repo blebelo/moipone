@@ -33,7 +33,7 @@ export const StudentProvider = ({
   const [state, dispatch] = useReducer(StudentReducer, INITIAL_STATE);
   const instance = axiosInstance();
 
-  const createStudent = async (student: IStudent) => {
+  const createStudent = async (student?: IStudent) => {
     dispatch(createStudentPending());
     const endpoint = "Student/Create";
 
@@ -41,6 +41,7 @@ export const StudentProvider = ({
       .post(endpoint, student)
       .then((response) => {
         dispatch(createStudentSuccess(response.data.result));
+        
       })
       .catch((err) => {
         dispatch(createStudentError(err.message));
@@ -60,7 +61,7 @@ export const StudentProvider = ({
       });
   };
 
-  const getStudentById = async (id: string) => {
+  const getStudentById = async (id?: string) => {
     dispatch(getStudentByIdPending());
     const endpoint = `Student/Get?Id=${id}`;
 
@@ -74,7 +75,7 @@ export const StudentProvider = ({
       });
   };
 
-  const updateStudent = async (id: string, student: IStudent) => {
+  const updateStudent = async (id?: string, student?: IStudent) => {
     dispatch(updateStudentPending());
     const endpoint = "Student/Update";
 
@@ -88,7 +89,7 @@ export const StudentProvider = ({
       });
   };
 
-  const deleteStudent = async (id: string) => {
+  const deleteStudent = async (id?: string) => {
     dispatch(deleteStudentPending());
     const endpoint = `Student/Delete?Id=${id}`;
 
@@ -102,9 +103,9 @@ export const StudentProvider = ({
       });
   };
 
-  const getStudentByEmail = async (email: string) => {
+  const getStudentByEmail = async (email?: string) => {
     dispatch(getStudentByEmailPending());
-    const endpoint = `Student/GetByEmail?email=${encodeURIComponent(email)}`;
+    const endpoint = `Student/GetByEmail?email=${encodeURIComponent(email || '')}`;
 
     await instance
       .get(endpoint)
