@@ -19,27 +19,6 @@ export const scrolltoSection = (sectionId: string) => {
   document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
 };
 
-export const uploadFile = async (
-  file: File,
-  studentId: string,
-  filename: string,
-) => {
-  const { url, fields } = await getPresignedPost(studentId, filename);
-
-  const formData = new FormData();
-  Object.entries(fields).forEach(([key, value]) => formData.append(key, value));
-  formData.append("file", file);
-
-  const response = await fetch(url, {
-    method: "POST",
-    body: formData,
-  });
-
-  if (!response.ok) {
-    console.error(`S3 upload failed: ${response.statusText}`);
-    throw new Error(`S3 upload failed: ${response.status}`);
-  }
-};
 
 export const renameFile = (userFile: File, baseName: string): string => {
   const extension = userFile.name.split(".").pop()?.toLowerCase() || "";
@@ -78,8 +57,9 @@ export const handleUpload = async (
 
     message.success(`${capitalizeWords(label)} uploaded successfully`);
   } catch (error) {
-    console.error(error);
+    console.error('File Upload Failed', error);
     message.error("Upload failed");
+    throw new Error('File Upload Failed')
   }
 };
 

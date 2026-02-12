@@ -2,7 +2,6 @@
 import { createAction } from "redux-actions";
 import { ICourseApplication, IApplicationStateContext } from "./context";
 import { RequestState } from "@/src/lib/common/constants";
-import { IStudentStateContext } from "../student-provider/context";
 
 export enum ApplicationActionEnums {
   // Create Application
@@ -31,9 +30,9 @@ export enum ApplicationActionEnums {
   deleteApplicationError = "DELETE_APPLICATION_ERROR",
 
   // Get Application By CourseId
-  getApplicationByCourseIdPending = "GET_APPLICATION_BY_COURSE_ID_PENDING",
+  getApplicationsByCourseIdPending = "GET_APPLICATIONS_BY_COURSE_ID_PENDING",
   getApplicationsByCourseIdSuccess = "GET_APPLICATIONS_BY_COURSE_ID_SUCCESS",
-  getApplicationByCourseIdError = "GET_APPLICATION_BY_COURSE_ID_ERROR",
+  getApplicationsByCourseIdError = "GET_APPLICATIONS_BY_COURSE_ID_ERROR",
 
   // Approve Application
   approveApplicationPending = "APPROVE_APPLICATION_PENDING",
@@ -138,9 +137,9 @@ export const deleteApplicationError = createAction<IApplicationStateContext, str
   (error: string) => ({ ...RequestState.Error, error }),
 );
 
-// ==================== GET APPLICATION BY COURSE ====================
-export const getApplicationByCourseIdPending = createAction<IApplicationStateContext>(
-  ApplicationActionEnums.getApplicationByCourseIdPending,
+// ==================== GET APPLICATIONS BY COURSE ====================
+export const getApplicationsByCourseIdPending = createAction<IApplicationStateContext>(
+  ApplicationActionEnums.getApplicationsByCourseIdPending,
   () => RequestState.Pending,
 );
 
@@ -152,8 +151,8 @@ export const getApplicationsByCourseIdSuccess = createAction<
   applications,
 }));
 
-export const getApplicationByCourseIdError = createAction<IApplicationStateContext, string>(
-  ApplicationActionEnums.getApplicationByCourseIdError,
+export const getApplicationsByCourseIdError = createAction<IApplicationStateContext, string>(
+  ApplicationActionEnums.getApplicationsByCourseIdError,
   (error: string) => ({ ...RequestState.Error, error }),
 );
 

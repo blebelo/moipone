@@ -36,9 +36,9 @@ export const ApplicationReducer = handleActions<
     [ApplicationActionEnums.deleteApplicationError]: mergePayloadHandler,
 
     // Get Application By CourseId
-    [ApplicationActionEnums.getApplicationByCourseIdPending]: mergePayloadHandler,
+    [ApplicationActionEnums.getApplicationsByCourseIdPending]: mergePayloadHandler,
     [ApplicationActionEnums.getApplicationsByCourseIdSuccess]: mergePayloadHandler,
-    [ApplicationActionEnums.getApplicationByCourseIdError]: mergePayloadHandler,
+    [ApplicationActionEnums.getApplicationsByCourseIdError]: mergePayloadHandler,
 
     // Approve Application
     [ApplicationActionEnums.approveApplicationPending]: mergePayloadHandler,

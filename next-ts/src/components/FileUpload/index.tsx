@@ -29,8 +29,13 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
         status: "done",
       };
 
-      await handleUpload(f, studentId, uploadedFile.name, label);
-      setFile(uploadedFile);
+      try {
+        await handleUpload(f, studentId, uploadedFile.name, label);
+        setFile(uploadedFile);
+      } catch (err) {
+        console.error('Could Not Upload Document: ', err)
+        throw new Error('Could Not Upload Document')
+      }
 
       return Upload.LIST_IGNORE;
     },

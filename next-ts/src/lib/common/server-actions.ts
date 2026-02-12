@@ -7,6 +7,9 @@ export async function getPresignedPost(
   studentId: string,
   filename: string
 ) {
+  if ((studentId || filename) == null) {
+    throw new Error('Upload Parameters Are Null, Please contact support')
+  }
   const client = new S3Client({
     region: process.env.AWS_REGION!,
     credentials: {
@@ -17,7 +20,7 @@ export async function getPresignedPost(
 
   return createPresignedPost(client, {
     Bucket: process.env.AWS_S3_BUCKET_NAME!,
-    Key: `student-documents/${studentId || "test"}/${filename || "test-file"}`,
+    Key: `student-documents/${studentId}/${filename}`,
     Conditions: [["content-length-range", 0, 5 * 1024 * 1024]],
   });
 }

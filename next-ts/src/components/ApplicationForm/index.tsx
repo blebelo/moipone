@@ -107,7 +107,7 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
           ...prev,
           studentId: currentStudent?.id
         }));
-        
+
         console.log('Created Student:', currentStudent)
         console.log('Current Form:', form)
         console.log('Current FormData:', formData)
@@ -269,14 +269,13 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                   name={["student", "idNumber"]}
                   rules={[
                     { required: true, message: "Please input your ID Number" },
-                    { len: 13, message: "ID Number must be valid" }, 
+                    { len: 16, message: "ID Number must be valid" }, 
                   ]}
                 >
-                  <Input.Password
+                  <Input
                     className={styles.input}
                     placeholder="XXXXXX XXXX XX X"
                     maxLength={16}
-                    visibilityToggle
                     onChange={(e) => {
                       const formatted = formatSaIdNumber(e.target.value);
                       e.target.value = formatted;
@@ -484,44 +483,48 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                   </Radio.Group>
                 </Form.Item>
 
-                <div
+                <Form.Item
                   className={styles.inputGroup}
                   style={{ marginTop: "24px" }}
+                  label='Identity Document'
                 >
-                  <label className={styles.label}></label>
                   <FileUpload
                     studentId={formData?.student?.id || "dummy-id"}
                     filename="id-document"
-                    label="Upload ID document"
+                    label="Upload Identity Document"
                   />
-                </div>
+                </Form.Item>
 
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Proof of Residence</label>
+                <Form.Item 
+                label='Proof Of Residence'
+                className={styles.inputGroup}>
                   <FileUpload
                     studentId={formData?.student?.id || "dummy-id"}
                     filename="proof-of-residence"
                     label="Upload proof of residence"
                   />
-                </div>
+                </Form.Item>
 
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Curriculum Vitae (CV)</label>
+                <Form.Item 
+                className={styles.inputGroup}
+                label='Curriculum VItae (CV)'
+                >
                   <FileUpload
                     studentId={formData?.student?.id || "dummy-id"}
                     filename="cv"
                     label="Upload CV / Resume"
                   />
-                </div>
+                </Form.Item>
 
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>Highest Qualification</label>
+                <Form.Item
+                label='Highest Qualification'
+                className={styles.inputGroup}>
                   <FileUpload
                     studentId={formData?.student?.id || "dummy-id"}
                     filename="highest-qualification"
                     label="Upload qualification document"
                   />
-                </div>
+                </Form.Item>
               </div>
             )}
 

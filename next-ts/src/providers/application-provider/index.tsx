@@ -23,8 +23,9 @@ import {
   rejectApplicationPending,
   rejectApplicationSuccess,
   rejectApplicationError,
-  getApplicationByCourseIdPending,
+  getApplicationsByCourseIdPending,
   getApplicationsByCourseIdSuccess,
+  getApplicationsByCourseIdError,
 } from "./actions";
 import { axiosInstance } from "../../lib/utils/axiosInstance";
 import { ApplicationReducer } from "./reducer";
@@ -108,7 +109,7 @@ export const ApplicationProvider = ({
   };
 
     const getApplicationsByCourseId = async (id: string) => {
-    dispatch(getApplicationByCourseIdPending());
+    dispatch(getApplicationsByCourseIdPending());
     const endpoint = `Application/GetByCourseId?CourseId=${id}`;
 
     await instance
@@ -117,7 +118,7 @@ export const ApplicationProvider = ({
         dispatch(getApplicationsByCourseIdSuccess(response.data.result));
       })
       .catch((err) => {
-        dispatch(approveApplicationError(err.message));
+        dispatch(getApplicationsByCourseIdError(err.message));
       });
   };
   const approveApplication = async (id: string) => {
