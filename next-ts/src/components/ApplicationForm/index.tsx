@@ -27,25 +27,30 @@ import { IAddress } from "@/src/providers/address-provider/context";
 import { IStudent } from "@/src/providers/student-provider/context";
 import { ICourse } from "@/src/providers/course-provider/context";
 import dayjs from "dayjs";
-import { formatSaIdNumber, formatPhoneNumber } from "@/src/lib/common/helper-methods";
+import {
+  formatSaIdNumber,
+  formatPhoneNumber,
+} from "@/src/lib/common/helper-methods";
+import { register } from "module";
 
-interface IApplicationFormMethods {
+interface IApplicationFormProps {
   courseList?: ICourse[];
   createStudent: (address?: IAddress, student?: IStudent) => Promise<void>;
   submitApplication: (application?: ICourseApplication) => Promise<void>;
-  currentStudent?: IStudent
+  registerDocs: (studentId: string) => Promise<void>;
+  currentStudent?: IStudent;
 }
 
-const ApplicationForm: React.FC<IApplicationFormMethods> = ({
+const ApplicationForm: React.FC<IApplicationFormProps> = ({
   courseList,
   createStudent,
   submitApplication,
-  currentStudent
+  registerDocs,
+  currentStudent,
 }) => {
   const { styles } = useApplicationFormStyles();
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-
 
   const [form] = Form.useForm<ICourseApplication>();
 
@@ -101,21 +106,32 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
       form.setFieldsValue(merged);
 
       if (currentStep === 0) {
-        await createStudent(merged.student?.residentialAddress, merged.student);
-        
-        setFormData(prev => ({
+        createStudent(merged.student?.residentialAddress, merged.student);
+
+        setFormData((prev) => ({
           ...prev,
-          studentId: currentStudent?.id
+          studentId: currentStudent?.id,
         }));
 
-        console.log('Created Student:', currentStudent)
-        console.log('Current Form:', form)
-        console.log('Current FormData:', formData)
+        
         setCurrentStep((s) => s + 1);
         return;
       }
 
-      if (currentStep === 3) {
+      if (currentStep === 1) {
+        message.success(
+          "Student information saved! Please upload the required documents to proceed.",
+        );
+        registerDocs(`${formData.studentId}`);
+        console.log("All Course Info Filled:", merged);
+        message.success(
+          "Documents uploaded successfully! Please review your application before submitting.",
+        );
+        setCurrentStep((s) => s + 1);
+        return;
+      }
+
+      if (currentStep === 2) {
         await submitApplication(merged);
         setSubmitted(true);
         message.success("Application submitted successfully!");
@@ -125,6 +141,9 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
       setCurrentStep((s) => s + 1);
     } catch (err) {
       console.error(err);
+      message.error(
+        "An error occurred. Please check the form for errors and try again.",
+      );
     }
   };
 
@@ -211,7 +230,6 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
             {currentStep === 0 && (
               <div className={styles.formSection}>
                 <h3 className={styles.sectionTitle}>Personal Information</h3>
-
                 <div
                   style={{
                     display: "grid",
@@ -247,7 +265,6 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                     />
                   </Form.Item>
                 </div>
-
                 <Form.Item
                   label="Email Address"
                   className={styles.inputGroup}
@@ -269,20 +286,25 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                   name={["student", "idNumber"]}
                   rules={[
                     { required: true, message: "Please input your ID Number" },
-                    { len: 16, message: "ID Number must be valid" }, 
+                    {
+                      validator: (_, value) => {
+                        const digits = value?.replace(/\D/g, "") ?? "";
+                        if (digits.length === 0 || digits.length === 13)
+                          return Promise.resolve();
+                        return Promise.reject("ID Number must be 13 digits");
+                      },
+                    },
                   ]}
                 >
                   <Input
                     className={styles.input}
                     placeholder="XXXXXX XXXX XX X"
-                    maxLength={16}
                     onChange={(e) => {
                       const formatted = formatSaIdNumber(e.target.value);
-                      e.target.value = formatted;
+                      form.setFieldValue(["student", "idNumber"], formatted);
                     }}
                   />
                 </Form.Item>
-
 
                 <div
                   style={{
@@ -300,6 +322,7 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                         required: true,
                         message: "Please input your phone number",
                       },
+                      { len: 12, message: "Phone number must be 10 digits" },
                     ]}
                   >
                     <Input
@@ -327,10 +350,12 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                       {
                         validator: (_, value) => {
                           if (!value) return Promise.resolve();
-                          const age = dayjs().diff(dayjs(value), 'year');
+                          const age = dayjs().diff(dayjs(value), "year");
                           return age >= 18
                             ? Promise.resolve()
-                            : Promise.reject(new Error("You must be at least 18 years old"));
+                            : Promise.reject(
+                                new Error("You must be at least 18 years old"),
+                              );
                         },
                       },
                     ]}
@@ -340,12 +365,11 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                       placeholder="Select date"
                       // disabledDate={(current) => current && current > dayjs().subtract(18, 'year')}
                       onChange={(date) => {
-                        form.setFieldValue(["student", "dateOfBirth"], date)
+                        form.setFieldValue(["student", "dateOfBirth"], date);
                       }}
                     />
                   </Form.Item>
                 </div>
-
                 <Form.Item
                   label="Gender"
                   className={styles.inputGroup}
@@ -358,7 +382,6 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                     options={genderOptions}
                   />
                 </Form.Item>
-
                 <Form.Item
                   label="Street Address"
                   className={styles.inputGroup}
@@ -372,7 +395,6 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                     placeholder="Street address"
                   />
                 </Form.Item>
-
                 <div
                   style={{
                     display: "grid",
@@ -446,81 +468,107 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
                   <Radio.Group
                     value={formData.shortCourseId}
                     onChange={(e) => {
-                      form.setFieldValue("shortCourseId", e.target.value);
-                      setFormData((p) => ({
-                        ...p,
-                        shortCourseId: e.target.value,
-                      }));
+                      const next = e.target.value;
+                      form.setFieldValue("shortCourseId", next);
+                      setFormData((p) => ({ ...p, shortCourseId: next }));
                     }}
                     style={{ width: "100%" }}
                   >
-                    {courseList?.map((course) => (
-                      <div
-                        key={course.id}
-                        className={`${styles.programmeOption} ${
-                          formData.shortCourseId === course.id
-                            ? styles.programmeOptionSelected
-                            : ""
-                        }`}
-                        onClick={() => {
-                          form.setFieldValue("shortCourseId", course.id);
-                          setFormData((p) => ({
-                            ...p,
-                            shortCourseId: course.id,
-                          }));
-                        }}
-                      >
-                        <Radio value={course.id}>
-                          <span className={styles.programmeTitle}>
-                            {course.title}
-                          </span>
-                          <p className={styles.programmeDesc}>
-                            {course.description}
-                          </p>
-                        </Radio>
-                      </div>
-                    ))}
+                    {courseList?.map((course) => {
+                      const selected = formData.shortCourseId === course.id;
+
+                      const setSelected = () => {
+                        form.setFieldValue("shortCourseId", course.id);
+                        setFormData((p) => ({
+                          ...p,
+                          shortCourseId: course.id,
+                        }));
+                      };
+
+                      return (
+                        <div
+                          key={course.id}
+                          className={`${styles.programmeOption} ${
+                            selected ? styles.programmeOptionSelected : ""
+                          }`}
+                          onClick={setSelected}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setSelected();
+                            }
+                          }}
+                        >
+                          <Radio
+                            //                             style={{
+                            //   '& .ant-radio-inner': { display: 'none' }
+                            // }}
+                            value={course.id}
+                            // className={styles.programmeRadioHidden}
+                          >
+                            <span className={styles.programmeTitle}>
+                              {course.title}
+                            </span>
+                            <p className={styles.programmeDesc}>
+                              {course.description}
+                            </p>
+                          </Radio>
+                        </div>
+                      );
+                    })}
                   </Radio.Group>
                 </Form.Item>
 
                 <Form.Item
                   className={styles.inputGroup}
                   style={{ marginTop: "24px" }}
-                  label='Identity Document'
+                  label="Identity Document"
                 >
                   <FileUpload
-                    studentId={formData?.student?.id || "dummy-id"}
+                    studentId={
+                      formData?.studentId || `${formData.student?.idNumber}`
+                    }
                     filename="id-document"
                     label="Upload Identity Document"
                   />
                 </Form.Item>
 
-                <Form.Item 
-                label='Proof Of Residence'
-                className={styles.inputGroup}>
+                <Form.Item
+                  label="Proof Of Residence"
+                  className={styles.inputGroup}
+                >
                   <FileUpload
-                    studentId={formData?.student?.id || "dummy-id"}
+                    studentId={
+                      formData?.studentId || `${formData.student?.idNumber}`
+                    }
                     filename="proof-of-residence"
                     label="Upload proof of residence"
                   />
                 </Form.Item>
 
-                <Form.Item 
-                className={styles.inputGroup}
-                label='Curriculum VItae (CV)'
+                <Form.Item
+                  className={styles.inputGroup}
+                  label="Curriculum VItae (CV)"
                 >
                   <FileUpload
-                    studentId={formData?.student?.id || "dummy-id"}
+                    studentId={
+                      formData?.studentId || `${formData.student?.idNumber}`
+                    }
                     filename="cv"
                     label="Upload CV / Resume"
                   />
                 </Form.Item>
 
                 <Form.Item
-                label='Highest Qualification'
-                className={styles.inputGroup}>
+                  label="Highest Qualification"
+                  className={styles.inputGroup}
+                >
                   <FileUpload
-                    studentId={formData?.student?.id || "dummy-id"}
+                    studentId={
+                      formData?.studentId || `${formData.student?.idNumber}`
+                    }
                     filename="highest-qualification"
                     label="Upload qualification document"
                   />
@@ -529,7 +577,7 @@ const ApplicationForm: React.FC<IApplicationFormMethods> = ({
             )}
 
             {/* Step 3 Review */}
-            {currentStep === 3 && (
+            {currentStep === 2 && (
               <div className={styles.formSection}>
                 <h3 className={styles.sectionTitle}>Review Your Application</h3>
 

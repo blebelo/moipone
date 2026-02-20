@@ -55,7 +55,7 @@ export const handleUpload = async (
       throw new Error(`Upload failed: ${response.status}`);
     }
 
-    message.success(`${capitalizeWords(label)} uploaded successfully`);
+    // message.success(`${capitalizeWords(label)} uploaded successfully`);
   } catch (error) {
     console.error('File Upload Failed', error);
     message.error("Upload failed");
@@ -96,16 +96,11 @@ export const formatPhoneNumber = (number: string): string => {
 };
 
 export const formatSaIdNumber = (value: string): string => {
-  if (!value) return "";
-
   const digits = value.replace(/\D/g, "").slice(0, 13);
-
-  const part1 = digits.slice(0, 6);
-  const part2 = digits.slice(6, 10);
-  const part3 = digits.slice(10, 12);
-  const part4 = digits.slice(12, 13);
-
-  return [part1, part2, part3, part4]
+  if (digits.length === 13) {
+    return `${digits.slice(0, 6)} ${digits.slice(6, 10)} ${digits.slice(10, 12)} ${digits.slice(12)}`;
+  }
+  return [digits.slice(0, 6), digits.slice(6, 10), digits.slice(10, 12), digits.slice(12)]
     .filter(Boolean)
     .join(" ");
 };

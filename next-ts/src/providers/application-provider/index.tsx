@@ -41,7 +41,7 @@ export const ApplicationProvider = ({
 
   const createApplication = async (application: ICourseApplication) => {
     dispatch(createApplicationPending());
-    const endpoint = "Application/Create";
+    const endpoint = "CourseApplication/Create";
 
     await instance
       .post(endpoint, application)
@@ -55,7 +55,7 @@ export const ApplicationProvider = ({
 
   const getAllApplications = async () => {
     dispatch(getAllApplicationsPending());
-    const endpoint = "Application/GetAll";
+    const endpoint = "CourseApplication/GetAll";
     await instance
       .get(endpoint)
       .then((response) => {
@@ -68,7 +68,7 @@ export const ApplicationProvider = ({
 
   const getApplicationById = async (id: string) => {
     dispatch(getApplicationByIdPending());
-    const endpoint = `Application/Get?Id=${id}`;
+    const endpoint = `CourseApplication/Get?Id=${id}`;
 
     await instance
       .get(endpoint)
@@ -82,7 +82,7 @@ export const ApplicationProvider = ({
 
   const updateApplication = async (id: string, application: ICourseApplication) => {
     dispatch(updateApplicationPending());
-    const endpoint = "Application/Update";
+    const endpoint = "CourseApplication/Update";
 
     await instance
       .put(endpoint, { ...application, id })
@@ -96,7 +96,7 @@ export const ApplicationProvider = ({
 
   const deleteApplication = async (id: string) => {
     dispatch(deleteApplicationPending());
-    const endpoint = `Application/Delete?Id=${id}`;
+    const endpoint = `CourseApplication/Delete?Id=${id}`;
 
     await instance
       .delete(endpoint)
@@ -110,7 +110,7 @@ export const ApplicationProvider = ({
 
     const getApplicationsByCourseId = async (id: string) => {
     dispatch(getApplicationsByCourseIdPending());
-    const endpoint = `Application/GetByCourseId?CourseId=${id}`;
+    const endpoint = `CourseApplication/GetByCourseId?CourseId=${id}`;
 
     await instance
       .get(endpoint)
@@ -123,7 +123,7 @@ export const ApplicationProvider = ({
   };
   const approveApplication = async (id: string) => {
     dispatch(approveApplicationPending());
-    const endpoint = `Application/Approve?Id=${id}`;
+    const endpoint = `CourseApplication/Approve?Id=${id}`;
 
     await instance
       .put(endpoint)
@@ -137,7 +137,7 @@ export const ApplicationProvider = ({
 
   const rejectApplication = async (id: string) => {
     dispatch(rejectApplicationPending());
-    const endpoint = `Application/Reject?Id=${id}`;
+    const endpoint = `CourseApplication/Reject?Id=${id}`;
 
     await instance
       .put(endpoint)

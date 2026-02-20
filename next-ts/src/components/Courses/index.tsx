@@ -1,4 +1,5 @@
 'use client';
+import * as Icons from "@ant-design/icons";
 import { ArrowRightOutlined, CheckCircleOutlined, ExceptionOutlined } from "@ant-design/icons";
 import { useProgrammesStyles } from "./style";
 import { ICourse } from "@/src/providers/course-provider/context";
@@ -33,28 +34,34 @@ const Courses: React.FC<ICourseProps> = ({courseList}) => {
 
         :
         (<div className={styles.grid}>
-          {courseList?.map((course, index) => (
-            <div key={index} className={styles.card}>
-              <div
-                className={`${styles.cardIcon}`}
-              >
-                {course.displayIcon}
+          {courseList?.map((course, index) => {
+            const DynamicIcon = Icons[course.displayIcon as keyof typeof Icons] as
+              | React.ComponentType<any>
+              | undefined;
+
+            return (
+              <div key={index} className={styles.card}>
+                <div
+                  className={`${styles.cardIcon}`}
+                >
+                  {DynamicIcon ? <DynamicIcon /> : <ExceptionOutlined />}
+                </div>
+                <h3 className={styles.cardTitle}>{course.title}</h3>
+                <p className={styles.cardDescription}>{course.description}</p>
+                <div className={styles.cardFeatures}>
+                  {course.features.map((feature, idx) => (
+                    <div key={idx} className={styles.cardFeature}>
+                      <CheckCircleOutlined className={styles.cardFeatureIcon} />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.cardLink}>
+                  Learn more <ArrowRightOutlined />
+                </div>
               </div>
-              <h3 className={styles.cardTitle}>{course.title}</h3>
-              <p className={styles.cardDescription}>{course.description}</p>
-              <div className={styles.cardFeatures}>
-                {course.features.map((feature, idx) => (
-                  <div key={idx} className={styles.cardFeature}>
-                    <CheckCircleOutlined className={styles.cardFeatureIcon} />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.cardLink}>
-                Learn more <ArrowRightOutlined />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>)}
       </div>
     </div>

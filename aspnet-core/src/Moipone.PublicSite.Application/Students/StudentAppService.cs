@@ -80,7 +80,6 @@ namespace Moipone.PublicSite.Students
             }
         }
 
-
         public async override Task<StudentDto> GetAsync(EntityDto<Guid> input)
         {
             try
@@ -122,7 +121,6 @@ namespace Moipone.PublicSite.Students
                 );
             }
         }
-
 
         public async override Task<StudentDto> UpdateAsync(StudentDto input)
         {
@@ -245,5 +243,46 @@ namespace Moipone.PublicSite.Students
             }
         }
 
+        public async Task<StudentDto> RegisterStudentDocumentsAsync(Guid studentId)
+        {
+            try
+            {
+                if (studentId == Guid.Empty)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid student ID.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+                var student = await _studentRepository.GetAsync(studentId);
+                if (student == null)
+                {
+                    throw new UserFriendlyException(
+                        $"Student with ID {studentId} not found.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                student.CertifiedId = "RegisteredCertifiedId";
+                student.ProofOfResidence = "RegisteredProofOfResidence";
+                student.CurriculumVitae = "RegisteredCurriculumVitae";
+                student.CertifiedHighestQualification = "RegisteredCertifiedHighestQualification";
+
+                var updatedStudent = await _studentRepository.UpdateAsync(student);
+                return ObjectMapper.Map<StudentDto>(updatedStudent);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error registering documents", ex);
+                throw new UserFriendlyException(
+                    $"Could not register documents for Student. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
     }
 }

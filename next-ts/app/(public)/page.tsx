@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     getAllCourses()
-  }, [])
+  }, []);
 
   return (
     <div>

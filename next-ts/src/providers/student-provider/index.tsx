@@ -20,6 +20,9 @@ import {
   getStudentByEmailPending,
   getStudentByEmailSuccess,
   getStudentByEmailError,
+  registerStudentDocumentsPending,
+  registerStudentDocumentsSuccess,
+  registerStudentDocumentsError,
 } from "./actions";
 import { axiosInstance } from "../../lib/utils/axiosInstance";
 import { StudentReducer } from "./reducer";
@@ -117,6 +120,20 @@ export const StudentProvider = ({
       });
   };
 
+  const registerStudentDocuments = async (studentId: string) => {
+    dispatch(registerStudentDocumentsPending());
+    const endpoint = `Student/RegisterStudentDocuments?studentId=${studentId}`;
+
+    await instance
+      .post(endpoint)
+      .then(() => {
+        dispatch(registerStudentDocumentsSuccess());
+      })
+      .catch((err) => {
+        dispatch(registerStudentDocumentsError(err.message));
+      });
+  }
+
   return (
     <StudentActionContext.Provider
       value={{
@@ -126,6 +143,7 @@ export const StudentProvider = ({
         updateStudent,
         deleteStudent,
         getStudentByEmail,
+        registerStudentDocuments,
       }}
     >
       <StudentStateContext.Provider value={state}>

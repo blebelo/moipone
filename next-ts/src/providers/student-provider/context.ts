@@ -42,10 +42,11 @@ export interface IStudentStateContext {
 export interface IStudentActionContext {
   createStudent: (student?: IStudent) => Promise<void>;
   getAllStudents: () => Promise<void>;
-  getStudentById: (id?: string) => Promise<void>;
-  updateStudent: (id?: string, student?: IStudent) => Promise<void>;
-  deleteStudent: (id?: string) => Promise<void>;
-  getStudentByEmail: (email?: string) => Promise<void>;
+  getStudentById: (id: string) => Promise<void>;
+  updateStudent: (id: string, student?: IStudent) => Promise<void>;
+  deleteStudent: (id: string) => Promise<void>;
+  getStudentByEmail: (email: string) => Promise<void>;
+  registerStudentDocuments: (studentId: string) => Promise<void>;
 }
 
 

@@ -6,18 +6,18 @@ import { useStudentActions, useStudentState } from "@/src/providers/student-prov
 import { IAddress } from "@/src/providers/address-provider/context";
 import { IStudent } from "@/src/providers/student-provider/context";
 import { ICourseApplication } from "@/src/providers/application-provider/context";
-import { useAddressActions, useAddressState } from "@/src/providers/address-provider";
+import { useAddressState } from "@/src/providers/address-provider";
 import { useApplicationActions, useApplicationState } from "@/src/providers/application-provider";
 import Loader from "@/src/components/Loader";
 import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import { calculateAge } from "@/src/lib/common/helper-methods";
+import { message } from "antd";
 
 
 const Apply : React.FC = () => {
   const studentActions = useStudentActions();
-  const addressActions = useAddressActions();
   const applicationActions = useApplicationActions();
   const courseActions = useCourseActions()
 
@@ -42,14 +42,17 @@ const Apply : React.FC = () => {
         delete student.certifiedHighestQualification;
         delete student.certifiedId;
         delete student.curriculumVitae;
+        student.idNumber = student.idNumber?.replace(/\s+/g, "");
         student.dateOfBirth = dayjs(student.dateOfBirth).format('YYYY-MM-DD');
         student.age = calculateAge(student.dateOfBirth)
     
-        console.log(student)
-        await studentActions.createStudent(student);
+        // console.log(student)
+        studentActions.createStudent(student);
+        console.log("Student Info Saved:", studentState.student);
       }
     } catch (error) {
       console.error("Error creating student:", error);
+      message.error("An error occurred while registering student. Please try again."); 
     }
   };
 
@@ -57,7 +60,7 @@ const Apply : React.FC = () => {
     try {
       if (!application) return;
 
-      await applicationActions.createApplication(application);
+      applicationActions.createApplication(application);
 
       console.log("Application submitted successfully");
     } catch (error) {
@@ -75,6 +78,7 @@ const Apply : React.FC = () => {
             courseList={courseState.courses}
             createStudent={createStudent}
             submitApplication={submitApplication}
+            registerDocs={studentActions.registerStudentDocuments}
             currentStudent={studentState.student}
            />
         <Footer />

@@ -95,6 +95,22 @@ export const useApplicationFormStyles = createStyles(() => ({
     fontSize: '15px',
     fontWeight: 600,
   },
+// styles (plug & play)
+
+programmeRadioHidden: {
+  width: "100%",
+  ".ant-radio": { display: "none" }, // hides the circle
+  ".ant-radio + span": { width: "100%", display: "block", padding: 0 }, // keeps your content layout
+},
+
+programmeCheckIcon: {
+  position: "absolute",
+  top: 12,
+  right: 12,
+  fontSize: 18,
+},
+
+
   nextButton: {
     height: '48px',
     padding: '0 32px',

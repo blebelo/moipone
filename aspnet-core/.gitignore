@@ -254,3 +254,10 @@ paket-files/
 src/Moipone.PublicSite.Web.Mvc/secrets.json
 src/Moipone.PublicSite.Web.Host/secrets.json
 src/Moipone.PublicSite.Migrator/secrets.json
+
+
+# Ignore all environment files
+.env
+.env.*
+**/.env
+**/.env.*

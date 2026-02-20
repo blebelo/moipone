@@ -34,6 +34,10 @@ export enum StudentActionEnums {
   getStudentByEmailSuccess = 'GET_STUDENT_BY_EMAIL_SUCCESS',
   getStudentByEmailError = 'GET_STUDENT_BY_EMAIL_ERROR',
   
+  // Register Student Documents
+  registerStudentDocumentsPending = 'REGISTER_STUDENT_DOCUMENTS_PENDING',
+  registerStudentDocumentsSuccess = 'REGISTER_STUDENT_DOCUMENTS_SUCCESS',
+  registerStudentDocumentsError = 'REGISTER_STUDENT_DOCUMENTS_ERROR',
 }
 
 // ==================== CREATE STUDENT ====================
@@ -145,4 +149,21 @@ export const getStudentByEmailSuccess = createAction<IStudentStateContext, IStud
 export const getStudentByEmailError = createAction<IStudentStateContext, string>(
   StudentActionEnums.getStudentByEmailError,
   (error: string) => ({ ...RequestState.Error, error })
+  );
+
+// ==================== REGISTER STUDENT DOCUMENTS ====================
+export const registerStudentDocumentsPending = createAction<IStudentStateContext>(
+  StudentActionEnums.registerStudentDocumentsPending,
+  () => RequestState.Pending
 );
+
+export const registerStudentDocumentsSuccess = createAction<IStudentStateContext>(
+  StudentActionEnums.registerStudentDocumentsSuccess,
+  () => RequestState.Success
+);
+
+export const registerStudentDocumentsError = createAction<IStudentStateContext, string>(
+  StudentActionEnums.registerStudentDocumentsError,
+  (error: string) => ({ ...RequestState.Error, error })
+);
+
