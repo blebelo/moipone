@@ -284,5 +284,57 @@ namespace Moipone.PublicSite.Students
                 );
             }
         }
+
+        public async Task<StudentDto> GetByIdNumberAsync (string idNumber)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idNumber))
+                {
+                    throw new UserFriendlyException(
+                        "ID number cannot be null or empty.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var sanitised = idNumber.Replace(" ", "");
+
+                if (sanitised.Length != 13 || !sanitised.All(char.IsDigit))
+                {
+                    throw new UserFriendlyException(
+                        "ID number must be exactly 13 digits.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var student = await AsyncQueryableExecuter.FirstOrDefaultAsync(
+                    _studentRepository
+                        .GetAllIncluding(s => s.ResidentialAddress)
+                        .Where(s => s.IdNumber == sanitised)
+                );
+
+                if (student == null)
+                {
+                    throw new UserFriendlyException(
+                        $"No student found with given ID number.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                return ObjectMapper.Map<StudentDto>(student);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error retrieving student by ID number", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve student. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
     }
 }

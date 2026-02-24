@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Input,
@@ -15,6 +15,7 @@ import { CheckOutlined } from "@ant-design/icons";
 import { useApplicationFormStyles } from "./style";
 import {
   genderOptions,
+  IApplicationFormProps,
   provinceOptions,
   steps,
 } from "@/src/lib/common/constants";
@@ -23,37 +24,30 @@ import {
   RefListApplicationStatus,
 } from "@/src/providers/application-provider/context";
 import { FileUpload } from "../FileUpload";
-import { IAddress } from "@/src/providers/address-provider/context";
-import { IStudent } from "@/src/providers/student-provider/context";
-import { ICourse } from "@/src/providers/course-provider/context";
 import dayjs from "dayjs";
 import {
   formatSaIdNumber,
   formatPhoneNumber,
+  parseDateOfBirth,
+  sanitizeStudentData,
 } from "@/src/lib/common/helper-methods";
-import { register } from "module";
-
-interface IApplicationFormProps {
-  courseList?: ICourse[];
-  createStudent: (address?: IAddress, student?: IStudent) => Promise<void>;
-  submitApplication: (application?: ICourseApplication) => Promise<void>;
-  registerDocs: (studentId: string) => Promise<void>;
-  currentStudent?: IStudent;
-}
+import { IStudent } from "@/src/providers/student-provider/context";
+// import StatusBanner from "../StatusBanner";
 
 const ApplicationForm: React.FC<IApplicationFormProps> = ({
   courseList,
+  studentState,
   createStudent,
   submitApplication,
   registerDocs,
-  currentStudent,
+  getStudentByIdNumber,
 }) => {
   const { styles } = useApplicationFormStyles();
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-
+  const [existingStudent, setExisitingStudent] = useState<IStudent | null>(null);
+  // const [banner, setBanner] = useState<StatusBanner | null>(null);
   const [form] = Form.useForm<ICourseApplication>();
-
   const [formData, setFormData] = useState<ICourseApplication>({
     id: "",
     studentId: "",
@@ -106,24 +100,50 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
       form.setFieldsValue(merged);
 
       if (currentStep === 0) {
-        createStudent(merged.student?.residentialAddress, merged.student);
+        if (existingStudent?.id) {
+          setFormData((prev) => ({
+            ...prev,
+            studentId: existingStudent.id,
+          }));
 
-        setFormData((prev) => ({
-          ...prev,
-          studentId: currentStudent?.id,
-        }));
+          setCurrentStep((s) => s + 1);
+          message.success("Student loaded. Proceeding.");
+          return;
+        }
 
-        
-        setCurrentStep((s) => s + 1);
+        createStudent(sanitizeStudentData(merged.student))
+          .then((created) => {
+            setExisitingStudent(created);
+
+            const id = created?.id || "";
+
+            setFormData((prev) => ({
+              ...prev,
+              studentId: id,
+              student: created,
+            }));
+
+            form.setFieldsValue({
+              ...merged,
+              studentId: id,
+              student: created,
+            });
+
+            setCurrentStep((s) => s + 1);
+            message.success("Student created successfully.");
+          })
+          .catch(() => {
+            message.error("Failed to save student information.");
+          });
+
         return;
-      }
+      };
 
       if (currentStep === 1) {
         message.success(
           "Student information saved! Please upload the required documents to proceed.",
         );
-        registerDocs(`${formData.studentId}`);
-        console.log("All Course Info Filled:", merged);
+        await registerDocs(`${formData.studentId}`);
         message.success(
           "Documents uploaded successfully! Please review your application before submitting.",
         );
@@ -150,6 +170,35 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
   const handlePrev = () => {
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   };
+
+const lookupStudent = () => {
+  const raw = form.getFieldValue(["student", "idNumber"]) as string;
+  const idNumber = (raw || "").replace(/\s+/g, "");
+  if (!idNumber) return;
+
+  getStudentByIdNumber(idNumber)
+    .then((existingStudent) => {
+      if (!existingStudent) {
+        setExisitingStudent(null);
+        return;
+      }
+      setExisitingStudent(existingStudent);
+
+      const updated: ICourseApplication = {
+        ...formData,
+        student: existingStudent,
+        studentId: existingStudent.id || "",
+      };
+
+      setFormData(updated);
+      form.setFieldsValue(updated);
+
+      message.success("Existing student found. Form pre-filled.");
+    })
+    .catch(() => {
+      message.info("Couldn’t verify student right now. Proceed Manually");
+    });
+};
 
   if (submitted) {
     return (
@@ -299,6 +348,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                   <Input
                     className={styles.input}
                     placeholder="XXXXXX XXXX XX X"
+                    onBlur={lookupStudent}
                     onChange={(e) => {
                       const formatted = formatSaIdNumber(e.target.value);
                       form.setFieldValue(["student", "idNumber"], formatted);
@@ -338,7 +388,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                     />
                   </Form.Item>
 
-                  <Form.Item
+                  {/* <Form.Item
                     label="Date of Birth"
                     className={styles.inputGroup}
                     name={["student", "dateOfBirth"]}
@@ -363,14 +413,30 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                     <DatePicker
                       style={{ width: "100%", height: "48px" }}
                       placeholder="Select date"
-                      // disabledDate={(current) => current && current > dayjs().subtract(18, 'year')}
+                      value={
+                        formData.student?.dateOfBirth
+                          ? dayjs(formData.student.dateOfBirth)
+                          : null
+                      }
+                      disabledDate={(current) =>
+                        current && current > dayjs().subtract(18, "year")
+                      }
                       onChange={(date) => {
-                        form.setFieldValue(["student", "dateOfBirth"], date);
+                        const dob = date ? date.toISOString() : undefined;
+                        form.setFieldValue(["student", "dateOfBirth"], dob);
+                        setFormData((prev) => ({
+                          ...prev,
+                          student: {
+                            ...prev.student,
+                            dateOfBirth: dob,
+                            age: date ? dayjs().diff(date, "year") : undefined,
+                          },
+                        }));
                       }}
                     />
-                  </Form.Item>
+                  </Form.Item> */}
                 </div>
-                <Form.Item
+                {/* <Form.Item
                   label="Gender"
                   className={styles.inputGroup}
                   name={["student", "gender"]}
@@ -381,7 +447,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                     placeholder="Select gender"
                     options={genderOptions}
                   />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item
                   label="Street Address"
                   className={styles.inputGroup}
@@ -422,7 +488,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                     <Input className={styles.input} placeholder="Postal Code" />
                   </Form.Item>
 
-                  <Form.Item
+                  {/* <Form.Item
                     label="Province"
                     className={styles.inputGroup}
                     name={["student", "residentialAddress", "province"]}
@@ -435,7 +501,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                       placeholder="Select province"
                       options={provinceOptions}
                     />
-                  </Form.Item>
+                  </Form.Item> */}
 
                   <Form.Item
                     label="Country"

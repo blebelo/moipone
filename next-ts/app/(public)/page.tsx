@@ -27,6 +27,9 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
+      
+      {isPending && <p>Loading...</p>}
+      
       <Header />
       <section className={styles.heroSection}>
         <div className={styles.heroBackground} />

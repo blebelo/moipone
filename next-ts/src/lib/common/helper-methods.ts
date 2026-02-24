@@ -1,3 +1,4 @@
+import { IStudent } from "@/src/providers/student-provider/context";
 import { MAX_SIZE, StateMap } from "./constants";
 import { getPresignedPost } from "./server-actions";
 import { message, Upload } from "antd";
@@ -28,8 +29,7 @@ export const renameFile = (userFile: File, baseName: string): string => {
 export const handleUpload = async (
   file: File,
   studentId: string,
-  filename: string,
-  label: string,
+  filename: string
 ) => {
   if (file.size > MAX_SIZE) {
     message.error("File must be 5MB or smaller");
@@ -104,3 +104,20 @@ export const formatSaIdNumber = (value: string): string => {
     .filter(Boolean)
     .join(" ");
 };
+
+export const parseDateOfBirth = (dob: string): dayjs.Dayjs => dayjs(dob, "YYYY-MM-DD");
+
+export const sanitizeStudentData = (student?: IStudent): IStudent => {
+    if (!student) return {} as IStudent;
+    delete student.id;
+    delete student.proofOfResidence;
+    delete student.certifiedHighestQualification;
+    delete student.certifiedId;
+    delete student.curriculumVitae;
+    delete student.residentialAddress?.id
+    student.idNumber = student.idNumber?.replace(/\s+/g, "");
+    student.dateOfBirth = dayjs(student.dateOfBirth).format('YYYY-MM-DD');
+    student.age = calculateAge(student.dateOfBirth)
+
+    return student;
+}

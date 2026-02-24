@@ -1,12 +1,17 @@
-import { IAddressStateContext } from "@/src/providers/address-provider/context";
-import { IApplicationStateContext } from "@/src/providers/application-provider/context";
-import { ICourseStateContext } from "@/src/providers/course-provider/context";
-import { IStudentStateContext } from "@/src/providers/student-provider/context";
+import { IAddress, IAddressStateContext } from "@/src/providers/address-provider/context";
+import { IApplicationStateContext, ICourseApplication } from "@/src/providers/application-provider/context";
+import { ICourse, ICourseStateContext } from "@/src/providers/course-provider/context";
+import { IStudent, IStudentStateContext } from "@/src/providers/student-provider/context";
 import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
   DesktopOutlined,
+  ExclamationCircleOutlined,
+  InfoCircleOutlined,
   RobotOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
+import React from "react";
 
 export const RequestState = {
   Pending: { isPending: true, isSuccess: false, isError: false },
@@ -41,7 +46,6 @@ interface Stat {
 export const steps = [
     { title: "Personal Info" },
     { title: "Programme" },
-    { title: "Guardian" },
     { title: "Review" },
   ];
 
@@ -147,3 +151,20 @@ export const experienceOptions = [
   },
 ];
 
+export interface IApplicationFormProps {
+  courseList?: ICourse[];
+  studentState?: IStudentStateContext;
+  createStudent: (student?: IStudent) => Promise<IStudent>;
+  submitApplication: (application?: ICourseApplication) => Promise<void>;
+  registerDocs: (studentId: string) => Promise<void>;
+  getStudentByIdNumber: (idNumber: string) => Promise<IStudent | null>;
+}
+
+export type MessageVariant = 'success' | 'error' | 'warning' | 'info';
+
+export const MESSAGE_ICONS: Record<MessageVariant, React.ReactNode> = {
+  success: React.createElement(CheckCircleOutlined),
+  error:   React.createElement(CloseCircleOutlined),
+  warning: React.createElement(ExclamationCircleOutlined),
+  info:    React.createElement(InfoCircleOutlined),
+};

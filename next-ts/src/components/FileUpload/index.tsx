@@ -30,7 +30,7 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
       };
 
       try {
-        await handleUpload(f, studentId, uploadedFile.name, label);
+        await handleUpload(f, studentId, uploadedFile.name);
         setFile(uploadedFile);
       } catch (err) {
         console.error('Could Not Upload Document: ', err)

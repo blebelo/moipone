@@ -44,6 +44,11 @@ export const StudentReducer = handleActions<
     [StudentActionEnums.registerStudentDocumentsPending]: mergePayloadHandler,
     [StudentActionEnums.registerStudentDocumentsSuccess]: mergePayloadHandler,
     [StudentActionEnums.registerStudentDocumentsError]: mergePayloadHandler,
+
+    // getStudentByIdNumber
+    [StudentActionEnums.getStudentByIdNumberPending]: mergePayloadHandler,
+    [StudentActionEnums.getStudentByIdNumberSuccess]: mergePayloadHandler,
+    [StudentActionEnums.getStudentByIdNumberError]: mergePayloadHandler,
   },
   INITIAL_STATE
 );
