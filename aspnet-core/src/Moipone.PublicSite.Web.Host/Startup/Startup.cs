@@ -17,7 +17,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using dotenv.net;
 
 
 namespace Moipone.PublicSite.Web.Host.Startup
@@ -34,13 +33,7 @@ namespace Moipone.PublicSite.Web.Host.Startup
         public Startup(IWebHostEnvironment env)
         {
             _hostingEnvironment = env;
-
-            DotEnv.Load();
             _appConfiguration = env.GetAppConfiguration();
-
-            string s3Prefix = Environment.GetEnvironmentVariable("App__S3Prefix");
-            var rawEnv = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
-            var configValue = _appConfiguration["ConnectionStrings:Default"];
         }
 
         public void ConfigureServices(IServiceCollection services)
