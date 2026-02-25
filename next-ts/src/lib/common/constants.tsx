@@ -1,4 +1,3 @@
-import { IAddress, IAddressStateContext } from "@/src/providers/address-provider/context";
 import { IApplicationStateContext, ICourseApplication } from "@/src/providers/application-provider/context";
 import { ICourse, ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudent, IStudentStateContext } from "@/src/providers/student-provider/context";
@@ -14,8 +13,8 @@ import {
 import React from "react";
 
 export const RequestState = {
-  Pending: { isPending: true, isSuccess: false, isError: false },
-  Success: { isPending: false, isSuccess: true, isError: false },
+  Pending: { isPending: true, isSuccess: false, isError: false, error: undefined },
+  Success: { isPending: false, isSuccess: true, isError: false , error: undefined},
   Error: { isPending: false, isSuccess: false, isError: true },
 };
 
@@ -25,7 +24,7 @@ export const INITIAL_STATE = {
   isError: false,
 };
 
-export type StateMap = IStudentStateContext | ICourseStateContext | IAddressStateContext | IApplicationStateContext;
+export type StateMap = IStudentStateContext | ICourseStateContext | IApplicationStateContext;
 
 export interface IFileUploadProps {
   studentId: string;

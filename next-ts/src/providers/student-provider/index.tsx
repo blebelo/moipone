@@ -157,12 +157,11 @@ export const StudentProvider = ({
         const status = err?.response?.status;
 
         if (status === 404) {
-          dispatch(getStudentByIdNumberError("NOT_FOUND"));
           return null;
         }
 
         dispatch(getStudentByIdNumberError(err.message));
-        throw err;
+        throw new Error(err.message);
       });
   };
 

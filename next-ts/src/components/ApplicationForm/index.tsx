@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -46,7 +46,6 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
   const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [existingStudent, setExisitingStudent] = useState<IStudent | null>(null);
-  // const [banner, setBanner] = useState<StatusBanner | null>(null);
   const [form] = Form.useForm<ICourseApplication>();
   const [formData, setFormData] = useState<ICourseApplication>({
     id: "",
@@ -186,7 +185,10 @@ const lookupStudent = () => {
 
       const updated: ICourseApplication = {
         ...formData,
-        student: existingStudent,
+        student: {...existingStudent,
+          dateOfBirth: dayjs(existingStudent.dateOfBirth).toISOString(),
+          // dateOfBirth: parseDateOfBirth(`${existingStudent.dateOfBirth}`)
+        },
         studentId: existingStudent.id || "",
       };
 
@@ -388,55 +390,51 @@ const lookupStudent = () => {
                     />
                   </Form.Item>
 
-                  {/* <Form.Item
+                  <Form.Item
                     label="Date of Birth"
                     className={styles.inputGroup}
                     name={["student", "dateOfBirth"]}
                     rules={[
-                      {
-                        required: true,
-                        message: "Please select your date of birth",
-                      },
+                      { required: true, message: "Please select your date of birth" },
                       {
                         validator: (_, value) => {
                           if (!value) return Promise.resolve();
-                          const age = dayjs().diff(dayjs(value), "year");
+                          const age = dayjs().diff(dayjs(value, "YYYY-MM-DD"), "year");
                           return age >= 18
                             ? Promise.resolve()
-                            : Promise.reject(
-                                new Error("You must be at least 18 years old"),
-                              );
+                            : Promise.reject(new Error("You must be at least 18 years old"));
                         },
                       },
                     ]}
+                    // Form stores string -> DatePicker needs dayjs
+                    getValueProps={(value) => ({
+                      value: value ? dayjs(value, "YYYY-MM-DD") : null,
+                    })}
+                    // DatePicker emits dayjs -> store string in Form
+                    getValueFromEvent={(date: dayjs.Dayjs | null) =>
+                      date ? date.format("YYYY-MM-DD") : undefined
+                    }
                   >
                     <DatePicker
                       style={{ width: "100%", height: "48px" }}
                       placeholder="Select date"
-                      value={
-                        formData.student?.dateOfBirth
-                          ? dayjs(formData.student.dateOfBirth)
-                          : null
-                      }
                       disabledDate={(current) =>
-                        current && current > dayjs().subtract(18, "year")
+                        !!current && current > dayjs().subtract(18, "year")
                       }
                       onChange={(date) => {
-                        const dob = date ? date.toISOString() : undefined;
-                        form.setFieldValue(["student", "dateOfBirth"], dob);
+                        // optional: keep age in sync
                         setFormData((prev) => ({
                           ...prev,
                           student: {
                             ...prev.student,
-                            dateOfBirth: dob,
                             age: date ? dayjs().diff(date, "year") : undefined,
                           },
                         }));
                       }}
                     />
-                  </Form.Item> */}
+                  </Form.Item>
                 </div>
-                {/* <Form.Item
+                <Form.Item
                   label="Gender"
                   className={styles.inputGroup}
                   name={["student", "gender"]}
@@ -447,7 +445,7 @@ const lookupStudent = () => {
                     placeholder="Select gender"
                     options={genderOptions}
                   />
-                </Form.Item> */}
+                </Form.Item>
                 <Form.Item
                   label="Street Address"
                   className={styles.inputGroup}
@@ -488,7 +486,7 @@ const lookupStudent = () => {
                     <Input className={styles.input} placeholder="Postal Code" />
                   </Form.Item>
 
-                  {/* <Form.Item
+                  <Form.Item
                     label="Province"
                     className={styles.inputGroup}
                     name={["student", "residentialAddress", "province"]}
@@ -501,7 +499,7 @@ const lookupStudent = () => {
                       placeholder="Select province"
                       options={provinceOptions}
                     />
-                  </Form.Item> */}
+                  </Form.Item>
 
                   <Form.Item
                     label="Country"
@@ -722,7 +720,7 @@ const lookupStudent = () => {
               className={styles.nextButton}
               onClick={handleNext}
             >
-              {currentStep === 3 ? "Submit Application" : "Next Step"}
+              {currentStep === 2 ? "Submit Application" : "Next Step"}
             </Button>
           </div>
         </div>
