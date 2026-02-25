@@ -2,12 +2,16 @@
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.Domain.Students;
 using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Moipone.PublicSite.Students
 {
@@ -16,10 +20,12 @@ namespace Moipone.PublicSite.Students
           IStudentAppService
     {
         private readonly IRepository<Student, Guid> _studentRepository;
+        private readonly IConfigurationRoot _config;
 
-        public StudentAppService(IRepository<Student, Guid> studentRepository)
+        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config)
             : base(studentRepository)
         {
+            _config = config;
             _studentRepository = studentRepository;
         }
 
@@ -263,10 +269,12 @@ namespace Moipone.PublicSite.Students
                     );
                 }
 
-                student.CertifiedId = "RegisteredCertifiedId";
-                student.ProofOfResidence = "RegisteredProofOfResidence";
-                student.CurriculumVitae = "RegisteredCurriculumVitae";
-                student.CertifiedHighestQualification = "RegisteredCertifiedHighestQualification";
+                string s3Prefix = _config["App:S3Prefix"];
+
+                student.CertifiedId = $"{s3Prefix}/{studentId}/id.pdf";
+                student.ProofOfResidence = $"{s3Prefix}";
+                student.CurriculumVitae = $"{s3Prefix}";
+                student.CertifiedHighestQualification = $"{s3Prefix}";
 
                 var updatedStudent = await _studentRepository.UpdateAsync(student);
                 return ObjectMapper.Map<StudentDto>(updatedStudent);

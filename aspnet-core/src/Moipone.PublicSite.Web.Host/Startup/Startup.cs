@@ -35,11 +35,12 @@ namespace Moipone.PublicSite.Web.Host.Startup
         {
             _hostingEnvironment = env;
 
-            DotEnv.Load(options: new DotEnvOptions(
-                ignoreExceptions: false,        
-                overwriteExistingVars: true   
-            ));
+            DotEnv.Load();
             _appConfiguration = env.GetAppConfiguration();
+
+            string s3Prefix = Environment.GetEnvironmentVariable("App__S3Prefix");
+            var rawEnv = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
+            var configValue = _appConfiguration["ConnectionStrings:Default"];
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -72,6 +73,8 @@ namespace Moipone.PublicSite.Web.Host.Startup
                         .AllowCredentials()
                 )
             );
+
+            services.AddSingleton<IConfigurationRoot>(_appConfiguration);
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
