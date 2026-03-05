@@ -21,5 +21,13 @@ namespace Moipone.PublicSite.Domain.Addresses
         [Required]
         [MaxLength(5)]
         public string PostalCode { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string Province { get; set; }
+
+        [Required]
+        [MaxLength(20)]
+        public string Country { get; set; }
     }
 }

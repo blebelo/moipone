@@ -3,6 +3,8 @@ using Moipone.PublicSite.Web;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Abp.Data;
+using System;
 
 namespace Moipone.PublicSite.EntityFrameworkCore;
 
@@ -19,9 +21,9 @@ public class PublicSiteDbContextFactory : IDesignTimeDbContextFactory<PublicSite
          Use Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") method or from string[] args to get environment if necessary.
          https://docs.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli#args
          */
-        var configuration = AppConfigurations.Get(WebContentDirectoryFinder.CalculateContentRootFolder());
+        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
 
-        PublicSiteDbContextConfigurer.Configure(builder, configuration.GetConnectionString(PublicSiteConsts.ConnectionStringName));
+        PublicSiteDbContextConfigurer.Configure(builder, connectionString);
 
         return new PublicSiteDbContext(builder.Options);
     }

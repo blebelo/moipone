@@ -55,22 +55,18 @@ public class Student : FullAuditedEntity<Guid>
     #endregion
 
     #region Submitted Documents
-    [Required]
     [StringLength(255)]
     [Url]
     public string CertifiedId { get; set; }
 
-    [Required]
     [StringLength(255)]
     [Url]
     public string ProofOfResidence { get; set; }
 
-    [Required]
     [StringLength(255)]
     [Url]
     public string CurriculumVitae { get; set; }
 
-    [Required]
     [StringLength(255)]
     [Url]
     public string CertifiedHighestQualification { get; set; }

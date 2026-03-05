@@ -13,6 +13,5 @@ namespace Moipone.PublicSite.ShortCourses
         Task<ShortCourseDto> CloseApplicationsAsync(Guid id);
         Task<ShortCourseDto> ReopenApplicationsAsync(Guid id);
         Task<List<ShortCourseDto>> GetOpenCoursesAsync();
-        Task<int> GetCurrentCapacityAsync(Guid id);
     }
 }

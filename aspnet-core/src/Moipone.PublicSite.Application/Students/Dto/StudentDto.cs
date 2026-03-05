@@ -12,9 +12,10 @@ namespace Moipone.PublicSite.Students.Dto
         #region Personal Information
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public int? Age { get; set; }
-        public string? Gender { get; set; }
+        public DateOnly? DateOfBirth { get; set; }
+        public RefListGender? Gender { get; set; }
         public string? EmailAddress { get; set; }
+        public string? IdNumber { get; set; }
         public string? PhoneNumber { get; set; }
         public AddressDto? ResidentialAddress { get; set; }
         #endregion

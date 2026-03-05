@@ -6,9 +6,11 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 import { useFooterStyles } from "./style";
+import { useRouter } from "next/navigation";
 
 const Footer : React.FC = () => {
   const { styles } = useFooterStyles();
+  const router = useRouter();
 
   return (
     <footer id="contact" className={styles.footer}>
@@ -47,7 +49,7 @@ const Footer : React.FC = () => {
 
           <div className={styles.column}>
             <h4 className={styles.columnTitle}>Get Involved</h4>
-            <div className={styles.columnLinks}>
+            <div className={styles.columnLinks} onClick={() => {router.push('/apply')}}>
               <a className={styles.columnLink}>Apply Now</a>
               <a className={styles.columnLink}>Volunteer</a>
               <a className={styles.columnLink}>Partner With Us</a>

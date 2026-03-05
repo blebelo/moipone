@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+
 namespace Moipone.PublicSite.Web.Host.Startup
 {
     public class Startup
@@ -65,6 +66,8 @@ namespace Moipone.PublicSite.Web.Host.Startup
                         .AllowCredentials()
                 )
             );
+
+            services.AddSingleton<IConfigurationRoot>(_appConfiguration);
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
@@ -124,14 +127,13 @@ namespace Moipone.PublicSite.Web.Host.Startup
                 options.SwaggerDoc(_apiVersion, new OpenApiInfo
                 {
                     Version = _apiVersion,
-                    Title = "PublicSite API",
-                    Description = "PublicSite",
+                    Title = "Moipone PublicSite API",
+                    Description = "PublicSiteAPI",
                     // uncomment if needed TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
-                        Name = "PublicSite",
-                        Email = string.Empty,
-                        Url = new Uri("https://twitter.com/aspboilerplate"),
+                        Name = "Moipone Academy",
+                        Email = "info@moiponeacademy.org"
                     },
                     License = new OpenApiLicense
                     {

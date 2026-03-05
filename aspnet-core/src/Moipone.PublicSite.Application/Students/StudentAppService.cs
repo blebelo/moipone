@@ -2,12 +2,16 @@
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.Domain.Students;
 using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace Moipone.PublicSite.Students
 {
@@ -16,10 +20,12 @@ namespace Moipone.PublicSite.Students
           IStudentAppService
     {
         private readonly IRepository<Student, Guid> _studentRepository;
+        private readonly IConfigurationRoot _config;
 
-        public StudentAppService(IRepository<Student, Guid> studentRepository)
+        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config)
             : base(studentRepository)
         {
+            _config = config;
             _studentRepository = studentRepository;
         }
 
@@ -53,12 +59,12 @@ namespace Moipone.PublicSite.Students
             }
         }
 
-        public async override Task<PagedResultDto<StudentDto>> GetAllAsync(
-            PagedAndSortedResultRequestDto input)
+        public async override Task<PagedResultDto<StudentDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             try
             {
-                var query = Repository.GetAll();
+                var query = await Repository.GetAllIncludingAsync(s => s.ResidentialAddress);
+
                 var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
                 var students = await AsyncQueryableExecuter.ToListAsync(
@@ -92,7 +98,11 @@ namespace Moipone.PublicSite.Students
                     );
                 }
 
-                var student = await _studentRepository.GetAsync(input.Id);
+                var query = await _studentRepository.GetAllIncludingAsync(s => s.ResidentialAddress);
+
+                var student = await AsyncQueryableExecuter.FirstOrDefaultAsync(
+                    query.Where(s => s.Id == input.Id)
+                );
 
                 if (student == null)
                 {
@@ -239,5 +249,100 @@ namespace Moipone.PublicSite.Students
             }
         }
 
+        public async Task<StudentDto> RegisterStudentDocumentsAsync(Guid studentId)
+        {
+            try
+            {
+                if (studentId == Guid.Empty)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid student ID.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+                var student = await _studentRepository.GetAsync(studentId);
+                if (student == null)
+                {
+                    throw new UserFriendlyException(
+                        $"Student with ID {studentId} not found.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                string s3Prefix = _config["App:S3Prefix"];
+
+                student.CertifiedId = $"{s3Prefix}/{studentId}/id.pdf";
+                student.ProofOfResidence = $"{s3Prefix}/{studentId}/proof-of-residence.pdf";
+                student.CurriculumVitae = $"{s3Prefix}/{studentId}/cv.pdf";
+                student.CertifiedHighestQualification = $"{s3Prefix}/{studentId}/highest-qualifications.pdf";
+
+                var updatedStudent = await _studentRepository.UpdateAsync(student);
+                return ObjectMapper.Map<StudentDto>(updatedStudent);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error registering documents", ex);
+                throw new UserFriendlyException(
+                    $"Could not register documents for Student. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
+
+        public async Task<StudentDto> GetByIdNumberAsync (string idNumber)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(idNumber))
+                {
+                    throw new UserFriendlyException(
+                        "ID number cannot be null or empty.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var sanitised = idNumber.Replace(" ", "");
+
+                if (sanitised.Length != 13 || !sanitised.All(char.IsDigit))
+                {
+                    throw new UserFriendlyException(
+                        "ID number must be exactly 13 digits.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var student = await AsyncQueryableExecuter.FirstOrDefaultAsync(
+                    _studentRepository
+                        .GetAllIncluding(s => s.ResidentialAddress)
+                        .Where(s => s.IdNumber == sanitised)
+                );
+
+                if (student == null)
+                {
+                    throw new UserFriendlyException(
+                        $"No student found with given ID number.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                return ObjectMapper.Map<StudentDto>(student);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error retrieving student by ID number", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve student. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+        }
     }
 }

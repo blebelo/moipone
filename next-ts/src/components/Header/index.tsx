@@ -42,7 +42,7 @@ const Header : React.FC = () => {
               {item.label}
             </a>
           ))}
-          <Button type="primary" className={styles.applyButton}>
+          <Button type="primary" className={styles.applyButton} onClick={() => router.push("/apply")}>
             Apply Now
           </Button>
         </nav>

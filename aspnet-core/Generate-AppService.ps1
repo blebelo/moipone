@@ -86,67 +86,159 @@ namespace $Namespace.$PluralEntityName
 
         public override async Task<${EntityName}Dto> CreateAsync(${EntityName}Dto input)
         {
-            if (input == null)
+            try
             {
-                throw new UserFriendlyException("$EntityName data cannot be null.");
+                if (input == null)
+                {
+                    throw new UserFriendlyException(
+                        "$EntityName data cannot be null.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var entity = ObjectMapper.Map<$EntityName>(input);
+                var result = await _${EntityLower}Repository.InsertAsync(entity);
+
+                return ObjectMapper.Map<${EntityName}Dto>(result);
             }
-
-            var entity = ObjectMapper.Map<$EntityName>(input);
-            var result = await _${EntityLower}Repository.InsertAsync(entity);
-
-            return ObjectMapper.Map<${EntityName}Dto>(result);
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error creating $EntityName", ex);
+                throw new UserFriendlyException(
+                    $"Could not create $EntityName. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
         }
 
         public override async Task<PagedResultDto<${EntityName}Dto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
-            var query = Repository.GetAll();
-            var totalCount = await AsyncQueryableExecuter.CountAsync(query);
+            try
+            {
+                var query = Repository.GetAll();
+                var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
-            var items = await AsyncQueryableExecuter.ToListAsync(
-                query.OrderBy(x => x.Id)
-                     .Skip(input.SkipCount)
-                     .Take(input.MaxResultCount)
-            );
+                var items = await AsyncQueryableExecuter.ToListAsync(
+                    query.OrderBy(x => x.Id)
+                         .Skip(input.SkipCount)
+                         .Take(input.MaxResultCount)
+                );
 
-            return new PagedResultDto<${EntityName}Dto>(
-                totalCount,
-                ObjectMapper.Map<List<${EntityName}Dto>>(items)
-            );
+                return new PagedResultDto<${EntityName}Dto>(
+                    totalCount,
+                    ObjectMapper.Map<List<${EntityName}Dto>>(items)
+                );
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error retrieving $PluralEntityName", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve $PluralEntityName. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
         }
 
         public override async Task<${EntityName}Dto> GetAsync(EntityDto<Guid> input)
         {
-            if (input == null || input.Id == Guid.Empty)
+            try
             {
-                throw new UserFriendlyException("Invalid ID.");
-            }
+                if (input == null || input.Id == Guid.Empty)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid $EntityName ID.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
 
-            var entity = await _${EntityLower}Repository.GetAsync(input.Id);
-            return ObjectMapper.Map<${EntityName}Dto>(entity);
+                var entity = await _${EntityLower}Repository.GetAsync(input.Id);
+
+                if (entity == null)
+                {
+                    throw new UserFriendlyException(
+                        "$EntityName not found.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                return ObjectMapper.Map<${EntityName}Dto>(entity);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error retrieving $EntityName with ID {input?.Id}", ex);
+                throw new UserFriendlyException(
+                    $"Could not retrieve $EntityName. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
         }
 
         public override async Task<${EntityName}Dto> UpdateAsync(${EntityName}Dto input)
         {
-            if (input == null || input.Id == Guid.Empty)
+            try
             {
-                throw new UserFriendlyException("Invalid ID.");
+                if (input == null || input.Id == Guid.Empty)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid $EntityName data.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var entity = await _${EntityLower}Repository.GetAsync(input.Id);
+                ObjectMapper.Map(input, entity);
+
+                var updated = await _${EntityLower}Repository.UpdateAsync(entity);
+                return ObjectMapper.Map<${EntityName}Dto>(updated);
             }
-
-            var entity = await _${EntityLower}Repository.GetAsync(input.Id);
-            ObjectMapper.Map(input, entity);
-
-            var updated = await _${EntityLower}Repository.UpdateAsync(entity);
-            return ObjectMapper.Map<${EntityName}Dto>(updated);
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error updating $EntityName with ID {input?.Id}", ex);
+                throw new UserFriendlyException(
+                    $"Could not update $EntityName. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
         }
 
         public override async Task DeleteAsync(EntityDto<Guid> input)
         {
-            if (input == null || input.Id == Guid.Empty)
+            try
             {
-                throw new UserFriendlyException("Invalid ID.");
-            }
+                if (input == null || input.Id == Guid.Empty)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid $EntityName ID.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
 
-            await _${EntityLower}Repository.DeleteAsync(input.Id);
+                await _${EntityLower}Repository.DeleteAsync(input.Id);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error deleting $EntityName with ID {input?.Id}", ex);
+                throw new UserFriendlyException(
+                    $"Could not delete $EntityName. Error: {ex.Message}",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
         }
     }
 }

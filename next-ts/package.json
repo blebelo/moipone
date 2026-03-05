@@ -9,10 +9,14 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@aws-sdk/client-s3": "^3.983.0",
+    "@aws-sdk/s3-presigned-post": "^3.983.0",
     "@types/redux": "^3.6.31",
     "antd": "^6.2.2",
     "antd-style": "^4.1.0",
-    "axios": "^1.13.2",
+    "axios": "^1.13.5",
+    "dayjs": "^1.11.19",
     "next": "^16.1.6",
     "react": "19.2.1",
     "react-dom": "19.2.1",

@@ -1,5 +1,17 @@
 import { createStyles } from "antd-style";
 
+const heroButtonBase = {
+  height: "3.375rem",
+  padding: "0 1.75rem",
+  fontSize: "clamp(0.9rem, 1vw, 1rem)",
+  fontWeight: 600,
+  borderRadius: "0.75rem",
+  transition: "all 0.3s ease",
+};
+
+const primaryBorderGradient =
+  "linear-gradient(transparent, transparent) padding-box, linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--color-peach) 25%, transparent) 100%) border-box";
+
 export const useHomePageStyles = createStyles(() => ({
   /* Hero Section */
   heroSection: {
@@ -72,7 +84,7 @@ export const useHomePageStyles = createStyles(() => ({
 
   heroSubtitle: {
     fontSize: "clamp(0.9rem, 2vw, 1.35rem)",
-    color: "rgba(255, 255, 255, 0.85)",
+    color: "var(--color-text-light)",
     lineHeight: 1.5,
     marginBottom: "2rem",
     maxWidth: "45vw",
@@ -102,37 +114,42 @@ export const useHomePageStyles = createStyles(() => ({
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    gap: "0.75rem", // smaller gap on small screens
+    gap: "0.75rem", 
   },
   primaryButton: {
-    height: "3.375rem",
-    padding: "0 1.75rem",
-    fontSize: "clamp(0.9rem, 1vw, 1rem)", // scale on small screens
-    fontWeight: 600,
-    borderRadius: "0.75rem",
-    background:
-      "linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%)",
-    boxShadow: "0 0.5rem 2rem -0.5rem rgba(247, 147, 30, 0.5)",
-    transition: "all 0.3s ease",
+    ...heroButtonBase,
+    color: "white !important",
+    border: "0.125rem solid transparent !important",
+    backgroundColor: "transparent !important",
+    transform: "scale(1)",
+    transition: "transform 0.65s ease, box-shadow 0.3s ease, color 0.3s ease",
+    background: `${primaryBorderGradient} !important`,
+    boxShadow: "0 0.5rem 2rem -0.5rem var(--color-peach)",
+    "&:hover, &:focus, &:active": {
+      color: "var(--color-peach) !important",
+      border: "0.125rem solid transparent !important",
+      backgroundColor: "transparent !important",
+      background: `${primaryBorderGradient} !important`,
+      boxShadow: "0 0.75rem 2.5rem -0.5rem var(--color-peach)",
+    },
     "&:hover": {
-      background:
-        "linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%) !important",
-      transform: "translateY(-0.125rem)",
-      boxShadow: "0 0.75rem 2.5rem -0.5rem rgba(247, 147, 30, 0.6)",
+      transform: "scale(1.07)",
+    },
+    "&:focus-visible": {
+      outline: "none",
     },
   },
   secondaryButton: {
-    height: "3.375rem",
-    padding: "0 1.75rem",
-    fontSize: "clamp(0.9rem, 1vw, 1rem)",
-    fontWeight: 600,
-    borderRadius: "0.75rem",
+    ...heroButtonBase,
     color: "var(--color-peach)",
     background: "rgba(255, 255, 255, 0.1)",
     border: "0.125rem solid rgba(255, 255, 255, 0.3)",
     backdropFilter: "blur(0.5rem)",
-    transition: "all 0.3s ease",
+    transform: "scale(1)",
+    transition:
+      "transform 0.65s ease, color 0.3s ease, background 0.3s ease, border-color 0.3s ease",
     "&:hover": {
+      transform: "scale(1.07)",
       color: "var(--color-dark-teal) !important",
       background: "var(--color-light-peach) !important",
       borderColor: "var(--color-peach) !important",

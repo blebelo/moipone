@@ -8,5 +8,7 @@ namespace Moipone.PublicSite.Students
     public interface IStudentAppService : IAsyncCrudAppService<StudentDto, Guid>
     {
         Task<StudentDto> GetStudentByEmailAsync(string emailAddress);
+        Task<StudentDto> GetByIdNumberAsync(string idNumber);
+        Task<StudentDto> RegisterStudentDocumentsAsync(Guid studentId);
     }
 }

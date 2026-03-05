@@ -20,6 +20,12 @@ import {
   getStudentByEmailPending,
   getStudentByEmailSuccess,
   getStudentByEmailError,
+  registerStudentDocumentsPending,
+  registerStudentDocumentsSuccess,
+  registerStudentDocumentsError,
+  getStudentByIdNumberError,
+  getStudentByIdNumberSuccess,
+  getStudentByIdNumberPending,
 } from "./actions";
 import { axiosInstance } from "../../lib/utils/axiosInstance";
 import { StudentReducer } from "./reducer";
@@ -33,17 +39,21 @@ export const StudentProvider = ({
   const [state, dispatch] = useReducer(StudentReducer, INITIAL_STATE);
   const instance = axiosInstance();
 
-  const createStudent = async (student: IStudent) => {
+  const createStudent = async (student?: IStudent): Promise<IStudent> => {
     dispatch(createStudentPending());
     const endpoint = "Student/Create";
 
-    await instance
+    return await instance
       .post(endpoint, student)
       .then((response) => {
-        dispatch(createStudentSuccess(response.data.result));
+        const createdStudent = response.data.result as IStudent;
+        dispatch(createStudentSuccess(createdStudent));
+        
+        return createdStudent; 
       })
       .catch((err) => {
         dispatch(createStudentError(err.message));
+        throw err;
       });
   };
 
@@ -60,7 +70,7 @@ export const StudentProvider = ({
       });
   };
 
-  const getStudentById = async (id: string) => {
+  const getStudentById = async (id?: string) => {
     dispatch(getStudentByIdPending());
     const endpoint = `Student/Get?Id=${id}`;
 
@@ -74,7 +84,7 @@ export const StudentProvider = ({
       });
   };
 
-  const updateStudent = async (id: string, student: IStudent) => {
+  const updateStudent = async (id?: string, student?: IStudent) => {
     dispatch(updateStudentPending());
     const endpoint = "Student/Update";
 
@@ -88,7 +98,7 @@ export const StudentProvider = ({
       });
   };
 
-  const deleteStudent = async (id: string) => {
+  const deleteStudent = async (id?: string) => {
     dispatch(deleteStudentPending());
     const endpoint = `Student/Delete?Id=${id}`;
 
@@ -102,9 +112,9 @@ export const StudentProvider = ({
       });
   };
 
-  const getStudentByEmail = async (email: string) => {
+  const getStudentByEmail = async (email?: string) => {
     dispatch(getStudentByEmailPending());
-    const endpoint = `Student/GetByEmail?email=${encodeURIComponent(email)}`;
+    const endpoint = `Student/GetByEmail?email=${encodeURIComponent(email || "")}`;
 
     await instance
       .get(endpoint)
@@ -113,6 +123,45 @@ export const StudentProvider = ({
       })
       .catch((err) => {
         dispatch(getStudentByEmailError(err.message));
+      });
+  };
+
+  const registerStudentDocuments = async (studentId: string) => {
+    dispatch(registerStudentDocumentsPending());
+    const endpoint = `Student/RegisterStudentDocuments?studentId=${studentId}`;
+
+    await instance
+      .post(endpoint)
+      .then(() => {
+        dispatch(registerStudentDocumentsSuccess());
+      })
+      .catch((err) => {
+        dispatch(registerStudentDocumentsError(err.message));
+      });
+  };
+
+  const getStudentByIdNumber = async (idNumber: string): Promise<IStudent | null> => {
+    dispatch(getStudentByIdNumberPending());
+    const endpoint = `Student/GetByIdNumber?idNumber=${encodeURIComponent(idNumber)}`;
+
+    return await instance
+      .get(endpoint)
+      .then((response) => {
+        const student = response.data.result as IStudent;
+
+        dispatch(getStudentByIdNumberSuccess(student));
+
+        return student;
+      })
+      .catch((err) => {
+        const status = err?.response?.status;
+
+        if (status === 404) {
+          return null;
+        }
+
+        dispatch(getStudentByIdNumberError(err.message));
+        throw new Error(err.message);
       });
   };
 
@@ -125,6 +174,8 @@ export const StudentProvider = ({
         updateStudent,
         deleteStudent,
         getStudentByEmail,
+        registerStudentDocuments,
+        getStudentByIdNumber,
       }}
     >
       <StudentStateContext.Provider value={state}>

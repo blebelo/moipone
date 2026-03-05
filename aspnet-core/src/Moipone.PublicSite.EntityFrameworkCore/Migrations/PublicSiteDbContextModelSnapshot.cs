@@ -17,7 +17,7 @@ namespace Moipone.PublicSite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "10.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -102,7 +102,7 @@ namespace Moipone.PublicSite.Migrations
 
                     b.ToTable("AbpFeatures");
 
-                    b.HasDiscriminator().HasValue("FeatureSetting");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("FeatureSetting");
 
                     b.UseTphMappingStrategy();
                 });
@@ -219,7 +219,7 @@ namespace Moipone.PublicSite.Migrations
 
                     b.ToTable("AbpPermissions");
 
-                    b.HasDiscriminator().HasValue("PermissionSetting");
+                    b.HasDiscriminator<string>("Discriminator").HasValue("PermissionSetting");
 
                     b.UseTphMappingStrategy();
                 });
@@ -1591,6 +1591,11 @@ namespace Moipone.PublicSite.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -1616,6 +1621,11 @@ namespace Moipone.PublicSite.Migrations
                         .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("character varying(5)");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Street")
                         .IsRequired()
@@ -1739,7 +1749,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<int>("EmergencyContactRelationship")
-                        .HasMaxLength(50)
                         .HasColumnType("integer");
 
                     b.Property<string>("EmployeeEmail")
@@ -1861,8 +1870,16 @@ namespace Moipone.PublicSite.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<string>("DisplayIcon")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("interval");
+
+                    b.PrimitiveCollection<string[]>("Features")
+                        .IsRequired()
+                        .HasColumnType("text[]");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -1906,12 +1923,10 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("CertifiedHighestQualification")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
                     b.Property<string>("CertifiedId")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
@@ -1922,7 +1937,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CurriculumVitae")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
@@ -1968,7 +1982,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("character varying(20)");
 
                     b.Property<string>("ProofOfResidence")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 

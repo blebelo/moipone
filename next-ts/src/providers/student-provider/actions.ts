@@ -34,6 +34,15 @@ export enum StudentActionEnums {
   getStudentByEmailSuccess = 'GET_STUDENT_BY_EMAIL_SUCCESS',
   getStudentByEmailError = 'GET_STUDENT_BY_EMAIL_ERROR',
   
+  // Register Student Documents
+  registerStudentDocumentsPending = 'REGISTER_STUDENT_DOCUMENTS_PENDING',
+  registerStudentDocumentsSuccess = 'REGISTER_STUDENT_DOCUMENTS_SUCCESS',
+  registerStudentDocumentsError = 'REGISTER_STUDENT_DOCUMENTS_ERROR',
+
+  // Get Student By ID Number
+  getStudentByIdNumberPending = 'GET_STUDENT_BY_ID_NUMBER_PENDING',
+  getStudentByIdNumberSuccess = 'GET_STUDENT_BY_ID_NUMBER_SUCCESS',
+  getStudentByIdNumberError = 'GET_STUDENT_BY_ID_NUMBER_ERROR'
 }
 
 // ==================== CREATE STUDENT ====================
@@ -144,5 +153,37 @@ export const getStudentByEmailSuccess = createAction<IStudentStateContext, IStud
 
 export const getStudentByEmailError = createAction<IStudentStateContext, string>(
   StudentActionEnums.getStudentByEmailError,
+  (error: string) => ({ ...RequestState.Error, error })
+  );
+
+// ==================== REGISTER STUDENT DOCUMENTS ====================
+export const registerStudentDocumentsPending = createAction<IStudentStateContext>(
+  StudentActionEnums.registerStudentDocumentsPending,
+  () => RequestState.Pending
+);
+
+export const registerStudentDocumentsSuccess = createAction<IStudentStateContext>(
+  StudentActionEnums.registerStudentDocumentsSuccess,
+  () => RequestState.Success
+);
+
+export const registerStudentDocumentsError = createAction<IStudentStateContext, string>(
+  StudentActionEnums.registerStudentDocumentsError,
+  (error: string) => ({ ...RequestState.Error, error })
+);
+
+// ==================== GET STUDENT BY ID NUMBER ====================
+export const getStudentByIdNumberPending = createAction<IStudentStateContext>(
+  StudentActionEnums.getStudentByIdNumberPending,
+  () => RequestState.Pending
+);
+
+export const getStudentByIdNumberSuccess = createAction<IStudentStateContext, IStudent>(
+  StudentActionEnums.getStudentByIdNumberSuccess,
+  (student: IStudent) => ({ ...RequestState.Success, student })
+);
+
+export const getStudentByIdNumberError = createAction<IStudentStateContext, string>(
+  StudentActionEnums.getStudentByIdNumberError,
   (error: string) => ({ ...RequestState.Error, error })
 );

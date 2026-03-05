@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.Domain.ShortCourses;
 using Moipone.PublicSite.ShortCourses.Dto;
 using System;
@@ -93,7 +94,11 @@ namespace Moipone.PublicSite.ShortCourses
                     );
                 }
 
-                var shortCourse = await _shortCourseRepository.GetAsync(input.Id);
+                var shortCourse = await _shortCourseRepository
+                    .GetAll()
+                    .Include(c => c.Applications)
+                    .Include(c => c.EnrolledStudents)
+                    .FirstOrDefaultAsync(c => c.Id == input.Id);
 
                 if (shortCourse == null)
                 {
@@ -392,46 +397,5 @@ namespace Moipone.PublicSite.ShortCourses
                 );
             }
         }
-
-        [AbpAuthorize]
-        public async Task<int> GetCurrentCapacityAsync(Guid id)
-        {
-            try
-            {
-                if (id == Guid.Empty)
-                {
-                    throw new UserFriendlyException(
-                        "Invalid short course ID.",
-                        Abp.Logging.LogSeverity.Warn
-                    );
-                }
-
-                var course = await _shortCourseRepository.GetAsync(id);
-
-                if (course == null)
-                {
-                    throw new UserFriendlyException(
-                        $"Short course with ID {id} not found.",
-                        Abp.Logging.LogSeverity.Warn
-                    );
-                }
-
-                var capacity = course.Capacity - course.EnrolledStudents.Count;
-                return capacity;
-            }
-            catch (UserFriendlyException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Error retrieving current capacity for short course with ID {id}", ex);
-                throw new UserFriendlyException(
-                    $"Could not retrieve current capacity. Error: {ex.Message}",
-                    Abp.Logging.LogSeverity.Error
-                );
-            }
-        }
-
     }
 }

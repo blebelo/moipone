@@ -1,14 +1,17 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
-using Moipone.PublicSite.Domain.CourseApplications;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.CourseApplications.Dto;
+using Moipone.PublicSite.Domain.CourseApplications;
+using Moipone.PublicSite.Domain.ShortCourses;
+using Moipone.PublicSite.Domain.Students;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Abp.Authorization;
 
 namespace Moipone.PublicSite.CourseApplications
 {
@@ -17,11 +20,15 @@ namespace Moipone.PublicSite.CourseApplications
           ICourseApplicationAppService
     {
         private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
+        private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
+        private readonly IRepository<Student, Guid> _studentRepository;
 
-        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository)
+        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository)
             : base(courseApplicationRepository)
         {
             _courseApplicationRepository = courseApplicationRepository;
+            _shortCourseRepository = shortCourseRepository;
+            _studentRepository = studentRepository;
         }
 
         public override async Task<CourseApplicationDto> CreateAsync(CourseApplicationDto input)
@@ -31,7 +38,24 @@ namespace Moipone.PublicSite.CourseApplications
                 throw new UserFriendlyException("CourseApplication data cannot be null.");
             }
 
+            if (!input.StudentId.HasValue || !input.ShortCourseId.HasValue)
+            {
+                throw new UserFriendlyException("Student and Course are required.");
+            }
+
+            var alreadyApplied = await _courseApplicationRepository
+                .FirstOrDefaultAsync(x =>
+                    x.StudentId == input.StudentId &&
+                    x.ShortCourseId == input.ShortCourseId
+                );
+
+            if (alreadyApplied != null)
+            {
+                throw new UserFriendlyException("You have already applied for this course.");
+            }
+
             var entity = ObjectMapper.Map<CourseApplication>(input);
+
             var result = await _courseApplicationRepository.InsertAsync(entity);
 
             return ObjectMapper.Map<CourseApplicationDto>(result);
@@ -107,25 +131,48 @@ namespace Moipone.PublicSite.CourseApplications
         public async Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason)
         {
             if (input == Guid.Empty)
-            {
                 throw new UserFriendlyException("Invalid Application ID.");
-            }
 
             var application = await _courseApplicationRepository.GetAsync(input);
 
             if (application.Status == RefListApplicationStatus.Approved)
-            {
                 throw new UserFriendlyException("Application is already approved.");
+
+            var shortCourse = await _shortCourseRepository
+                .GetAll()
+                .Include(c => c.EnrolledStudents)
+                .FirstOrDefaultAsync(c => c.Id == application.ShortCourseId);
+
+            if (shortCourse == null)
+                throw new UserFriendlyException("Short course not found.");
+
+            if (shortCourse.EnrolledStudents.Count >= shortCourse.Capacity)
+            {
+                application.Status = RefListApplicationStatus.Declined;
+                application.DecisionDate = DateTime.UtcNow;
+                application.DecisionReason = "Course is full. Application declined.";
+                await _courseApplicationRepository.UpdateAsync(application);
+                throw new UserFriendlyException("Course is already full.");
             }
+
+            var student = await _studentRepository.GetAsync(application.StudentId);
+
+
+            if (shortCourse.EnrolledStudents.Any(s => s.Id == student.Id))
+                throw new UserFriendlyException("Student already enrolled.");
+
+            shortCourse.EnrolledStudents.Add(student);
 
             application.Status = RefListApplicationStatus.Approved;
             application.DecisionDate = DateTime.UtcNow;
             application.DecisionReason = reason ?? "Application approved";
 
+            await _shortCourseRepository.UpdateAsync(shortCourse);
             var updated = await _courseApplicationRepository.UpdateAsync(application);
+
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
-        
+
         [AbpAuthorize]
         public async Task<CourseApplicationDto> RejectApplication(Guid input, string? reason)
         {

@@ -43,6 +43,12 @@ namespace Moipone.PublicSite.Domain.ShortCourses
 
         [Required]
         public TimeSpan Duration { get; set; }
+        
+        [Required]
+        public string DisplayIcon {  get; set; }
+        
+        [Required]
+        public ICollection<string> Features { get; set; }
 
         #endregion
 
