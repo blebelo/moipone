@@ -22,8 +22,12 @@ export const scrolltoSection = (sectionId: string) => {
 
 
 export const renameFile = (userFile: File, baseName: string): string => {
-  const extension = userFile.name.split(".").pop()?.toLowerCase() || "";
-  return extension ? `${baseName}.${extension}` : baseName;
+  const cleanBase = baseName.replace(/\.[^/.]+$/, "");
+
+  const match = userFile.name.match(/\.[^/.]+$/);
+  const extension = match ? match[0].toLowerCase() : "";
+
+  return `${cleanBase}${extension}`;
 };
 
 export const handleUpload = async (
@@ -55,7 +59,6 @@ export const handleUpload = async (
       throw new Error(`Upload failed: ${response.status}`);
     }
 
-    // message.success(`${capitalizeWords(label)} uploaded successfully`);
   } catch (error) {
     console.error('File Upload Failed', error);
     message.error("Upload failed");

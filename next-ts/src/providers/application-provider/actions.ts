@@ -4,6 +4,9 @@ import { ICourseApplication, IApplicationStateContext } from "./context";
 import { RequestState } from "@/src/lib/common/constants";
 
 export enum ApplicationActionEnums {
+  // Reset Application State
+  resetApplicationState = "RESET_APPLICATION_STATE",
+
   // Create Application
   createApplicationPending = "CREATE_APPLICATION_PENDING",
   createApplicationSuccess = "CREATE_APPLICATION_SUCCESS",
@@ -44,6 +47,20 @@ export enum ApplicationActionEnums {
   rejectApplicationSuccess = "REJECT_APPLICATION_SUCCESS",
   rejectApplicationError = "REJECT_APPLICATION_ERROR",
 }
+
+// ==================== RESET APPLICATION STATE ====================
+export const resetApplicationState = createAction<IApplicationStateContext>(
+  ApplicationActionEnums.resetApplicationState,
+  () => ({
+    isPending: false,
+    isSuccess: false,
+    isError: false,
+    error: undefined,
+    application: undefined,
+    applications: undefined,
+    totalApplicationCount: undefined,
+  }),
+);
 
 // ==================== CREATE APPLICATION ====================
 export const createApplicationPending = createAction<IApplicationStateContext>(

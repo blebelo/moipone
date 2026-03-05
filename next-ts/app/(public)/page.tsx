@@ -14,11 +14,12 @@ import { scrolltoSection } from "@/src/lib/common/helper-methods"
 import { useRouter } from "next/navigation";
 import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
 import Courses from "@/src/components/Courses";
+import Loader from "@/src/components/Loader";
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
   const router = useRouter();
-  const {isPending, isError, isSuccess, courses} = useCourseState();
+  const {isPending, courses} = useCourseState();
   const { getAllCourses } = useCourseActions();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const HomePage: React.FC = () => {
   return (
     <div>
       
-      {isPending && <p>Loading...</p>}
+      {isPending && <Loader />}
       
       <Header />
       <section className={styles.heroSection}>
@@ -47,7 +48,7 @@ const HomePage: React.FC = () => {
           </p>
 
           <div className={styles.heroButtons}>
-            <Button type="primary" 
+            <Button
             className={styles.primaryButton}
             onClick={() => {router.push('/apply')}}>
               Apply for a Course <ArrowRightOutlined />

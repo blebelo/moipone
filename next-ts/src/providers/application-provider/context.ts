@@ -34,6 +34,7 @@ export interface IApplicationStateContext {
 }
 
 export interface IApplicationActionContext {
+  resetApplicationState: () => void;
   createApplication: (application: ICourseApplication) => Promise<void>;
   getApplicationById: (id: string) => Promise<void>;
   getAllApplications: () => Promise<void>;

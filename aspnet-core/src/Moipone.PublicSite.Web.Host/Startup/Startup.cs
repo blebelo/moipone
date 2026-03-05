@@ -127,14 +127,13 @@ namespace Moipone.PublicSite.Web.Host.Startup
                 options.SwaggerDoc(_apiVersion, new OpenApiInfo
                 {
                     Version = _apiVersion,
-                    Title = "PublicSite API",
-                    Description = "PublicSite",
+                    Title = "Moipone PublicSite API",
+                    Description = "PublicSiteAPI",
                     // uncomment if needed TermsOfService = new Uri("https://example.com/terms"),
                     Contact = new OpenApiContact
                     {
-                        Name = "PublicSite",
-                        Email = "info@moiponeacademy.org",
-                        Url = new Uri("https://twitter.com/aspboilerplate"),
+                        Name = "Moipone Academy",
+                        Email = "info@moiponeacademy.org"
                     },
                     License = new OpenApiLicense
                     {

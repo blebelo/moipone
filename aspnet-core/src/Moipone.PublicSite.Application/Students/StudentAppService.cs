@@ -272,9 +272,9 @@ namespace Moipone.PublicSite.Students
                 string s3Prefix = _config["App:S3Prefix"];
 
                 student.CertifiedId = $"{s3Prefix}/{studentId}/id.pdf";
-                student.ProofOfResidence = $"{s3Prefix}/{studentId}/por.pdf";
+                student.ProofOfResidence = $"{s3Prefix}/{studentId}/proof-of-residence.pdf";
                 student.CurriculumVitae = $"{s3Prefix}/{studentId}/cv.pdf";
-                student.CertifiedHighestQualification = $"{s3Prefix}/{studentId}/chq.pdf";
+                student.CertifiedHighestQualification = $"{s3Prefix}/{studentId}/highest-qualifications.pdf";
 
                 var updatedStudent = await _studentRepository.UpdateAsync(student);
                 return ObjectMapper.Map<StudentDto>(updatedStudent);

@@ -1,6 +1,6 @@
 'use client';
 import * as Icons from "@ant-design/icons";
-import { ArrowRightOutlined, CheckCircleOutlined, ExceptionOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, ExceptionOutlined } from "@ant-design/icons";
 import { useProgrammesStyles } from "./style";
 import { ICourse } from "@/src/providers/course-provider/context";
 
@@ -56,9 +56,10 @@ const Courses: React.FC<ICourseProps> = ({courseList}) => {
                     </div>
                   ))}
                 </div>
-                <div className={styles.cardLink}>
+                {/* TODO: Add link to course details page dynamically*/}
+                {/* <div className={styles.cardLink}>
                   Learn more <ArrowRightOutlined />
-                </div>
+                </div> */}
               </div>
             );
           })}

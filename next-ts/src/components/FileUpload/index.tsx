@@ -12,7 +12,7 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
   studentId,
   filename,
   label,
-  accept = ".pdf,.jpg,.jpeg,.png",
+  accept = ".pdf",
 }: IFileUploadProps) => {
   const { styles } = useFileUploadStyles();
   const [file, setFile] = useState<UploadFile | null>(null);
@@ -44,17 +44,7 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
   return (
     <div className={styles.wrapper}>
       <Upload {...props} className={file ? `${styles.uploadBox} disabled` : styles.uploadBox}>
-        {!file ? (
-          <>
-            <InboxOutlined className={styles.icon} />
-            <div className={styles.textGroup}>
-              <div className={styles.title}>{label}</div>
-              <div className={styles.subtitle}>
-                Click to upload · Max 5MB · {accept}
-              </div>
-            </div>
-          </>
-        ) : (
+        {file ? (
           <div className={styles.filePreview}>
             <FileOutlined className={styles.fileIcon} />
             <span>{file.name}</span>
@@ -66,6 +56,16 @@ export const FileUpload: React.FC<IFileUploadProps> = ({
               }}
             />
           </div>
+        ) : (
+          <>
+            <InboxOutlined className={styles.icon} />
+            <div className={styles.textGroup}>
+              <div className={styles.title}>{label}</div>
+              <div className={styles.subtitle}>
+                Click to upload · Max 5MB · Only {accept}s allowed
+              </div>
+            </div>
+          </>
         )}
       </Upload>
     </div>

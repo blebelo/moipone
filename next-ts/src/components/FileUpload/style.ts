@@ -9,7 +9,6 @@ export const useFileUploadStyles = createStyles(({ token }) => ({
     border: `2px dashed ${token.colorBorder}`,
     borderRadius: "16px",
     padding: "20px 24px",
-    background: token.colorBgContainer,
     cursor: "pointer",
     transition: "all 0.25s ease",
     display: "flex",
@@ -17,9 +16,8 @@ export const useFileUploadStyles = createStyles(({ token }) => ({
     gap: "16px",
     justifyContent: "center",
     position: "relative",
-
     "&:hover": {
-      borderColor: "#f7931e",
+      borderColor: "var(--color-teal)",
       background: "rgba(247, 147, 30, 0.04)",
     },
 
@@ -32,7 +30,7 @@ export const useFileUploadStyles = createStyles(({ token }) => ({
 
   icon: {
     fontSize: "28px",
-    color: "#f7931e",
+    color: "var(--color-teal)",
   },
 
   textGroup: {
@@ -45,13 +43,13 @@ export const useFileUploadStyles = createStyles(({ token }) => ({
   title: {
     fontSize: "15px",
     fontWeight: 600,
-    color: "#1a1a2e",
+    color: "var(--color-teal)",
     marginBottom: "4px",
   },
 
   subtitle: {
     fontSize: "13px",
-    color: "#4a4a68",
+    color: "var(--color-dark-teal)",
   },
 
   filePreview: {
@@ -65,7 +63,7 @@ export const useFileUploadStyles = createStyles(({ token }) => ({
 
   fileIcon: {
     fontSize: "24px",
-    color: "#f7931e",
+    color: "var(--color-teal)",
   },
 
   removeIcon: {

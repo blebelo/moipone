@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Input,
@@ -11,7 +11,7 @@ import {
   message,
   Form,
 } from "antd";
-import { CheckOutlined } from "@ant-design/icons";
+import { BuildOutlined, CalendarOutlined, CheckCircleOutlined, CheckOutlined, ExclamationCircleFilled, GlobalOutlined, HomeOutlined, IdcardOutlined, InboxOutlined, MailOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
 import { useApplicationFormStyles } from "./style";
 import {
   genderOptions,
@@ -28,24 +28,26 @@ import dayjs from "dayjs";
 import {
   formatSaIdNumber,
   formatPhoneNumber,
-  parseDateOfBirth,
   sanitizeStudentData,
 } from "@/src/lib/common/helper-methods";
 import { IStudent } from "@/src/providers/student-provider/context";
-// import StatusBanner from "../StatusBanner";
+import { useRouter } from "next/navigation";
 
 const ApplicationForm: React.FC<IApplicationFormProps> = ({
   courseList,
-  studentState,
   createStudent,
+  applicationState,
+  resetApplicationState,
   submitApplication,
   registerDocs,
   getStudentByIdNumber,
 }) => {
+  const router = useRouter();
   const { styles } = useApplicationFormStyles();
   const [currentStep, setCurrentStep] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
-  const [existingStudent, setExisitingStudent] = useState<IStudent | null>(null);
+  const [submitted, setSubmitted] = useState<boolean>(false);
+  const [existingStudent, setExistingStudent] = useState<IStudent | null>(null);
+  const hasResetStateOnMount = useRef(false);
   const [form] = Form.useForm<ICourseApplication>();
   const [formData, setFormData] = useState<ICourseApplication>({
     id: "",
@@ -66,7 +68,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
         suburb: "",
         city: "",
         postalCode: "",
-        province: "",
+        province: undefined,
         country: "",
       },
       certifiedId: "",
@@ -77,6 +79,22 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
     shortCourseId: "",
     status: RefListApplicationStatus.Pending,
   });
+ 
+  useEffect(() => {
+    if (hasResetStateOnMount.current) return;
+    hasResetStateOnMount.current = true;
+    resetApplicationState();
+  }, [resetApplicationState]);
+
+  useEffect(() => {
+    if (submitted) {
+      const timer = setTimeout(() => {
+        router.push("/");
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [submitted, router]);
 
   const handleNext = async () => {
     try {
@@ -87,10 +105,10 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
         ...values,
         student: {
           ...formData.student,
-          ...(values?.student ?? {}),
+          ...(values?.student),
           residentialAddress: {
             ...formData.student?.residentialAddress,
-            ...(values?.student?.residentialAddress ?? {}),
+            ...(values?.student?.residentialAddress),
           },
         },
       };
@@ -112,7 +130,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
 
         createStudent(sanitizeStudentData(merged.student))
           .then((created) => {
-            setExisitingStudent(created);
+            setExistingStudent(created);
 
             const id = created?.id || "";
 
@@ -129,7 +147,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
             });
 
             setCurrentStep((s) => s + 1);
-            message.success("Student created successfully.");
+            message.success("Student profile created successfully.");
           })
           .catch(() => {
             message.error("Failed to save student information.");
@@ -139,21 +157,28 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
       };
 
       if (currentStep === 1) {
-        message.success(
-          "Student information saved! Please upload the required documents to proceed.",
-        );
-        await registerDocs(`${formData.studentId}`);
-        message.success(
-          "Documents uploaded successfully! Please review your application before submitting.",
-        );
+        if (merged.studentId && !existingStudent?.id) {
+          await registerDocs(`${merged.studentId}`);
+        }
+        existingStudent?.id ==='' 
+          ? message.success("Documents uploaded successfully! Please review your application before submitting.")
+          : message.success("Course selected successfully! Proceeding to review.");
         setCurrentStep((s) => s + 1);
         return;
       }
 
       if (currentStep === 2) {
-        await submitApplication(merged);
-        setSubmitted(true);
-        message.success("Application submitted successfully!");
+        try {
+          await submitApplication(merged);
+          setSubmitted(true);
+          console.log("Submitted application:", applicationState);
+          console.log("Submit Flag:", true);
+        } catch (error) {
+          setSubmitted(false);
+          console.error("Failed to submit application.", error);
+          console.error("Application State at submission: ", applicationState);
+          console.log("Submit Flag:", false);
+        }
         return;
       }
 
@@ -170,59 +195,99 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
     if (currentStep > 0) setCurrentStep(currentStep - 1);
   };
 
-const lookupStudent = () => {
-  const raw = form.getFieldValue(["student", "idNumber"]) as string;
-  const idNumber = (raw || "").replace(/\s+/g, "");
-  if (!idNumber) return;
+  const lookupStudent = () => {
+    const raw = form.getFieldValue(["student", "idNumber"]) as string;
+    const idNumber = (raw || "").replaceAll(/\s+/g, "");
+    if (!idNumber) return;
 
-  getStudentByIdNumber(idNumber)
-    .then((existingStudent) => {
-      if (!existingStudent) {
-        setExisitingStudent(null);
-        return;
-      }
-      setExisitingStudent(existingStudent);
+    getStudentByIdNumber(idNumber)
+      .then((existingStudent) => {
+        if (!existingStudent) {
+          setExistingStudent(null);
+          return;
+        }
+        setExistingStudent(existingStudent);
 
-      const updated: ICourseApplication = {
-        ...formData,
-        student: {...existingStudent,
-          dateOfBirth: dayjs(existingStudent.dateOfBirth).toISOString(),
-          // dateOfBirth: parseDateOfBirth(`${existingStudent.dateOfBirth}`)
-        },
-        studentId: existingStudent.id || "",
-      };
+        const updated: ICourseApplication = {
+          ...formData,
+          student: {...existingStudent,
+            dateOfBirth: dayjs(existingStudent.dateOfBirth).toISOString(),
+          },
+          studentId: existingStudent.id || "",
+        };
 
-      setFormData(updated);
-      form.setFieldsValue(updated);
+        setFormData(updated);
+        form.setFieldsValue(updated);
+        setCurrentStep((s) => s + 1);
+        message.success("Existing student found. Form pre-filled.");
+      })
+      .catch(() => {
+        message.info("Couldn’t verify student right now. Proceed Manually");
+      });
+  };
 
-      message.success("Existing student found. Form pre-filled.");
-    })
-    .catch(() => {
-      message.info("Couldn’t verify student right now. Proceed Manually");
-    });
-};
-
-  if (submitted) {
+  if (applicationState.isSuccess === true && submitted === true) {
     return (
-      <section className={styles.section}>
-        <div className={styles.container}>
-          <div className={styles.formCard}>
-            <div className={styles.successContainer}>
-              <div className={styles.successIcon}>
-                <CheckOutlined />
+        <div className={styles.section}>
+          <section className={styles.section}>
+            <div className={styles.container}>
+              <div className={styles.formCard}>
+                <div className={styles.outcomeContainer}>
+                  <div className={styles.icon}>
+                    <CheckOutlined />
+                  </div>
+                  <h2 className={styles.outcomeTitle}>Application Submitted!</h2>
+                  <p className={styles.outcomeMessage}>
+                    Thank you for applying to Moipone Academy. We will review your
+                    application and contact you within 5-7 business days.
+                  </p>
+                  <Button type="primary" 
+                    size="large" 
+                    href="/"
+                    className={styles.fillButton}>
+                    Return to Homepage
+                  </Button>
+                </div>
               </div>
-              <h2 className={styles.successTitle}>Application Submitted!</h2>
-              <p className={styles.successMessage}>
-                Thank you for applying to Moipone Academy. We will review your
-                application and contact you within 5-7 business days.
-              </p>
-              <Button type="primary" size="large" href="/">
-                Return to Homepage
-              </Button>
             </div>
-          </div>
+          </section>
         </div>
-      </section>
+    );
+  }
+
+  if (applicationState.isError === true && submitted === false) {
+    return (
+        <div className={styles.section}>
+          <section className={styles.section}>
+            <div className={styles.container}>
+              <div className={styles.formCard}>
+                <div className={styles.outcomeContainer}>
+                  <div className={styles.icon}>
+                    <ExclamationCircleFilled />
+                  </div>
+                  <h2 className={styles.outcomeTitle}>Duplicate Application Detected</h2>
+                  <p className={styles.outcomeMessage}>
+                    Your application was rejected due to a duplicate submission. If you
+                    believe this is a mistake, please contact us.
+                  </p>
+
+                  <div className={styles.outcomeActions}>
+                    <Button size="large" 
+                      href="/"
+                      className={styles.outlineButton}>
+                      Return to Homepage
+                    </Button>
+                    <Button type="primary" 
+                        size="large"
+                        className={styles.fillButton} >
+                      Contact Support
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
     );
   }
 
@@ -239,7 +304,10 @@ const lookupStudent = () => {
 
         <div className={styles.formCard}>
           <div className={styles.stepsContainer}>
-            <Steps current={currentStep} items={steps} />
+            <Steps 
+              className={styles.formSteps}
+              current={currentStep} 
+              items={steps} />
           </div>
 
           <Form
@@ -265,10 +333,10 @@ const lookupStudent = () => {
                   ...allValues,
                   student: {
                     ...prev.student,
-                    ...(allValues?.student ?? {}),
+                    ...(allValues?.student),
                     residentialAddress: {
                       ...prev.student?.residentialAddress,
-                      ...(allValues?.student?.residentialAddress ?? {}),
+                      ...(allValues?.student?.residentialAddress),
                     },
                   },
                 };
@@ -280,7 +348,6 @@ const lookupStudent = () => {
             {/* Step 1 */}
             {currentStep === 0 && (
               <div className={styles.formSection}>
-                <h3 className={styles.sectionTitle}>Personal Information</h3>
                 <div
                   style={{
                     display: "grid",
@@ -298,6 +365,7 @@ const lookupStudent = () => {
                   >
                     <Input
                       className={styles.input}
+                      prefix={<UserOutlined  className={styles.inputIcon}/>}
                       placeholder="Enter your first name"
                     />
                   </Form.Item>
@@ -312,6 +380,7 @@ const lookupStudent = () => {
                   >
                     <Input
                       className={styles.input}
+                      prefix={<UserOutlined  className={styles.inputIcon}/>}
                       placeholder="Enter your surname"
                     />
                   </Form.Item>
@@ -327,6 +396,7 @@ const lookupStudent = () => {
                   <Input
                     className={styles.input}
                     type="email"
+                    prefix={<MailOutlined className={styles.inputIcon}/>}
                     placeholder="your.email@example.com"
                   />
                 </Form.Item>
@@ -350,6 +420,7 @@ const lookupStudent = () => {
                   <Input
                     className={styles.input}
                     placeholder="XXXXXX XXXX XX X"
+                    prefix={<IdcardOutlined className={styles.inputIcon}/>}
                     onBlur={lookupStudent}
                     onChange={(e) => {
                       const formatted = formatSaIdNumber(e.target.value);
@@ -380,6 +451,7 @@ const lookupStudent = () => {
                     <Input
                       className={styles.input}
                       placeholder="XXX XXX XXXX"
+                      prefix={<PhoneOutlined className={styles.inputIcon}/>}
                       onChange={(e) => {
                         const formatted = formatPhoneNumber(e.target.value);
                         form.setFieldValue(
@@ -406,23 +478,21 @@ const lookupStudent = () => {
                         },
                       },
                     ]}
-                    // Form stores string -> DatePicker needs dayjs
                     getValueProps={(value) => ({
                       value: value ? dayjs(value, "YYYY-MM-DD") : null,
                     })}
-                    // DatePicker emits dayjs -> store string in Form
                     getValueFromEvent={(date: dayjs.Dayjs | null) =>
                       date ? date.format("YYYY-MM-DD") : undefined
                     }
                   >
                     <DatePicker
-                      style={{ width: "100%", height: "48px" }}
+                      className={styles.otherInput}
                       placeholder="Select date"
+                      suffixIcon={<CalendarOutlined  className={styles.inputIcon}/>}
                       disabledDate={(current) =>
                         !!current && current > dayjs().subtract(18, "year")
                       }
                       onChange={(date) => {
-                        // optional: keep age in sync
                         setFormData((prev) => ({
                           ...prev,
                           student: {
@@ -441,8 +511,9 @@ const lookupStudent = () => {
                   rules={[{ required: true, message: "Please select gender" }]}
                 >
                   <Select
-                    className={styles.select}
+                    className={styles.otherInput}
                     placeholder="Select gender"
+                    prefix={<UserOutlined className={styles.inputIcon}/>}
                     options={genderOptions}
                   />
                 </Form.Item>
@@ -457,6 +528,7 @@ const lookupStudent = () => {
                   <Input
                     className={styles.input}
                     placeholder="Street address"
+                    prefix={<HomeOutlined className={styles.inputIcon}/>}
                   />
                 </Form.Item>
                 <div
@@ -472,7 +544,11 @@ const lookupStudent = () => {
                     name={["student", "residentialAddress", "city"]}
                     rules={[{ required: true, message: "Please input city" }]}
                   >
-                    <Input className={styles.input} placeholder="City" />
+                    <Input 
+                      className={styles.input} 
+                      placeholder="City" 
+                      prefix={<BuildOutlined className={styles.inputIcon}/>}   
+                      />
                   </Form.Item>
 
                   <Form.Item
@@ -483,20 +559,23 @@ const lookupStudent = () => {
                       { required: true, message: "Please input postal code" },
                     ]}
                   >
-                    <Input className={styles.input} placeholder="Postal Code" />
+                    <Input 
+                      className={styles.input} 
+                      placeholder="Postal Code" 
+                      prefix={<InboxOutlined className={styles.inputIcon}/>}   
+                      />
                   </Form.Item>
 
                   <Form.Item
                     label="Province"
                     className={styles.inputGroup}
                     name={["student", "residentialAddress", "province"]}
-                    rules={[
-                      { required: true, message: "Please select province" },
-                    ]}
+                    rules={[{ required: true, message: "Please select province" }]}
                   >
                     <Select
-                      className={styles.select}
+                      className={styles.otherInput}
                       placeholder="Select province"
+                      prefix={<UserOutlined className={styles.inputIcon}/>}
                       options={provinceOptions}
                     />
                   </Form.Item>
@@ -512,6 +591,7 @@ const lookupStudent = () => {
                     <Input
                       className={styles.input}
                       placeholder="Select country"
+                      prefix={<GlobalOutlined className={styles.inputIcon}/>}
                     />
                   </Form.Item>
                 </div>
@@ -521,8 +601,6 @@ const lookupStudent = () => {
             {/* Step 2 */}
             {currentStep === 1 && (
               <div className={styles.formSection}>
-                <h3 className={styles.sectionTitle}>Select Course</h3>
-
                 <Form.Item
                   name="shortCourseId"
                   rules={[
@@ -565,13 +643,12 @@ const lookupStudent = () => {
                             }
                           }}
                         >
-                          <Radio
-                            //                             style={{
-                            //   '& .ant-radio-inner': { display: 'none' }
-                            // }}
-                            value={course.id}
-                            // className={styles.programmeRadioHidden}
-                          >
+                          <CheckCircleOutlined
+                            className={`programme-check-icon ${styles.programmeCheckIcon} ${
+                              selected ? styles.programmeCheckIconSelected : ""
+                            }`}
+                          />
+                          <Radio className={styles.programmeRadioHidden} value={course.id}>
                             <span className={styles.programmeTitle}>
                               {course.title}
                             </span>
@@ -585,58 +662,56 @@ const lookupStudent = () => {
                   </Radio.Group>
                 </Form.Item>
 
-                <Form.Item
-                  className={styles.inputGroup}
-                  style={{ marginTop: "24px" }}
-                  label="Identity Document"
-                >
-                  <FileUpload
-                    studentId={
-                      formData?.studentId || `${formData.student?.idNumber}`
-                    }
-                    filename="id-document"
-                    label="Upload Identity Document"
-                  />
-                </Form.Item>
+                {existingStudent !== null && (
+                  <>
+                    <Form.Item
+                    className={styles.inputGroup}
+                    style={{ marginTop: "24px" }}
+                    label="Identity Document"
+                  >
+                    <FileUpload
+                      studentId={`${formData?.studentId}`}
+                      filename="id-document"
+                      label="Upload Identity Document"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  label="Proof Of Residence"
-                  className={styles.inputGroup}
-                >
-                  <FileUpload
-                    studentId={
-                      formData?.studentId || `${formData.student?.idNumber}`
-                    }
-                    filename="proof-of-residence"
-                    label="Upload proof of residence"
-                  />
-                </Form.Item>
+                  <Form.Item
+                    label="Proof Of Residence"
+                    className={styles.inputGroup}
+                  >
+                    <FileUpload
+                      studentId={`${formData?.studentId}`}
+                      filename="proof-of-residence"
+                      label="Upload proof of residence"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  className={styles.inputGroup}
-                  label="Curriculum VItae (CV)"
-                >
-                  <FileUpload
-                    studentId={
-                      formData?.studentId || `${formData.student?.idNumber}`
-                    }
-                    filename="cv"
-                    label="Upload CV / Resume"
-                  />
-                </Form.Item>
+                  <Form.Item
+                    className={styles.inputGroup}
+                    label="Curriculum VItae (CV)"
+                  >
+                    <FileUpload
+                      studentId={`${formData?.studentId}`}
+                      filename="cv"
+                      label="Upload CV / Resume"
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  label="Highest Qualification"
-                  className={styles.inputGroup}
-                >
-                  <FileUpload
-                    studentId={
-                      formData?.studentId || `${formData.student?.idNumber}`
-                    }
-                    filename="highest-qualification"
-                    label="Upload qualification document"
-                  />
-                </Form.Item>
+                  <Form.Item
+                    label="Highest Qualification"
+                    className={styles.inputGroup}
+                  >
+                    <FileUpload
+                      studentId={
+                        formData?.studentId || `${formData.student?.idNumber}`
+                      }
+                      filename="highest-qualification"
+                      label="Upload qualification document"
+                    />
+                  </Form.Item>
+                </>
+                )}
               </div>
             )}
 
@@ -645,76 +720,69 @@ const lookupStudent = () => {
               <div className={styles.formSection}>
                 <h3 className={styles.sectionTitle}>Review Your Application</h3>
 
-                <div
-                  style={{
-                    background: "#f8f9fa",
-                    borderRadius: "12px",
-                    padding: "24px",
-                    marginBottom: "24px",
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontWeight: 600,
-                      marginBottom: "16px",
-                      color: "#1a1a2e",
-                    }}
-                  >
-                    Personal Information
-                  </h4>
-                  <p>
-                    <strong>Name:</strong> {formData?.student?.name}{" "}
-                    {formData?.student?.surname}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {formData?.student?.emailAddress}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {formData?.student?.phoneNumber}
-                  </p>
-                  <p>
-                    <strong>Location:</strong>{" "}
-                    {formData?.student?.residentialAddress?.street},{" "}
-                    {formData?.student?.residentialAddress?.city},{" "}
-                    {formData?.student?.residentialAddress?.province}
-                  </p>
-                </div>
+                <div className={styles.reviewCards}>
+                  <div className={styles.reviewCard}>
+                    <h4 className={styles.reviewCardTitle}>Personal Information</h4>
+                    <div className={styles.reviewList}>
+                      <p className={styles.reviewRow}>
+                        <span className={styles.reviewLabel}>Name</span>
+                        <span className={styles.reviewValue}>
+                          {`${formData?.student?.name ?? ""} ${formData?.student?.surname ?? ""}`.trim() || "Not provided"}
+                        </span>
+                      </p>
+                      <p className={styles.reviewRow}>
+                        <span className={styles.reviewLabel}>Email</span>
+                        <span className={styles.reviewValue}>
+                          {formData?.student?.emailAddress || "Not provided"}
+                        </span>
+                      </p>
+                      <p className={styles.reviewRow}>
+                        <span className={styles.reviewLabel}>Phone</span>
+                        <span className={styles.reviewValue}>
+                          {formData?.student?.phoneNumber || "Not provided"}
+                        </span>
+                      </p>
+                      <p className={styles.reviewRow}>
+                        <span className={styles.reviewLabel}>Location</span>
+                        <span className={styles.reviewValue}>
+                          {[
+                            formData?.student?.residentialAddress?.street,
+                            formData?.student?.residentialAddress?.city,
+                            formData?.student?.residentialAddress?.province,
+                          ]
+                            .filter(Boolean)
+                            .join(", ") || "Not provided"}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
 
-                <div
-                  style={{
-                    background: "#f8f9fa",
-                    borderRadius: "12px",
-                    padding: "24px",
-                    marginBottom: "24px",
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontWeight: 600,
-                      marginBottom: "16px",
-                      color: "#1a1a2e",
-                    }}
-                  >
-                    Programme Selection
-                  </h4>
-                  <p>
-                    <strong>Programme:</strong>{" "}
-                    {courseList?.find((c) => c.id === formData?.shortCourseId)
-                      ?.title || "Not selected"}
-                  </p>
+                  <div className={styles.reviewCard}>
+                    <h4 className={styles.reviewCardTitle}>Programme Selection</h4>
+                    <div className={styles.reviewList}>
+                      <p className={styles.reviewRow}>
+                        <span className={styles.reviewLabel}>Programme</span>
+                        <span className={styles.reviewValue}>
+                          {courseList?.find((c) => c.id === formData?.shortCourseId)
+                            ?.title || "Not selected"}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
           </Form>
 
           <div className={styles.buttonGroup}>
-            <Button
-              className={styles.prevButton}
-              onClick={handlePrev}
-              disabled={currentStep === 0}
-            >
-              Previous
-            </Button>
+            {currentStep == 2 && (
+              <Button
+                className={styles.prevButton}
+                onClick={handlePrev}
+              >
+                Previous
+              </Button>
+            )}
             <Button
               type="primary"
               className={styles.nextButton}

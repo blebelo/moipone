@@ -2,13 +2,14 @@ import { IApplicationStateContext, ICourseApplication } from "@/src/providers/ap
 import { ICourse, ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudent, IStudentStateContext } from "@/src/providers/student-provider/context";
 import {
+  BookOutlined,
+  BookTwoTone,
   CheckCircleOutlined,
+  CheckCircleTwoTone,
   CloseCircleOutlined,
-  DesktopOutlined,
   ExclamationCircleOutlined,
   InfoCircleOutlined,
-  RobotOutlined,
-  TeamOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import React from "react";
 
@@ -43,9 +44,9 @@ interface Stat {
 }
 
 export const steps = [
-    { title: "Personal Info" },
-    { title: "Programme" },
-    { title: "Review" },
+    { title: "Personal Info", icon: <UserOutlined /> },
+    { title: "Course", icon: <BookOutlined /> },
+    { title: "Review", icon: <CheckCircleOutlined /> },
   ];
 
 export const MAX_SIZE = 5 * 1024 * 1024;
@@ -56,34 +57,6 @@ export const stats: Stat[] = [
   { number: "95%", label: "Success Rate" },
 ];
 
-
-export const programmes = [
-  {
-    icon: <DesktopOutlined />,
-    title: "Computer Literacy",
-    description:
-      "Foundational digital skills for learners of all ages, building confidence and capability in the digital world.",
-    features: [
-      "Microsoft Office Suite",
-      "Internet & Email",
-      "Digital Citizenship",
-    ],
-  },
-  {
-    icon: <RobotOutlined />,
-    title: "Robotics & Coding",
-    description:
-      "Hands-on workshops teaching robotics fundamentals, problem solving, and creative thinking.",
-    features: ["Scratch Programming", "Arduino Projects", "Robot Building"],
-  },
-  {
-    icon: <TeamOutlined />,
-    title: "Life Skills & Career",
-    description:
-      "Supporting youth with practical life tools, career talks, and pathways to employment.",
-    features: ["CV Writing", "Interview Skills", "Financial Literacy"],
-  },
-];
 
 export const navItems = [
   { label: "Home", href: "#" },
@@ -152,7 +125,8 @@ export const experienceOptions = [
 
 export interface IApplicationFormProps {
   courseList?: ICourse[];
-  studentState?: IStudentStateContext;
+  applicationState: IApplicationStateContext;
+  resetApplicationState: () => void;
   createStudent: (student?: IStudent) => Promise<IStudent>;
   submitApplication: (application?: ICourseApplication) => Promise<void>;
   registerDocs: (studentId: string) => Promise<void>;

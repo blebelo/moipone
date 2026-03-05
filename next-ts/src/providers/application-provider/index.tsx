@@ -2,6 +2,7 @@
 import React, { useContext, useReducer } from "react";
 import { ApplicationStateContext, ApplicationActionContext, ICourseApplication } from "./context";
 import {
+  resetApplicationState,
   createApplicationPending,
   createApplicationSuccess,
   createApplicationError,
@@ -39,18 +40,24 @@ export const ApplicationProvider = ({
   const [state, dispatch] = useReducer(ApplicationReducer, INITIAL_STATE);
   const instance = axiosInstance();
 
+  const resetState = () => {
+    dispatch(resetApplicationState());
+  };
+
   const createApplication = async (application: ICourseApplication) => {
     dispatch(createApplicationPending());
     const endpoint = "CourseApplication/Create";
 
-    await instance
-      .post(endpoint, application)
-      .then((response) => {
-        dispatch(createApplicationSuccess(response.data.result));
-      })
-      .catch((err) => {
-        dispatch(createApplicationError(err.message));
-      });
+    try {
+      const response = await instance.post(endpoint, application);
+      dispatch(createApplicationSuccess(response.data.result));
+    } catch (err: unknown) {
+      const errorMessage =
+        (err as { response?: { data?: { error?: { message?: string } } } })?.response?.data?.error?.message ||
+        (err instanceof Error ? err.message : "Failed to create application.");
+      dispatch(createApplicationError(errorMessage));
+      throw new Error(errorMessage);
+    }
   };
 
   const getAllApplications = async () => {
@@ -108,7 +115,7 @@ export const ApplicationProvider = ({
       });
   };
 
-    const getApplicationsByCourseId = async (id: string) => {
+  const getApplicationsByCourseId = async (id: string) => {
     dispatch(getApplicationsByCourseIdPending());
     const endpoint = `CourseApplication/GetByCourseId?CourseId=${id}`;
 
@@ -152,6 +159,7 @@ export const ApplicationProvider = ({
   return (
     <ApplicationActionContext.Provider
       value={{
+        resetApplicationState: resetState,
         createApplication,
         getAllApplications,
         getApplicationById,

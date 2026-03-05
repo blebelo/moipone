@@ -10,6 +10,9 @@ export const ApplicationReducer = handleActions<
   IApplicationStateContext
 >(
   {
+    // Reset Application State
+    [ApplicationActionEnums.resetApplicationState]: () => INITIAL_STATE,
+
     // Create Application
     [ApplicationActionEnums.createApplicationPending]: mergePayloadHandler,
     [ApplicationActionEnums.createApplicationSuccess]: mergePayloadHandler,

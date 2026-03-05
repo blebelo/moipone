@@ -1,15 +1,13 @@
 'use client';
+import { useEffect } from "react";
 import Header from "@/src/components/Header";
 import Footer from "@/src/components/Footer";
-import ApplicationForm from "@/src/components/ApplicationForm";
-import { useStudentActions, useStudentState } from "@/src/providers/student-provider";
-import { IStudent } from "@/src/providers/student-provider/context";
-import { ICourseApplication } from "@/src/providers/application-provider/context";
-import { useAddressState } from "@/src/providers/address-provider";
-import { useApplicationActions, useApplicationState } from "@/src/providers/application-provider";
 import Loader from "@/src/components/Loader";
+import ApplicationForm from "@/src/components/ApplicationForm";
+import { ICourseApplication } from "@/src/providers/application-provider/context";
 import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
-import { useEffect } from "react";
+import { useStudentActions, useStudentState } from "@/src/providers/student-provider";
+import { useApplicationActions, useApplicationState } from "@/src/providers/application-provider";
 
 
 const Apply : React.FC = () => {
@@ -18,7 +16,6 @@ const Apply : React.FC = () => {
   const courseActions = useCourseActions()
 
   const studentState = useStudentState();
-  const addressState = useAddressState()
   const applicationState = useApplicationState()
   const courseState = useCourseState();
 
@@ -29,27 +26,31 @@ const Apply : React.FC = () => {
 
   const submitApplication = async (application?: ICourseApplication): Promise<void> => {
     try {
-      if (!application) return;
-      applicationActions.createApplication(application);
-
-      console.log("Application submitted successfully");
+      if (!application) {
+        throw new Error("Application payload is required.");
+      }
+      const payload = { ...application };
+      delete payload.id;
+      await applicationActions.createApplication(payload);
     } catch (error) {
       console.error("Error submitting application:", error);
+      throw error;
     }
   };
   
   return (
       <div>
-        {(addressState.isPending || studentState.isPending  || applicationState.isPending || courseState.isPending) && (
+        {(studentState.isPending  || applicationState.isPending || courseState.isPending) && (
           <Loader />
         )}
         <Header />
           <ApplicationForm
             courseList={courseState.courses}
+            applicationState={applicationState}
+            resetApplicationState={applicationActions.resetApplicationState}
             createStudent={studentActions.createStudent}
             submitApplication={submitApplication}
             registerDocs={studentActions.registerStudentDocuments}
-            studentState={studentState}
             getStudentByIdNumber={studentActions.getStudentByIdNumber}
            />
         <Footer />

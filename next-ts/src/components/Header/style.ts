@@ -93,7 +93,7 @@ export const useHeaderStyles = createStyles(() => ({
     fontSize: "0.9375rem",
     fontWeight: 600,
     borderRadius: "0.625rem",
-    backgroundColor: "var(--color-light-peach)",
+    backgroundColor: "var(--color-light-peach) !important",
     color: "var(--color-text-dark)",
     boxShadow: "0 0.25rem 1rem -0.25rem rgba(17, 100, 102, 0.4)",
     transition: "all 0.3s ease",
