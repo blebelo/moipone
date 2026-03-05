@@ -63,6 +63,9 @@ jobs:
 
     env:
       ASPNETCORE_ENVIRONMENT: Production
+      App__S3Prefix: ${{ secrets.APP__S3PREFIX }}
+      App__CorsOrigins: ${{ secrets.APP__CORSORIGINS }}
+      ConnectionStrings__Default: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
 
     steps:
       - uses: actions/checkout@v6

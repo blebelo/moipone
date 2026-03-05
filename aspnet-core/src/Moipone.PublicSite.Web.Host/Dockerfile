@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 COPY ["src/Moipone.PublicSite.Web.Host/Moipone.PublicSite.Web.Host.csproj", "src/Moipone.PublicSite.Web.Host/"]
@@ -18,7 +18,7 @@ COPY ["src/Moipone.PublicSite.EntityFrameworkCore", "src/Moipone.PublicSite.Enti
 WORKDIR "/src/src/Moipone.PublicSite.Web.Host"
 RUN dotnet publish -c Release -o /publish --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 EXPOSE 80
 WORKDIR /app
 COPY --from=build /publish .
