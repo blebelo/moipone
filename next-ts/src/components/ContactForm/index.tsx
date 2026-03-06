@@ -11,7 +11,7 @@ import { Button, Form, Input, Select, message } from "antd";
 import { useContactStyles } from "./style";
 import { useContactActions, useContactState } from "@/src/providers/contact-provider";
 import { IContact } from "@/src/providers/contact-provider/context";
-import { INITIAL_FORM_DATA } from "@/src/lib/common/constants";
+import { CONTACT_DETAILS, INITIAL_FORM_DATA } from "@/src/lib/common/constants";
 
 const contactSubjectOptions = [
   { value: "programmes", label: "Programmes Inquiry" },
@@ -61,7 +61,7 @@ const Contact = () => {
               </div>
               <div className={styles.infoContent}>
                 <p className={styles.infoLabel}>Email Us</p>
-                <p className={styles.infoValue}>info@moipone.org</p>
+                <p className={styles.infoValue}>{CONTACT_DETAILS.email}</p>
               </div>
             </div>
             <div className={styles.infoCard}>
@@ -70,7 +70,7 @@ const Contact = () => {
               </div>
               <div className={styles.infoContent}>
                 <p className={styles.infoLabel}>Call Us</p>
-                <p className={styles.infoValue}>+27 XX XXX XXXX</p>
+                <p className={styles.infoValue}>{CONTACT_DETAILS.phone}</p>
               </div>
             </div>
             <div className={styles.infoCard}>
@@ -79,7 +79,7 @@ const Contact = () => {
               </div>
               <div className={styles.infoContent}>
                 <p className={styles.infoLabel}>Visit Us</p>
-                <p className={styles.infoValue}>South Africa</p>
+                <p className={styles.infoValue}>{CONTACT_DETAILS.location}</p>
               </div>
             </div>
           </div>

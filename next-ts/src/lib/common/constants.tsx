@@ -147,6 +147,12 @@ export const MESSAGE_ICONS: Record<MessageVariant, React.ReactNode> = {
   info:    React.createElement(InfoCircleOutlined),
 };
 
+export const CONTACT_DETAILS = {
+  email: "info@moiponeacademy.org",
+  phone: "+27 11 920 1246",
+  location: "South Africa",
+};
+
 export const INITIAL_FORM_DATA: IContact = {
   name: "",
   email: "",

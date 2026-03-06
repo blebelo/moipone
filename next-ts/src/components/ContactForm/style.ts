@@ -300,32 +300,29 @@ export const useContactStyles = createStyles(() => ({
   otherInput: {
     height: "3rem",
     borderRadius: "0.75rem",
-    opacity: 0.9,
+    opacity: 0.75,
     width: "100%",
+    fontFamily: "var(--font-primary)",
     "&& .ant-select-selector": {
       height: "3rem !important",
       borderRadius: "0.75rem !important",
-      borderColor: "color-mix(in srgb, var(--color-mint) 72%, #ffffff) !important",
-      display: "flex",
-      alignItems: "center",
-      paddingInline: "0.75rem !important",
-      background: "#fdfcfa !important",
-      fontFamily: "var(--font-primary)",
-      color: "var(--color-text-dark)",
+      fontFamily: "var(--font-primary) !important",
+      fontSize: "0.9375rem !important",
     },
-    "&& .ant-select-selection-placeholder": {
-      color: "color-mix(in srgb, var(--color-dark-teal) 45%, #ffffff)",
-      fontFamily: "var(--font-primary)",
+    "&& .ant-select-selection-item, && .ant-select-selection-placeholder, && .ant-select-selection-search-input": {
+      fontFamily: "var(--font-primary) !important",
+      fontSize: "0.9375rem !important",
     },
-    "&.ant-select-focused .ant-select-selector": {
-      borderColor: "var(--color-teal) !important",
-      boxShadow:
-        "0 0 0 0.25rem color-mix(in srgb, var(--color-mint) 55%, transparent) !important",
+    "&:hover": {
+      borderColor: "var(--color-teal)",
     },
     "@media (max-width: 30rem)": {
       height: "2.75rem",
       "&& .ant-select-selector": {
         height: "2.75rem !important",
+      },
+      "&& .ant-select-selection-item, && .ant-select-selection-placeholder, && .ant-select-selection-search-input": {
+        fontSize: "0.875rem !important",
       },
     },
   },

@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { useFooterStyles } from "./style";
 import { useRouter } from "next/navigation";
+import { CONTACT_DETAILS } from "@/src/lib/common/constants";
 
 const Footer : React.FC = () => {
   const { styles } = useFooterStyles();
@@ -60,8 +61,8 @@ const Footer : React.FC = () => {
           <div className={styles.column}>
             <h4 className={styles.columnTitle}>Contact</h4>
             <div className={styles.columnLinks}>
-              <a className={styles.columnLink}>info@moiponeacademy.org</a>
-              <a className={styles.columnLink}>+27 11 920 1246</a>
+              <a className={styles.columnLink}>{CONTACT_DETAILS.email}</a>
+              <a className={styles.columnLink}>{CONTACT_DETAILS.phone}</a>
             </div>
           </div>
         </div>
