@@ -42,14 +42,14 @@ export const useContactStyles = createStyles(() => ({
     alignItems: "center",
     gap: "0.5rem",
     background:
-      "linear-gradient(135deg, color-mix(in srgb, var(--color-peach) 24%, transparent) 0%, color-mix(in srgb, var(--color-light-peach) 30%, transparent) 100%)",
+      "linear-gradient(135deg, rgba(44, 53, 49, 0.1) 0%, rgba(17, 100, 102, 0.1) 100%)",
     borderRadius: "3.125rem",
     padding: "0.5rem 1.25rem",
     marginBottom: "1.25rem",
-    color: "var(--color-teal)",
+    color: "var(--color-dark-teal)",
     fontSize: "0.875rem",
     fontWeight: 600,
-    border: "0.0625rem solid color-mix(in srgb, var(--color-peach) 55%, transparent)",
+    border: "0.0625rem solid rgba(44, 53, 49, 0.2)",
     fontFamily: "var(--font-primary)",
     "@media (max-width: 30rem)": {
       fontSize: "0.8125rem",
