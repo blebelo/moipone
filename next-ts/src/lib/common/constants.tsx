@@ -1,6 +1,7 @@
 import { IApplicationStateContext, ICourseApplication } from "@/src/providers/application-provider/context";
 import { ICourse, ICourseStateContext } from "@/src/providers/course-provider/context";
 import { IStudent, IStudentStateContext } from "@/src/providers/student-provider/context";
+import { IContact, IContactStateContext } from "@/src/providers/contact-provider/context";
 import {
   BookOutlined,
   BookTwoTone,
@@ -25,7 +26,11 @@ export const INITIAL_STATE = {
   isError: false,
 };
 
-export type StateMap = IStudentStateContext | ICourseStateContext | IApplicationStateContext;
+export type StateMap =
+  | IStudentStateContext
+  | ICourseStateContext
+  | IApplicationStateContext
+  | IContactStateContext;
 
 export interface IFileUploadProps {
   studentId: string;
@@ -140,4 +145,12 @@ export const MESSAGE_ICONS: Record<MessageVariant, React.ReactNode> = {
   error:   React.createElement(CloseCircleOutlined),
   warning: React.createElement(ExclamationCircleOutlined),
   info:    React.createElement(InfoCircleOutlined),
+};
+
+export const INITIAL_FORM_DATA: IContact = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
 };

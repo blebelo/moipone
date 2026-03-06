@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
 import Courses from "@/src/components/Courses";
 import Loader from "@/src/components/Loader";
+import Contact from "@/src/components/ContactForm";
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
@@ -75,6 +76,7 @@ const HomePage: React.FC = () => {
       <Courses 
         courseList={courses} 
       />
+      <Contact />
       <Footer />
     </div>
   );
