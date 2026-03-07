@@ -2,12 +2,19 @@ import { INITIAL_STATE } from "@/src/lib/common/constants";
 import { createContext } from "react";
 
 // ==================== ENTITIES ====================
+export enum RefListContactSubject {
+  ProgrammeEnquiry = 1,
+  PartnershipEnquiry = 2,
+  Volunteer = 3,
+  Donation = 4,
+  Other = 5,
+}
 export interface IContact {
   id?: string;
   name?: string;
   email?: string;
   phone?: string;
-  subject?: string;
+  subject?: RefListContactSubject;
   message?: string;
 }
 

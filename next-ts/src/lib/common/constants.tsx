@@ -150,13 +150,14 @@ export const MESSAGE_ICONS: Record<MessageVariant, React.ReactNode> = {
 export const CONTACT_DETAILS = {
   email: "info@moiponeacademy.org",
   phone: "+27 11 920 1246",
-  location: "South Africa",
+  location: "Moipone Academy, South Africa",
+  mapsUrl: "https://www.google.com/maps/search/?api=1&query=Moipone+Academy",
 };
 
 export const INITIAL_FORM_DATA: IContact = {
   name: "",
   email: "",
   phone: "",
-  subject: "",
+  subject: undefined,
   message: "",
 };
