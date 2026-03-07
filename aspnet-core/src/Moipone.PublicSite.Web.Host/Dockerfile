@@ -19,6 +19,11 @@ WORKDIR "/src/src/Moipone.PublicSite.Web.Host"
 RUN dotnet publish -c Release -o /publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
+
+RUN apt-get update && apt-get install -y \
+    libkrb5-3 \
+    libgssapi-krb5-2
+
 EXPOSE 80
 WORKDIR /app
 COPY --from=build /publish .
