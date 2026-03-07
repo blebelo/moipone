@@ -29,10 +29,12 @@ export const useContactStyles = createStyles(() => ({
     "@media (max-width: 56.25rem)": {
       gridTemplateColumns: "1fr",
       gap: "2.5rem",
+      alignItems: "stretch",
     },
   },
   content: {
     minWidth: 0,
+    width: "100%",
     "@media (max-width: 56.25rem)": {
       textAlign: "center" as const,
     },
@@ -115,6 +117,14 @@ export const useContactStyles = createStyles(() => ({
       borderColor: "color-mix(in srgb, var(--color-peach) 65%, transparent)",
       boxShadow: "0 0.75rem 2.25rem -1rem rgba(9, 51, 52, 0.28)",
     },
+    "@media (hover: none)": {
+      "&:hover": {
+        transform: "none",
+      },
+    },
+    "&:active": {
+      transform: "translateY(0.0625rem)",
+    },
     "@media (max-width: 56.25rem)": {
       justifyContent: "flex-start",
       textAlign: "left" as const,
@@ -171,11 +181,13 @@ export const useContactStyles = createStyles(() => ({
   formWrapper: {
     position: "relative",
     minWidth: 0,
+    width: "100%",
   },
   formCard: {
     background: "#ffffff",
     borderRadius: "1.5rem",
     padding: "2.5rem",
+    width: "100%",
     boxShadow: "0 1rem 3rem -0.75rem rgba(9, 51, 52, 0.18)",
     border: "0.0625rem solid color-mix(in srgb, var(--color-mint) 65%, transparent)",
     position: "relative",
@@ -244,6 +256,7 @@ export const useContactStyles = createStyles(() => ({
     marginBottom: "1rem",
     "@media (max-width: 48rem)": {
       gridTemplateColumns: "1fr",
+      gap: "0.875rem",
     },
   },
   inputGroup: {
@@ -420,7 +433,7 @@ export const useContactStyles = createStyles(() => ({
     },
   },
   outcomeTitle: {
-    fontSize: "2rem",
+    fontSize: "clamp(1.5rem, 4vw, 2rem)",
     fontWeight: 800,
     color: "var(--color-teal)",
     marginBottom: "0.75rem",
@@ -430,7 +443,7 @@ export const useContactStyles = createStyles(() => ({
     },
   },
   outcomeMessage: {
-    fontSize: "1rem",
+    fontSize: "clamp(0.875rem, 2.2vw, 1rem)",
     color: "var(--color-dark-teal)",
     marginBottom: "1.5rem",
     maxWidth: "38rem",
@@ -448,18 +461,28 @@ export const useContactStyles = createStyles(() => ({
     gap: "0.75rem",
     justifyContent: "center",
     flexWrap: "wrap" as const,
+    "@media (max-width: 30rem)": {
+      flexDirection: "column" as const,
+      width: "100%",
+    },
   },
   fillButton: {
     background: "var(--color-teal) !important",
     border: "none",
     fontSize: "0.9375rem",
     fontFamily: "var(--font-primary)",
+    "@media (max-width: 30rem)": {
+      width: "100%",
+    },
   },
   outlineButton: {
     borderColor: "var(--color-teal) !important",
     color: "var(--color-teal)",
     fontSize: "0.9375rem",
     fontFamily: "var(--font-primary)",
+    "@media (max-width: 30rem)": {
+      width: "100%",
+    },
   },
   floatingShape: {
     position: "absolute",
