@@ -1,5 +1,6 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Moipone.PublicSite.Contacts.Dto;
@@ -51,6 +52,7 @@ namespace Moipone.PublicSite.Contacts
             }
         }
 
+        [AbpAuthorize]
         public async override Task<PagedResultDto<ContactDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             try
@@ -76,6 +78,7 @@ namespace Moipone.PublicSite.Contacts
             }
         }
 
+        [AbpAuthorize]
         public async override Task<ContactDto> GetAsync(EntityDto<Guid> input)
         {
             try
@@ -104,7 +107,8 @@ namespace Moipone.PublicSite.Contacts
                 throw new UserFriendlyException($"Could not retrieve Contact. Error: {ex.Message}", Abp.Logging.LogSeverity.Error);
             }
         }
-
+        
+        [AbpAuthorize]
         public async override Task<ContactDto> UpdateAsync(ContactDto input)
         {
             try
@@ -142,6 +146,7 @@ namespace Moipone.PublicSite.Contacts
             }
         }
 
+        [AbpAuthorize]
         public async override Task DeleteAsync(EntityDto<Guid> input)
         {
             try
