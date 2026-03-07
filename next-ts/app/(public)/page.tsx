@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { useCourseActions, useCourseState } from "@/src/providers/course-provider";
 import Courses from "@/src/components/Courses";
 import Loader from "@/src/components/Loader";
+import Contact from "@/src/components/ContactForm";
 
 const HomePage: React.FC = () => {
   const { styles } = useHomePageStyles();
@@ -53,7 +54,16 @@ const HomePage: React.FC = () => {
             onClick={() => {router.push('/apply')}}>
               Apply for a Course <ArrowRightOutlined />
             </Button>
-            <Button className={styles.secondaryButton}>
+            <Button
+              className={styles.secondaryButton}
+              onClick={() =>
+                window.open(
+                  "https://youtu.be/y5cBWs8tjns?si=s8k3FHnb9b-0phVq",
+                  "_blank",
+                  "noopener,noreferrer",
+                )
+              }
+            >
               <PlayCircleOutlined /> Watch Our Story
             </Button>
           </div>
@@ -75,6 +85,7 @@ const HomePage: React.FC = () => {
       <Courses 
         courseList={courses} 
       />
+      <Contact />
       <Footer />
     </div>
   );

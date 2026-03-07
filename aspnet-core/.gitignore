@@ -261,3 +261,6 @@ src/Moipone.PublicSite.Migrator/secrets.json
 .env.*
 **/.env
 **/.env.*
+
+# Ignore application logs
+**/App_Data/Logs/
