@@ -69,6 +69,8 @@ namespace Moipone.PublicSite.Web.Host.Startup
 
             services.AddSingleton<IConfigurationRoot>(_appConfiguration);
 
+            // Sentry
+
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
 

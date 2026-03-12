@@ -13,14 +13,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Abp.Runtime.Caching.Redis;
 
 namespace Moipone.PublicSite
 {
     [DependsOn(
          typeof(PublicSiteApplicationModule),
          typeof(PublicSiteEntityFrameworkModule),
-         typeof(AbpAspNetCoreModule)
-        , typeof(AbpAspNetCoreSignalRModule)
+         typeof(AbpAspNetCoreModule),
+        typeof(AbpAspNetCoreSignalRModule),
+        typeof(AbpRedisCacheModule)
      )]
     public class PublicSiteWebCoreModule : AbpModule
     {
@@ -48,6 +50,12 @@ namespace Moipone.PublicSite
                  );
 
             ConfigureTokenAuth();
+
+            Configuration.Caching.UseRedis(options =>
+            {
+                options.ConnectionString = _appConfiguration["Abp:RedisCache:ConnectionString"];
+                options.DatabaseId = _appConfiguration.GetValue<int?>("Abp:RedisCache:DatabaseId") ?? 0;
+            });
         }
 
         private void ConfigureTokenAuth()

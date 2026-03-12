@@ -12,6 +12,7 @@
     "@ant-design/icons": "^6.1.0",
     "@aws-sdk/client-s3": "^3.983.0",
     "@aws-sdk/s3-presigned-post": "^3.983.0",
+    "@sentry/nextjs": "^10.42.0",
     "@types/redux": "^3.6.31",
     "antd": "^6.2.2",
     "antd-style": "^4.1.0",

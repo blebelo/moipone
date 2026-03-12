@@ -66,6 +66,7 @@ jobs:
       App__S3Prefix: ${{ secrets.APP__S3PREFIX }}
       App__CorsOrigins: ${{ secrets.APP__CORSORIGINS }}
       ConnectionStrings__Default: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
+      Sentry__Dsn: ${{ secrets.SENTRY__DSN }}
 
     steps:
       - uses: actions/checkout@v6
