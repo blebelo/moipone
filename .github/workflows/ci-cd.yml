@@ -1,8 +1,5 @@
 name: CI/CD Pipeline
 
-permissions:
-  contents: read
-
 on:
   push:
     branches: [ "main" ]
@@ -16,11 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.101
 
       - name: Restore dependencies
         run: dotnet restore aspnet-core/Moipone.PublicSite.sln
@@ -66,15 +58,13 @@ jobs:
 
     env:
       ASPNETCORE_ENVIRONMENT: Production
+      App__S3Prefix: ${{ secrets.APP__S3PREFIX }}
+      App__CorsOrigins: ${{ secrets.APP__CORSORIGINS }}
       ConnectionStrings__Default: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
-
+      DOTNET_INSTALL_DIR: /home/ubuntu/.dotnet
+    
     steps:
       - uses: actions/checkout@v6
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.101
 
       - name: Restore dependencies
         run: dotnet restore aspnet-core/Moipone.PublicSite.sln
