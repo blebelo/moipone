@@ -20,9 +20,9 @@ namespace Moipone.PublicSite.Web.Host.Startup
 
         public void HandleEvent(AbpHandledExceptionData eventData)
         {
-            //if (eventData.Exception is UserFriendlyException)
-                //return;
-            eventData.Exception.Data["UserId"] = _abpSession.UserId;
+            if (eventData.Exception is UserFriendlyException)
+                return;
+            eventData.Exception.Data["UserSession"] = _abpSession;
             SentrySdk.CaptureException(eventData.Exception);
         }
     }

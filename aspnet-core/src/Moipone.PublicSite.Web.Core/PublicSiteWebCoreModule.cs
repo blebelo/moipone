@@ -3,17 +3,18 @@ using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
+using Abp.Runtime.Caching.Redis;
 using Abp.Zero.Configuration;
-using Moipone.PublicSite.Authentication.JwtBearer;
-using Moipone.PublicSite.Configuration;
-using Moipone.PublicSite.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Moipone.PublicSite.Authentication.JwtBearer;
+using Moipone.PublicSite.Configuration;
+using Moipone.PublicSite.EntityFrameworkCore;
+using StackExchange.Redis;
 using System;
 using System.Text;
-using Abp.Runtime.Caching.Redis;
 
 namespace Moipone.PublicSite
 {
@@ -53,8 +54,9 @@ namespace Moipone.PublicSite
 
             Configuration.Caching.UseRedis(options =>
             {
+
                 options.ConnectionString = _appConfiguration["Abp:RedisCache:ConnectionString"];
-                options.DatabaseId = _appConfiguration.GetValue<int?>("Abp:RedisCache:DatabaseId") ?? 0;
+                options.DatabaseId = 0;
             });
         }
 
