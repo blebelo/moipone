@@ -68,8 +68,7 @@ jobs:
       - name: Update Database
         run: |
           cd aspnet-core/src/Moipone.PublicSite.EntityFrameworkCore
-          dotnet ef database update \
-            --startup-project ../Moipone.PublicSite.Web.Host
+          dotnet ef database update 
 
   upload_image:
     name: Upload Docker Image
