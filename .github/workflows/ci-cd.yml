@@ -102,7 +102,6 @@ jobs:
   
       - name: Publish app
         run: |
-          mkdir -p /home/ubuntu/moipone/publish
           dotnet publish src/Moipone.PublicSite.Web.Host/Moipone.PublicSite.Web.Host.csproj \
             -c Release \
             -o /home/ubuntu/moipone/publish
