@@ -102,7 +102,7 @@ jobs:
   
       - name: Publish app
         run: |
-          dotnet publish src/Moipone.PublicSite.Web.Host/Moipone.PublicSite.Web.Host.csproj \
+          dotnet publish aspnet-core/src/Moipone.PublicSite.Web.Host/Moipone.PublicSite.Web.Host.csproj \
             -c Release \
             -o /home/ubuntu/moipone/publish
   
