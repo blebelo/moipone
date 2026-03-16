@@ -57,7 +57,6 @@ jobs:
       App__S3Prefix: ${{ secrets.APP__S3PREFIX }}
       App__CorsOrigins: ${{ secrets.APP__CORSORIGINS }}
       ConnectionStrings__Default: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
-      DOTNET_INSTALL_DIR: /home/ubuntu/.dotnet
     
     steps:
       - uses: actions/checkout@v6
