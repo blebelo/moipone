@@ -93,17 +93,12 @@ jobs:
   deploy:
     name: Deploy DLL to EC2
     runs-on: [self-hosted, linux, x64, moipone-pipeline]
-    needs: [build, test, db_update]
+    needs: [build, test, db_update, upload_image]
     if: github.ref == 'refs/heads/main'
   
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-  
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: '10.0.x'
+        uses: actions/checkout@v6
   
       - name: Publish app
         run: |
