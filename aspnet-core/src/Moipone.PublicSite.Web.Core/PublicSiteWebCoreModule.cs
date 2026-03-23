@@ -3,7 +3,6 @@ using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
-using Abp.Runtime.Caching.Redis;
 using Abp.Zero.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -12,7 +11,6 @@ using Microsoft.IdentityModel.Tokens;
 using Moipone.PublicSite.Authentication.JwtBearer;
 using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.EntityFrameworkCore;
-using StackExchange.Redis;
 using System;
 using System.Text;
 
@@ -22,8 +20,7 @@ namespace Moipone.PublicSite
          typeof(PublicSiteApplicationModule),
          typeof(PublicSiteEntityFrameworkModule),
          typeof(AbpAspNetCoreModule),
-        typeof(AbpAspNetCoreSignalRModule),
-        typeof(AbpRedisCacheModule)
+        typeof(AbpAspNetCoreSignalRModule)
      )]
     public class PublicSiteWebCoreModule : AbpModule
     {
@@ -51,13 +48,6 @@ namespace Moipone.PublicSite
                  );
 
             ConfigureTokenAuth();
-
-            Configuration.Caching.UseRedis(options =>
-            {
-
-                options.ConnectionString = _appConfiguration["Abp:RedisCache:ConnectionString"];
-                options.DatabaseId = 0;
-            });
         }
 
         private void ConfigureTokenAuth()

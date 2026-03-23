@@ -47,5 +47,16 @@ namespace Moipone.PublicSite.Web.Host.Controllers
 
             return Content("Sent notification: " + message);
         }
+
+        [HttpGet]
+        public ActionResult HealthCheck()
+        {
+            Logger.Info("Performing System Health Check");
+            return Ok(new
+            {
+                status = "Healthy",
+                time = Clock.Now
+            });
+        }
     }
 }

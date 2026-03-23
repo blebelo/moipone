@@ -207,7 +207,7 @@ namespace Moipone.PublicSite.Students
             }
         }
 
-        public async Task<StudentDto> GetStudentByEmailAsync(string emailAddress)
+        public async Task<StudentDto> GetByEmailAsync(string emailAddress)
         {
             try
             {
