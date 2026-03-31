@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./(public)/globals.css";
 import favicon from "./(public)/favicon.png";
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: "Moipone Academy",
@@ -18,7 +19,10 @@ export default function AppLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
