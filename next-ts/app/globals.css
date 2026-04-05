@@ -3,7 +3,7 @@
   --foreground: #171717;
 
   /* Typography */
-  --font-primary: var(--font-lexend), Arial, Helvetica, sans-serif;
+  --font-primary: var(--font-lexend)
 
   /* Primary color palette */
   --color-dark-teal: #093334;

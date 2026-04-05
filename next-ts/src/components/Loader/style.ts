@@ -11,11 +11,12 @@ export const useStyles = createStyles(() => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    borderRadius: 'inherit',
     gap: '1.5rem',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     backdropFilter: 'blur(8px)',
     WebkitBackdropFilter: 'blur(8px)',
-    zIndex: 9999,
+    zIndex: 0,
   },
   loader: {
     fontSize: '2.5rem',

@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import { useStyles } from "./style";
 import { LoadingOutlined } from "@ant-design/icons";
 
