@@ -16,7 +16,7 @@ export const useStyles = createStyles(() => ({
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     backdropFilter: 'blur(8px)',
     WebkitBackdropFilter: 'blur(8px)',
-    zIndex: 0,
+    zIndex: 9999,
   },
   loader: {
     fontSize: '2.5rem',
