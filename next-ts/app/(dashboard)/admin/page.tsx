@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ILogin } from '@/src/providers/auth-provider/context';
 import { useAuthActions, useAuthState } from '@/src/providers/auth-provider';
 
-const AdminLogin = () => {
+const AdminLogin : React.FC = () => {
   const { styles } = useAuthPageStyles();
   const router = useRouter();
   const [form] = Form.useForm<ILogin>();

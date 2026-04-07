@@ -4,8 +4,7 @@ import { ApplicationProvider } from "@/src/providers/application-provider";
 import { ContactProvider } from "@/src/providers/contact-provider";
 import { AuthProvider } from "@/src/providers/auth-provider";
 
-
-export default function AdminLayout({
+export default function AdminRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -15,11 +14,7 @@ export default function AdminLayout({
       <StudentProvider>
         <CourseProvider>
           <ApplicationProvider>
-            <CourseProvider>
-              <ContactProvider>
-                {children}
-              </ContactProvider>
-            </CourseProvider>
+            <ContactProvider>{children}</ContactProvider>
           </ApplicationProvider>
         </CourseProvider>
       </StudentProvider>
