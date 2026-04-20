@@ -27,7 +27,7 @@ export enum AbpTokenProperies {
     exp = "exp",
     iss = "iss",
     aud = "aud",
-    nameidentifier = `${claims}nameidentifier`, // userId
+    nameidentifier = `${claims}nameidentifier`,
     name = `${claims}name`,
     emailaddress = `${claims}emailaddress`,
     securitystamp = "AspNet.Identity.SecurityStamp",

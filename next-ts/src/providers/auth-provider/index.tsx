@@ -14,7 +14,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const instance = axiosInstance(false);
   const router = useRouter();
 
-  const authenticate = async (user: ILogin) => {
+const authenticate = async (user: ILogin) => {
     dispatch(authenticatePending());
     const endpoint = 'TokenAuth/Authenticate';
 
@@ -29,14 +29,16 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
           const decoded = decodeToken(token);
           const userRole = decoded[AbpTokenProperies.role];
-          const userId = decoded[AbpTokenProperies.nameidentifier]
+          const userId = decoded[AbpTokenProperies.nameidentifier];
+
+          document.cookie = `token=${token}; path=/; secure; samesite=strict`;
 
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("role", userRole);
-          sessionStorage.setItem("Id", userId );
-          console.log('Session Storage', sessionStorage)
-          dispatch(authenticateSuccess())
-          router.push('/dashboard')
+          sessionStorage.setItem("Id", userId);
+
+          dispatch(authenticateSuccess());
+          router.push('/dashboard');
         }
       ).catch(
         () => {
