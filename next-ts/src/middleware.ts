@@ -20,8 +20,8 @@ export function middleware(request: NextRequest) {
       url.pathname = `/admin${url.pathname}`;
     }
 
-    if (!token && !url.pathname.startsWith("/dashboard")) {
-      url.pathname = "/";
+    if (!token && !url.pathname.startsWith("/admin")) {
+      url.pathname = "/admin";
       return NextResponse.redirect(url);
     }
 
