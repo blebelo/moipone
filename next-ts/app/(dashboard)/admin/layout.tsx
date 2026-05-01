@@ -3,7 +3,7 @@ import { CourseProvider } from "@/src/providers/course-provider";
 import { ApplicationProvider } from "@/src/providers/application-provider";
 import { ContactProvider } from "@/src/providers/contact-provider";
 import { AuthProvider } from "@/src/providers/auth-provider";
-import WithAuth from "@/src/AuthGuard";
+import WithAuth from "@/src/lib/AuthGuard";
 
 export default function AdminRootLayout({
   children,
