@@ -3,6 +3,7 @@ import { CourseProvider } from "@/src/providers/course-provider";
 import { ApplicationProvider } from "@/src/providers/application-provider";
 import { ContactProvider } from "@/src/providers/contact-provider";
 import { AuthProvider } from "@/src/providers/auth-provider";
+import AuthGuard from "@/src/lib/AuthGuard";
 
 export default function AdminRootLayout({
   children,
@@ -10,14 +11,18 @@ export default function AdminRootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthProvider>
-      <StudentProvider>
-        <CourseProvider>
-          <ApplicationProvider>
-            <ContactProvider>{children}</ContactProvider>
-          </ApplicationProvider>
-        </CourseProvider>
-      </StudentProvider>
-    </AuthProvider>
+    <AuthGuard>
+      <AuthProvider>
+        <StudentProvider>
+          <CourseProvider>
+            <ApplicationProvider>
+              <ContactProvider>
+                {children}
+              </ContactProvider>
+            </ApplicationProvider>
+          </CourseProvider>
+        </StudentProvider>
+      </AuthProvider>
+    </AuthGuard>
   );
 }

@@ -4,25 +4,22 @@ export function middleware(request: NextRequest) {
   const host = request.headers.get("host") || "";
   const url = request.nextUrl.clone();
 
-  if (!host.startsWith("admin.") && url.pathname.startsWith("/admin")) {
+  const isAdminHost = host.startsWith("admin.");
+  const isAdminPath = url.pathname.startsWith("/admin");
+
+  if (!isAdminHost && isAdminPath) {
     url.pathname = "/404";
     return NextResponse.rewrite(url);
   }
 
-  if (host.startsWith("admin.")) {
-    const token = request.cookies.get("token")?.value || 
-                  request.headers.get("authorization");
-
+  if (isAdminHost) {
     if (
-      !url.pathname.startsWith("/admin") &&
-      !url.pathname.startsWith("/images")
+      !isAdminPath &&
+      !url.pathname.startsWith("/_next") &&
+      !url.pathname.startsWith("/images") &&
+      !url.pathname.startsWith("/favicon.ico")
     ) {
       url.pathname = `/admin${url.pathname}`;
-    }
-
-    if (!token && !url.pathname.startsWith("/admin")) {
-      url.pathname = "/admin";
-      return NextResponse.redirect(url);
     }
 
     return NextResponse.rewrite(url);
@@ -32,5 +29,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|favicon.ico).*)"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

@@ -4,9 +4,7 @@ import { IStudent, IStudentStateContext } from "@/src/providers/student-provider
 import { IContact, IContactStateContext } from "@/src/providers/contact-provider/context";
 import {
   BookOutlined,
-  BookTwoTone,
   CheckCircleOutlined,
-  CheckCircleTwoTone,
   CloseCircleOutlined,
   ExclamationCircleOutlined,
   InfoCircleOutlined,

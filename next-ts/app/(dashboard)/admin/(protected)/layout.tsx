@@ -1,3 +1,4 @@
+import WithAuth from '@/src/lib/AuthGuard';
 import AdminLayout from '@/src/components/Admin/AdminLayout';
 
 export default function AdminProtectedLayout({
@@ -5,5 +6,11 @@ export default function AdminProtectedLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <AdminLayout>{children}</AdminLayout>;
+  return (
+    <AdminLayout>
+      <WithAuth>
+        {children}
+      </WithAuth>
+    </AdminLayout>
+  );
 }

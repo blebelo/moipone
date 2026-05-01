@@ -2,6 +2,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Net.Mail;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.CourseApplications.Dto;
@@ -22,13 +23,15 @@ namespace Moipone.PublicSite.CourseApplications
         private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
         private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
         private readonly IRepository<Student, Guid> _studentRepository;
+        private readonly IEmailSender _emailSender;
 
-        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository)
+        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository, IEmailSender emailSender)
             : base(courseApplicationRepository)
         {
             _courseApplicationRepository = courseApplicationRepository;
             _shortCourseRepository = shortCourseRepository;
             _studentRepository = studentRepository;
+            _emailSender = emailSender;
         }
 
         public override async Task<CourseApplicationDto> CreateAsync(CourseApplicationDto input)
@@ -55,12 +58,12 @@ namespace Moipone.PublicSite.CourseApplications
             }
 
             var entity = ObjectMapper.Map<CourseApplication>(input);
-
             var result = await _courseApplicationRepository.InsertAsync(entity);
 
             return ObjectMapper.Map<CourseApplicationDto>(result);
         }
 
+        [AbpAuthorize]
         public override async Task<PagedResultDto<CourseApplicationDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             var query = Repository.GetAll();

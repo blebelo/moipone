@@ -1,31 +1,12 @@
 'use client'
 
-import {
-  ArrowRightOutlined,
-  ArrowUpOutlined,
-  BookOutlined,
-  FileTextOutlined,
-  TrophyOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, FileTextOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { dashboardStats, mockApplications, mockCourses } from '@/src/lib/common/mockData';
 import { useAdminDashboardStyles } from './style';
+import { getTimeGreeting } from '@/src/lib/common/helper-methods';
 
-const getTimeGreeting = () => {
-  const hour = new Date().getHours();
-
-  if (hour < 12) {
-    return 'Good morning,';
-  }
-
-  if (hour < 18) {
-    return 'Good afternoon,';
-  }
-
-  return 'Good evening,';
-};
 
 const DashboardPage = () => {
   const { styles } = useAdminDashboardStyles();
@@ -39,10 +20,10 @@ const DashboardPage = () => {
     const updateGreeting = () => setGreeting(getTimeGreeting());
 
     updateGreeting();
-    const timer = window.setInterval(updateGreeting, 60_000);
+    const timer = globalThis.setInterval(updateGreeting, 60_000);
 
     return () => {
-      window.clearInterval(timer);
+      globalThis.clearInterval(timer);
     };
   }, []);
 
