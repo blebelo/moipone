@@ -20,10 +20,10 @@ const DashboardPage = () => {
     const updateGreeting = () => setGreeting(getTimeGreeting());
 
     updateGreeting();
-    const timer = window.setInterval(updateGreeting, 60_000);
+    const timer = globalThis.setInterval(updateGreeting, 60_000);
 
     return () => {
-      window.clearInterval(timer);
+      globalThis.clearInterval(timer);
     };
   }, []);
 
