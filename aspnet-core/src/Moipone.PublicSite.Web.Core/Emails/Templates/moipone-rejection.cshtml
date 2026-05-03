@@ -1,0 +1,43 @@
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewData["Title"] = "Application Unsuccessful - Moipone";
+    ViewData["HeroBackground"] = "#093334";
+
+    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
+    var rejectionReason = ViewData["RejectionReason"]?.ToString();
+}
+
+@section Hero {
+  <div class="hero-greeting">Thank you for your application</div>
+  <div class="hero-headline">We regret to inform you,<br><span>@firstName.</span></div>
+  <div class="hero-sub">After careful consideration, we are unable to proceed at this time.</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">Application Status</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    Thank you for taking the time to apply to <strong>Moipone</strong> and for the interest you have shown. After a thorough review of your application, we regret to inform you that we are unable to move forward at this time.
+  </p>
+  <div class="pull-quote">&ldquo;Setbacks are simply setups for something greater.&rdquo;</div>
+  <p class="intro-text">
+    @if (string.IsNullOrWhiteSpace(rejectionReason))
+    {
+      <text>This decision was not made lightly and does not reflect a lack of effort or commitment on your part. We appreciate the time and care you invested in your application and wish you all the best in your future endeavours.<br><br>Should circumstances change in the future, we would welcome hearing from you again.</text>
+    }
+    else
+    {
+      @rejectionReason
+    }
+  </p>
+</div>
+
+<div class="section-label">Need clarity?</div>
+<div class="steps-grid">
+  <div class="step-item">
+    <div>
+      <div class="step-title">Get in touch</div>
+      <div class="step-desc">If you would like feedback on your application or have questions about this decision, please reply to this email and our team will be happy to assist.</div>
+    </div>
+  </div>
+</div>

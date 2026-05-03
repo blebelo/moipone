@@ -1,0 +1,37 @@
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewData["Title"] = "Custom Email - Moipone";
+    ViewData["HeroBackground"] = "#093334";
+
+    var emailSubjectLineOne = ViewData["EmailSubjectLineOne"]?.ToString() ?? "[Email Subject]";
+    var emailSubjectLineTwo = ViewData["EmailSubjectLineTwo"]?.ToString() ?? "Line Here.";
+    var heroSubheading = ViewData["HeroSubheading"]?.ToString() ?? "[Optional subheading or context line]";
+    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
+    var openingParagraph = ViewData["OpeningParagraph"]?.ToString() ?? "[Opening paragraph]";
+    var customBody = ViewData["CustomBody"]?.ToString() ?? "[Main body content goes here]";
+    var closingLine = ViewData["ClosingLine"]?.ToString()
+        ?? "[Closing line - e.g. \"Please do not hesitate to contact us should you have any questions.\"]";
+}
+
+@section Hero {
+  <div class="hero-greeting">A message from Moipone</div>
+  <div class="hero-headline">@emailSubjectLineOne<br><span>@emailSubjectLineTwo</span></div>
+  <div class="hero-sub">@heroSubheading</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">A message for you</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    @openingParagraph
+  </p>
+</div>
+
+<div class="section-label">Message</div>
+<div class="custom-body-area">
+  @customBody
+</div>
+
+<p class="intro-text" style="margin-top: 24px;">
+  @closingLine
+</p>

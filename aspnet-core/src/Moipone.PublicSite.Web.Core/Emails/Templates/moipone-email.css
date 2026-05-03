@@ -1,0 +1,302 @@
+/* ============================================================
+   MOIPONE EMAIL STYLESHEET
+   --dark-teal : #093334
+   --teal      : #116466
+   --peach     : #D9B08C
+   --light-peach: #FFCB9A
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-color: #f4f0ea;
+  font-family: 'Lexend', sans-serif;
+  color: #093334;
+  padding: 40px 16px;
+}
+
+.email-wrapper {
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ── Header ── */
+.email-header {
+  background-color: #093334;
+  padding: 36px 48px 28px;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid #D9B08C;
+}
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.header-logo img {
+  width: 140px;
+  height: auto;
+  filter: brightness(0) invert(1);
+}
+.header-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  color: #D9B08C;
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+
+/* ── Hero ── */
+.email-hero {
+  background-color: #116466;
+  padding: 52px 48px 44px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.email-hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  border: 1px solid rgba(217,176,140,0.15);
+}
+.email-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(217,176,140,0.10);
+}
+.hero-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 17px;
+  color: #D9B08C;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.hero-headline {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #FFCB9A;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.hero-headline span { color: #D9B08C; }
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 300;
+  color: rgba(255, 203, 154, 0.75);
+  line-height: 1.6;
+}
+
+/* ── Body ── */
+.email-body {
+  background-color: #ffffff;
+  padding: 48px 48px 40px;
+}
+.intro-block {
+  padding-bottom: 36px;
+  border-bottom: 1px solid #e8e0d5;
+  margin-bottom: 36px;
+}
+.intro-label {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #116466;
+  margin-bottom: 14px;
+}
+.intro-text {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #093334;
+}
+.intro-text strong { font-weight: 600; color: #093334; }
+
+.pull-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 22px;
+  font-weight: 400;
+  color: #116466;
+  line-height: 1.55;
+  padding: 20px 0 20px 24px;
+  border-left: 3px solid #D9B08C;
+  margin: 28px 0;
+}
+
+/* ── Step / info item ── */
+.section-label {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #116466;
+  margin-bottom: 20px;
+}
+.steps-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 20px;
+  background: #f7f3ee;
+  border-radius: 4px;
+  border-left: 3px solid #D9B08C;
+}
+.step-title {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #093334;
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+.step-desc {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  color: #5a6b6b;
+  line-height: 1.6;
+}
+
+/* ── Meta table ── */
+.meta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4px 0 28px;
+}
+.meta-table td {
+  font-family: 'Lexend', sans-serif;
+  font-size: 14px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e8e0d5;
+  vertical-align: top;
+}
+.meta-table td:first-child {
+  font-weight: 500;
+  color: #116466;
+  width: 36%;
+  white-space: nowrap;
+}
+.meta-table td:last-child { font-weight: 300; color: #093334; }
+.meta-table tr:last-child td { border-bottom: none; }
+
+/* ── Withdraw / CTA button ── */
+.btn-row {
+  padding-top: 32px;
+  border-top: 1px solid #e8e0d5;
+  text-align: center;
+}
+.btn-withdraw {
+  display: inline-block;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #7a3030;
+  padding: 13px 36px;
+  border-radius: 2px;
+  border: 1px solid #c4a0a0;
+}
+.btn-cta {
+  display: inline-block;
+  font-family: 'Lexend', sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #FFCB9A;
+  background-color: #093334;
+  padding: 14px 40px;
+  border-radius: 2px;
+  border: 1px solid #093334;
+}
+
+/* ── Custom body area ── */
+.custom-body-area {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.9;
+  color: #093334;
+  border-left: 3px solid #D9B08C;
+  padding: 20px 24px;
+  background: #f7f3ee;
+  border-radius: 0 4px 4px 0;
+  margin: 28px 0;
+}
+
+/* ── Footer ── */
+.email-footer {
+  background-color: #093334;
+  padding: 32px 48px;
+  border-radius: 0 0 4px 4px;
+  border-top: 3px solid #D9B08C;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.footer-address {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 300;
+  font-size: 11px;
+  color: rgba(217,176,140,0.5);
+  line-height: 1.7;
+}
+.footer-quote {
+  width: 100%;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+  color: rgba(217,176,140,0.4);
+  margin-top: 16px;
+  letter-spacing: 0.04em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .email-header, .email-hero, .email-body, .email-footer {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .email-header {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .header-tagline { text-align: center; }
+  .hero-headline { font-size: 28px; }
+  .footer-bottom { justify-content: center; text-align: center; }
+}

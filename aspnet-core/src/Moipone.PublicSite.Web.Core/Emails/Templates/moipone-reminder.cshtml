@@ -1,0 +1,40 @@
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewData["Title"] = "Course Reminder - Moipone";
+    ViewData["HeroBackground"] = "#116466";
+
+    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
+    var courseTitle = ViewData["CourseTitle"]?.ToString() ?? "[Course Title]";
+    var startDate = ViewData["StartDate"]?.ToString() ?? "[Start Date]";
+    var duration = ViewData["Duration"]?.ToString() ?? "[Duration]";
+    var courseDescription = ViewData["CourseDescription"]?.ToString() ?? "[Course Description]";
+    var withdrawLink = ViewData["WithdrawLink"]?.ToString() ?? "[withdraw-link]";
+}
+
+@section Hero {
+  <div class="hero-greeting">A friendly reminder from Moipone</div>
+  <div class="hero-headline">Your course is<br><span>coming up.</span></div>
+  <div class="hero-sub">Here&rsquo;s everything you need to know before you begin.</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">Course Reminder</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    This is a friendly reminder that your upcoming course is just around the corner. Please review the details below and make sure you are ready for your start date.
+  </p>
+</div>
+
+<div class="section-label">Course details</div>
+<table class="meta-table">
+  <tr><td>Course Title</td><td>@courseTitle</td></tr>
+  <tr><td>Start Date</td><td>@startDate</td></tr>
+  <tr><td>Duration</td><td>@duration</td></tr>
+  <tr><td>Description</td><td>@courseDescription</td></tr>
+</table>
+
+<p class="intro-text">If you have any questions before your course begins, please do not hesitate to get in touch. We look forward to seeing you there.</p>
+
+<div class="btn-row">
+  <a href="@withdrawLink" class="btn-withdraw">Withdraw from Course</a>
+</div>

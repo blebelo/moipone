@@ -11,6 +11,9 @@ namespace Moipone.PublicSite.Domain.CourseApplications
         Approved = 2,
 
         [Display(Name = "Declined", Description = "Application declined by the admin")]
-        Declined = 3
+        Declined = 3,
+
+        [Display(Name = "Withdrawn", Description = "Application withdrawn by the student")]
+        Withdrawn = 4
     }
 }
