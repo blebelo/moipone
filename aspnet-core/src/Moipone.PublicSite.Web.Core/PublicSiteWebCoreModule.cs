@@ -13,6 +13,7 @@ using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.EntityFrameworkCore;
 using System;
 using System.Text;
+using Abp.MailKit;
 
 namespace Moipone.PublicSite
 {
@@ -20,7 +21,8 @@ namespace Moipone.PublicSite
          typeof(PublicSiteApplicationModule),
          typeof(PublicSiteEntityFrameworkModule),
          typeof(AbpAspNetCoreModule),
-        typeof(AbpAspNetCoreSignalRModule)
+        typeof(AbpAspNetCoreSignalRModule),
+        typeof(AbpMailKitModule)
      )]
     public class PublicSiteWebCoreModule : AbpModule
     {

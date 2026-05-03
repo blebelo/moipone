@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Moipone.PublicSite.Views.Emails
+namespace Moipone.PublicSite.Emails.Rendering
 {
-    class Welcome
+    internal class EmailTemplateRenderer
     {
     }
 }

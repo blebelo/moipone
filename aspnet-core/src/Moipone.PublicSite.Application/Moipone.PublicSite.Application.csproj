@@ -18,4 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Moipone.PublicSite.Core\Moipone.PublicSite.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Emails\NewFolder\" />
+  </ItemGroup>
 </Project>
