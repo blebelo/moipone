@@ -4,11 +4,11 @@ using RazorLight;
 using System.IO;
 using System.Threading.Tasks;
 
-public class RazorLightEmailTemplateRenderer : IEmailTemplateRenderer, ISingletonDependency
+public class EmailTemplateRenderer : IEmailTemplateRenderer, ISingletonDependency
 {
     private readonly IRazorLightEngine _engine;
 
-    public RazorLightEmailTemplateRenderer()
+    public EmailTemplateRenderer()
     {
         var templatesRoot = Path.Combine(
             Directory.GetCurrentDirectory(),
