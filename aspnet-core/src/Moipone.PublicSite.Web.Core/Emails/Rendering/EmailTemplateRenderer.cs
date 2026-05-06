@@ -4,7 +4,7 @@ using RazorLight;
 using System.IO;
 using System.Threading.Tasks;
 
-public class RazorLightEmailTemplateRenderer : IEmailTemplateRenderer, ITransientDependency
+public class RazorLightEmailTemplateRenderer : IEmailTemplateRenderer, ISingletonDependency
 {
     private readonly IRazorLightEngine _engine;
 
