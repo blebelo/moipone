@@ -1,10 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Abp.Dependency;
+using Moipone.PublicSite.Emails.Rendering;
+using RazorLight;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace Moipone.PublicSite.Emails.Rendering
+public class RazorLightEmailTemplateRenderer : IEmailTemplateRenderer, ITransientDependency
 {
-    internal class EmailTemplateRenderer
+    private readonly IRazorLightEngine _engine;
+
+    public RazorLightEmailTemplateRenderer()
     {
+        var templatesRoot = Path.Combine(
+            Directory.GetCurrentDirectory(),
+            "Emails", "Templates"
+        );
+
+        _engine = new RazorLightEngineBuilder()
+            .UseFileSystemProject(templatesRoot)
+            .UseMemoryCachingProvider()
+            .Build();
+    }
+
+    public async Task<string> RenderAsync<TModel>(string templateName, TModel model)
+    {
+        // templateName = "Welcome" resolves to Templates/Welcome.cshtml
+        return await _engine.CompileRenderAsync(templateName, model);
     }
 }
