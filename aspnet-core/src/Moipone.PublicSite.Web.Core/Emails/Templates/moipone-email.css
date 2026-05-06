@@ -7,15 +7,20 @@
    ============================================================ */
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
 
 body {
+  margin: 0;
   background-color: #f4f0ea;
   font-family: 'Lexend', sans-serif;
   color: #093334;
   padding: 40px 16px;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 .email-wrapper {
+  width: 100%;
   max-width: 620px;
   margin: 0 auto;
 }
@@ -34,11 +39,17 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 10px 12px;
 }
-.header-logo img {
+.logo-mark {
   width: 140px;
   height: auto;
-  filter: brightness(0) invert(1);
+  display: block;
+  filter: brightness(0) saturate(100%) invert(100%);
+  -webkit-filter: brightness(0) saturate(100%) invert(100%);
+  opacity: 0.98;
 }
 .header-tagline {
   font-family: 'Cormorant Garamond', serif;
@@ -287,6 +298,13 @@ body {
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
+  body {
+    padding: 16px 8px !important;
+  }
+  .email-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
   .email-header, .email-hero, .email-body, .email-footer {
     padding-left: 24px;
     padding-right: 24px;
@@ -297,6 +315,29 @@ body {
     text-align: center;
   }
   .header-tagline { text-align: center; }
+  .logo-mark { width: 120px !important; }
+  .hero-greeting { font-size: 15px; }
   .hero-headline { font-size: 28px; }
+  .hero-sub { font-size: 18px; }
+  .intro-text, .custom-body-area { font-size: 14px; }
+  .meta-table td {
+    display: block;
+    width: 100% !important;
+    white-space: normal !important;
+    padding: 10px 0;
+  }
+  .meta-table td:first-child {
+    padding-bottom: 2px;
+    border-bottom: none;
+  }
+  .meta-table td:last-child {
+    padding-top: 0;
+    border-bottom: 1px solid #e8e0d5;
+  }
+  .meta-table tr:last-child td:last-child { border-bottom: none; }
+  .btn-withdraw, .btn-cta {
+    width: 100%;
+    text-align: center;
+  }
   .footer-bottom { justify-content: center; text-align: center; }
 }

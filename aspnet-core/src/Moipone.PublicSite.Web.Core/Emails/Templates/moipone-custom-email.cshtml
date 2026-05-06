@@ -1,16 +1,18 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.CustomEmail
 @{
     Layout = "_MoiponeEmailLayout.cshtml";
-    ViewData["Title"] = "Custom Email - Moipone";
-    ViewData["HeroBackground"] = "#093334";
+    ViewBag.Title = "Custom Email - Moipone";
+    ViewBag.HeroBackground = "#093334";
 
-    var emailSubjectLineOne = ViewData["EmailSubjectLineOne"]?.ToString() ?? "[Email Subject]";
-    var emailSubjectLineTwo = ViewData["EmailSubjectLineTwo"]?.ToString() ?? "Line Here.";
-    var heroSubheading = ViewData["HeroSubheading"]?.ToString() ?? "[Optional subheading or context line]";
-    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
-    var openingParagraph = ViewData["OpeningParagraph"]?.ToString() ?? "[Opening paragraph]";
-    var customBody = ViewData["CustomBody"]?.ToString() ?? "[Main body content goes here]";
-    var closingLine = ViewData["ClosingLine"]?.ToString()
-        ?? "[Closing line - e.g. \"Please do not hesitate to contact us should you have any questions.\"]";
+    var emailSubjectLineOne = string.IsNullOrWhiteSpace(Model?.EmailSubjectLineOne) ? "[Email Subject]" : Model.EmailSubjectLineOne;
+    var emailSubjectLineTwo = string.IsNullOrWhiteSpace(Model?.EmailSubjectLineTwo) ? "Line Here." : Model.EmailSubjectLineTwo;
+    var heroSubheading = string.IsNullOrWhiteSpace(Model?.HeroSubheading) ? "[Optional subheading or context line]" : Model.HeroSubheading;
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var openingParagraph = string.IsNullOrWhiteSpace(Model?.OpeningParagraph) ? "[Opening paragraph]" : Model.OpeningParagraph;
+    var customBody = string.IsNullOrWhiteSpace(Model?.CustomBody) ? "[Main body content goes here]" : Model.CustomBody;
+    var closingLine = string.IsNullOrWhiteSpace(Model?.ClosingLine)
+        ? "[Closing line - e.g. \"Please do not hesitate to contact us should you have any questions.\"]"
+        : Model.ClosingLine;
 }
 
 @section Hero {
@@ -29,7 +31,7 @@
 
 <div class="section-label">Message</div>
 <div class="custom-body-area">
-  @customBody
+  @Raw(customBody)
 </div>
 
 <p class="intro-text" style="margin-top: 24px;">

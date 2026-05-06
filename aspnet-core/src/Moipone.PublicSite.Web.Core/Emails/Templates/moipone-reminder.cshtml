@@ -1,14 +1,15 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.Reminder
 @{
     Layout = "_MoiponeEmailLayout.cshtml";
-    ViewData["Title"] = "Course Reminder - Moipone";
-    ViewData["HeroBackground"] = "#116466";
+    ViewBag.Title = "Course Reminder - Moipone";
+    ViewBag.HeroBackground = "#116466";
 
-    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
-    var courseTitle = ViewData["CourseTitle"]?.ToString() ?? "[Course Title]";
-    var startDate = ViewData["StartDate"]?.ToString() ?? "[Start Date]";
-    var duration = ViewData["Duration"]?.ToString() ?? "[Duration]";
-    var courseDescription = ViewData["CourseDescription"]?.ToString() ?? "[Course Description]";
-    var withdrawLink = ViewData["WithdrawLink"]?.ToString() ?? "[withdraw-link]";
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var courseTitle = string.IsNullOrWhiteSpace(Model?.CourseTitle) ? "[Course Title]" : Model.CourseTitle;
+    var startDate = string.IsNullOrWhiteSpace(Model?.StartDate) ? "[Start Date]" : Model.StartDate;
+    var duration = string.IsNullOrWhiteSpace(Model?.Duration) ? "[Duration]" : Model.Duration;
+    var courseDescription = string.IsNullOrWhiteSpace(Model?.CourseDescription) ? "[Course Description]" : Model.CourseDescription;
+    var withdrawLink = string.IsNullOrWhiteSpace(Model?.WithdrawLink) ? "[withdraw-link]" : Model.WithdrawLink;
 }
 
 @section Hero {

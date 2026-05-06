@@ -1,13 +1,14 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.Admission
 @{
     Layout = "_MoiponeEmailLayout.cshtml";
-    ViewData["Title"] = "Admission Confirmed - Moipone";
-    ViewData["HeroBackground"] = "#116466";
+    ViewBag.Title = "Admission Confirmed - Moipone";
+    ViewBag.HeroBackground = "#116466";
 
-    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
-    var lastName = ViewData["LastName"]?.ToString() ?? "[Last Name]";
-    var courseTitle = ViewData["CourseTitle"]?.ToString() ?? "[Course Title]";
-    var startDate = ViewData["StartDate"]?.ToString() ?? "[Start Date]";
-    var courseDuration = ViewData["CourseDuration"]?.ToString() ?? "[Course Duration]";
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var lastName = string.IsNullOrWhiteSpace(Model?.LastName) ? "[Last Name]" : Model.LastName;
+    var courseTitle = string.IsNullOrWhiteSpace(Model?.CourseTitle) ? "[Course Title]" : Model.CourseTitle;
+    var startDate = string.IsNullOrWhiteSpace(Model?.StartDate) ? "[Start Date]" : Model.StartDate;
+    var courseDuration = string.IsNullOrWhiteSpace(Model?.CourseDuration) ? "[Course Duration]" : Model.CourseDuration;
 }
 
 @section Hero {

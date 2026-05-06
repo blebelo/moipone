@@ -2,6 +2,7 @@
 using Abp.AspNetCore.Configuration;
 using Abp.AspNetCore.SignalR;
 using Abp.Configuration;
+using Abp.Dependency;
 using Abp.MailKit;
 using Abp.Modules;
 using Abp.Net.Mail;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Moipone.PublicSite.Authentication.JwtBearer;
 using Moipone.PublicSite.EntityFrameworkCore;
+using Moipone.PublicSite.Services.Emails.Rendering;
 using System;
 using System.Text;
 
@@ -48,6 +50,9 @@ namespace Moipone.PublicSite
                  );
 
             ConfigureTokenAuth();
+
+            IocManager.Register<IEmailTemplateRenderer, EmailTemplateRenderer>(
+                DependencyLifeStyle.Singleton);
         }
 
         private void ConfigureTokenAuth()
@@ -78,10 +83,12 @@ namespace Moipone.PublicSite
             // Emailing
             settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UseDefaultCredentials, "false");
             settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Host, _appConfiguration["Abp.Net.Mail.Smtp.Host"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, _appConfiguration["Abp.Net.Mail.Smtp.Port"]);
+            //settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, _appConfiguration["Abp.Net.Mail.Smtp.Port"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, "587");
             settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UserName, _appConfiguration["Abp.Net.Mail.Smtp.UserName"]);
             settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Password, _appConfiguration["Abp.Net.Mail.Smtp.Password"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, _appConfiguration["Abp.Net.Mail.Smtp.EnableSsl"]);
+            //settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, _appConfiguration["Abp.Net.Mail.Smtp.EnableSsl"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, "false");
             settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromAddress, _appConfiguration["Abp.Net.Mail.DefaultFromAddress"]);
             settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromDisplayName, _appConfiguration["Abp.Net.Mail.DefaultFromDisplayName"]);
         }

@@ -1,10 +1,11 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.Rejection
 @{
     Layout = "_MoiponeEmailLayout.cshtml";
-    ViewData["Title"] = "Application Unsuccessful - Moipone";
-    ViewData["HeroBackground"] = "#093334";
+    ViewBag.Title = "Application Unsuccessful - Moipone";
+    ViewBag.HeroBackground = "#093334";
 
-    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
-    var rejectionReason = ViewData["RejectionReason"]?.ToString();
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var rejectionReason = string.IsNullOrWhiteSpace(Model?.RejectionReason) ? null : Model.RejectionReason;
 }
 
 @section Hero {

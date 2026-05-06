@@ -1,9 +1,10 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.WelcomeEmail
 @{
     Layout = "_MoiponeEmailLayout.cshtml";
-    ViewData["Title"] = "Welcome - Moipone";
-    ViewData["HeroBackground"] = "#116466";
+    ViewBag.Title = "Welcome - Moipone";
+    ViewBag.HeroBackground = "#116466";
 
-    var firstName = ViewData["FirstName"]?.ToString() ?? "[First Name]";
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
 }
 
 @section Hero {
@@ -32,4 +33,3 @@
     </div>
   </div>
 </div>
-cd

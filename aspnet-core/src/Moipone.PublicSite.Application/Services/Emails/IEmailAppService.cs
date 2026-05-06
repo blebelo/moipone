@@ -5,7 +5,7 @@ namespace Moipone.PublicSite.Services.Emails
 {
     public interface IEmailAppService : IApplicationService
     {
-        Task SendWelcomeEmail(string emailAddress); 
+        Task SendWelcomeEmail(string emailAddress, string firstName); 
         Task SendCourseReminderEmail(string emailAddress);
         Task SendCustomEmail(string emailAddress, string emailBody);
         Task SendAdmissionEmail(string emailAddress);

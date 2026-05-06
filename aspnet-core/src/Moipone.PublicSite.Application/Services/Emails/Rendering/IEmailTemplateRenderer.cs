@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Moipone.PublicSite.Emails.Rendering
+namespace Moipone.PublicSite.Services.Emails.Rendering
 {
     public interface IEmailTemplateRenderer
     {

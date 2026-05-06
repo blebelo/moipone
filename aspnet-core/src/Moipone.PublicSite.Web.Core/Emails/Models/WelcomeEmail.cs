@@ -1,6 +1,6 @@
 namespace Moipone.PublicSite.Emails.Models
 {
-    public class Welcome
+    public class WelcomeEmail
     {
         public string FirstName { get; set; }
     }

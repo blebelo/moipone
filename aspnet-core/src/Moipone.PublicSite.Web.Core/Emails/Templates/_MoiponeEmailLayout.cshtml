@@ -1,7 +1,8 @@
 @{
     Layout = null;
-    var pageTitle = ViewData["Title"]?.ToString() ?? "Moipone Email";
-    var heroBackground = ViewData["HeroBackground"]?.ToString() ?? "#116466";
+    var pageTitle = ViewBag?.Title?.ToString() ?? "Moipone Email";
+    var heroBackground = ViewBag?.HeroBackground?.ToString() ?? "#116466";
+    var emailStyles = ViewBag?.EmailStyles?.ToString();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -10,14 +11,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>@pageTitle</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="moipone-email.css">
+@if (!string.IsNullOrWhiteSpace(emailStyles))
+{
+<style type="text/css">
+@Raw(emailStyles)
+</style>
+}
 </head>
 <body>
 <div class="email-wrapper">
 
   <div class="email-header">
     <div class="header-logo">
-      <img src="https://www.moiponeacademy.org/images/moipone-logo.png" alt="Moipone">
+      <img src="https://www.moiponeacademy.org/images/moipone-logo.png" alt="Moipone" class="logo-mark" style="display:block; width:140px; height:auto; filter:brightness(0) saturate(100%) invert(100%); -webkit-filter:brightness(0) saturate(100%) invert(100%);">
     </div>
     <div class="header-tagline">Where ideas become<br>something more.</div>
   </div>
