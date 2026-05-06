@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Logging;
 using Abp.Net.Mail;
+using Abp.UI;
 
 namespace Moipone.PublicSite.Services.Emails
 {
@@ -66,7 +67,7 @@ namespace Moipone.PublicSite.Services.Emails
                     ex
                 );
 
-                throw;
+                throw new UserFriendlyException("Email sending failed", ex.Message);
             }
         }
 
@@ -90,6 +91,16 @@ namespace Moipone.PublicSite.Services.Emails
 
                 throw;
             }
+        }
+
+        public Task SendAdmissionEmail(string emailAddress)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SendRejectionEmail(string emailAddress, string rejectionReason)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,6 +3,7 @@ using Abp.Localization;
 using Abp.MultiTenancy;
 using Abp.Net.Mail;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 
 namespace Moipone.PublicSite.EntityFrameworkCore.Seed.Host;
@@ -24,10 +25,6 @@ public class DefaultSettingsCreator
         {
             tenantId = MultiTenancyConsts.DefaultTenantId;
         }
-
-        // Emailing
-        AddSettingIfNotExists(EmailSettingNames.DefaultFromAddress, "admin@mydomain.com", tenantId);
-        AddSettingIfNotExists(EmailSettingNames.DefaultFromDisplayName, "mydomain.com mailer", tenantId);
 
         // Languages
         AddSettingIfNotExists(LocalizationSettingNames.DefaultLanguage, "en", tenantId);
