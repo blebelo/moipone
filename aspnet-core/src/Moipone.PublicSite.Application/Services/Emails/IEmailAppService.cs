@@ -1,15 +1,18 @@
 ﻿using Abp.Application.Services;
+using Moipone.PublicSite.Services.Emails.TemplateModels;
+using Moipone.PublicSite.ShortCourses.Dto;
+using Moipone.PublicSite.Students.Dto;
 using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.Services.Emails
 {
     public interface IEmailAppService : IApplicationService
     {
-        Task SendWelcomeEmail(string emailAddress, string firstName); 
-        Task SendCourseReminderEmail(string emailAddress);
-        Task SendCustomEmail(string emailAddress, string emailBody);
-        Task SendAdmissionEmail(string emailAddress);
-        Task SendRejectionEmail(string emailAddress, string? rejectionReason);
+        Task SendWelcomeEmail(StudentDto student); 
+        Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course);
+        Task SendCustomEmail(StudentDto student, CustomEmail customEmailDto);
+        Task SendAdmissionEmail(StudentDto student, ShortCourseDto course);
+        Task SendRejectionEmail(StudentDto student, string? rejectionReason);
 
     }
 }

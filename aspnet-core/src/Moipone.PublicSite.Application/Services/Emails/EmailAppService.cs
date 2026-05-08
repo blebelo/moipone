@@ -1,8 +1,10 @@
 ﻿using System;
+using Abp.UI;
+using Abp.Net.Mail;
 using System.Threading.Tasks;
 using Abp.Application.Services;
-using Abp.Net.Mail;
-using Abp.UI;
+using Moipone.PublicSite.Students.Dto;
+using Moipone.PublicSite.ShortCourses.Dto;
 using Moipone.PublicSite.Services.Emails.Rendering;
 using Moipone.PublicSite.Services.Emails.TemplateModels;
 
@@ -19,24 +21,24 @@ namespace Moipone.PublicSite.Services.Emails
             _emailRenderer = emailRenderer;
         }
 
-        public async Task SendCourseReminderEmail(string emailAddress)
+        public async Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course)
         {
             try
             {
                 var model = new Reminder
                 {
-                    FirstName = "Learner",
-                    CourseTitle = "Your Upcoming Course",
-                    StartDate = "To be confirmed",
-                    Duration = "As communicated",
-                    CourseDescription = "Please check your learner portal for the latest course details.",
+                    FirstName = student.Name + " " + student.Surname,
+                    CourseTitle = course.Title,
+                    StartDate = course.StartDate.ToString(),
+                    Duration = course.Duration.ToString(),
+                    CourseDescription = course.Description,
                     WithdrawLink = "https://www.moiponeacademy.org/"
                 };
 
                 var emailBody = await _emailRenderer.RenderAsync<Reminder>("moipone-reminder", model);
 
                 await _emailSender.SendAsync(
-                    emailAddress,
+                    student.EmailAddress,
                     "Course Reminder",
                     emailBody,
                     true
@@ -44,24 +46,20 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error(
-                    $"Failed to send course reminder to {emailAddress}",
-                    ex
-                );
-
-                throw;
+                Logger.Error($"Failed to send course reminder email");
+                throw new UserFriendlyException("Failed to send course reminder", ex.Message);
             }
         }
 
-        public async Task SendWelcomeEmail(string emailAddress, string firstName)
+        public async Task SendWelcomeEmail(StudentDto student)
         {
             try
             {
-                WelcomeEmail model = new WelcomeEmail(firstName);
+                WelcomeEmail model = new WelcomeEmail(student.Name);
                 var emailBody = await _emailRenderer.RenderAsync<WelcomeEmail>("welcome", model);
 
                 await _emailSender.SendAsync(
-                    emailAddress,
+                    student.EmailAddress,
                     "Welcome to Moipone",
                     emailBody,
                     true
@@ -69,34 +67,30 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error(
-                    $"Failed to send welcome email to {emailAddress}",
-                    ex
-                );
-
-                throw new UserFriendlyException("Email sending failed", ex.Message);
+                Logger.Error($"Failed to send welcome email");
+                throw new UserFriendlyException("Failed to send welcome email", ex.Message);
             }
         }
 
-        public async Task SendCustomEmail(string emailAddress, string emailBody)
+        public async Task SendCustomEmail(StudentDto student, CustomEmail customEmailDto)
         {
             try
             {
                 var model = new CustomEmail
                 {
-                    EmailSubjectLineOne = "Moipone",
-                    EmailSubjectLineTwo = "Notification",
-                    HeroSubheading = "A message from our team.",
-                    FirstName = "Learner",
-                    OpeningParagraph = "Please find your message below.",
-                    CustomBody = emailBody,
-                    ClosingLine = "Thank you for being part of Moipone."
+                    EmailSubjectLineOne = customEmailDto.EmailSubjectLineOne,
+                    EmailSubjectLineTwo = customEmailDto.EmailSubjectLineTwo,
+                    HeroSubheading = customEmailDto.HeroSubheading ?? "A message from our team.",
+                    FirstName = student.Name,
+                    OpeningParagraph = customEmailDto.OpeningParagraph ?? "Please find your message below.",
+                    CustomBody = customEmailDto.CustomBody,
+                    ClosingLine = customEmailDto.ClosingLine ?? "Thank you for being part of Moipone."
                 };
 
                 var renderedBody = await _emailRenderer.RenderAsync<CustomEmail>("moipone-custom-email", model);
 
                 await _emailSender.SendAsync(
-                    emailAddress,
+                    student.EmailAddress,
                     "Moipone Notification",
                     renderedBody,
                     true
@@ -104,32 +98,28 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error(
-                    $"Failed to send custom email to {emailAddress}",
-                    ex
-                );
-
-                throw;
+                Logger.Error($"Failed to send custom email");
+                throw new UserFriendlyException("Failed to send custom email", ex.Message);
             }
         }
 
-        public async Task SendAdmissionEmail(string emailAddress)
+        public async Task SendAdmissionEmail(StudentDto student, ShortCourseDto course)
         {
             try
             {
                 var model = new Admission
                 {
-                    FirstName = "Learner",
-                    LastName = "",
-                    CourseTitle = "Your Enrolled Course",
-                    StartDate = "To be confirmed",
-                    CourseDuration = "As communicated"
+                    FirstName = student.Name,
+                    LastName = student.Surname,
+                    CourseTitle = course.Title,
+                    StartDate = course.StartDate.ToString(),
+                    CourseDuration = course.Duration.ToString(),
                 };
 
                 var emailBody = await _emailRenderer.RenderAsync<Admission>("moipone-admission", model);
 
                 await _emailSender.SendAsync(
-                    emailAddress,
+                    student.EmailAddress,
                     "Admission Confirmed",
                     emailBody,
                     true
@@ -137,29 +127,25 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error(
-                    $"Failed to send admission email to {emailAddress}",
-                    ex
-                );
-
-                throw;
+                Logger.Error($"Failed to send admission email");
+                throw new UserFriendlyException("Failed to send admission email", ex.Message);
             }
         }
 
-        public async Task SendRejectionEmail(string emailAddress, string? rejectionReason)
+        public async Task SendRejectionEmail(StudentDto student, string? rejectionReason)
         {
             try
             {
                 var model = new Rejection
                 {
-                    FirstName = "Applicant",
-                    RejectionReason = rejectionReason
+                    FirstName = student.Name,
+                    RejectionReason = rejectionReason ?? ""
                 };
 
                 var emailBody = await _emailRenderer.RenderAsync<Rejection>("moipone-rejection", model);
 
                 await _emailSender.SendAsync(
-                    emailAddress,
+                    student.EmailAddress,
                     "Application Update",
                     emailBody,
                     true
@@ -167,12 +153,8 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error(
-                    $"Failed to send rejection email to {emailAddress}",
-                    ex
-                );
-
-                throw;
+                Logger.Error($"Failed to send rejection email");
+                throw new UserFriendlyException("Failed to send rejection email", ex.Message);
             }
         }
     }

@@ -1,8 +1,7 @@
-using Moipone.PublicSite.Services.Emails.Rendering;
+﻿using Moipone.PublicSite.Services.Emails.Rendering;
 using RazorLight;
 using System.Dynamic;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 public class EmailTemplateRenderer : IEmailTemplateRenderer

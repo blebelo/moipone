@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.Domain.Students;
+using Moipone.PublicSite.Services.Emails;
 using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,13 @@ namespace Moipone.PublicSite.Students
           IStudentAppService
     {
         private readonly IRepository<Student, Guid> _studentRepository;
+        private readonly IEmailAppService _email;
         private readonly IConfigurationRoot _config;
 
-        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config)
+        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config, IEmailAppService email)
             : base(studentRepository)
         {
+            _email = email;
             _config = config;
             _studentRepository = studentRepository;
         }
@@ -43,6 +46,9 @@ namespace Moipone.PublicSite.Students
 
                 var student = ObjectMapper.Map<Student>(input);
                 var result = await _studentRepository.InsertAsync(student);
+
+
+                _email.SendWelcomeEmail(input);
                 return ObjectMapper.Map<StudentDto>(result);
             }
             catch (UserFriendlyException)
