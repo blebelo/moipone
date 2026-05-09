@@ -1,14 +1,17 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.BackgroundJobs;
 using Abp.Domain.Repositories;
-using Abp.Net.Mail;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.CourseApplications.Dto;
 using Moipone.PublicSite.Domain.CourseApplications;
 using Moipone.PublicSite.Domain.ShortCourses;
 using Moipone.PublicSite.Domain.Students;
+using Moipone.PublicSite.Services.Emails.BackgroundJobs;
+using Moipone.PublicSite.ShortCourses.Dto;
+using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +23,18 @@ namespace Moipone.PublicSite.CourseApplications
         : AsyncCrudAppService<CourseApplication, CourseApplicationDto, Guid, PagedAndSortedResultRequestDto, CourseApplicationDto, CourseApplicationDto>,
           ICourseApplicationAppService
     {
-        private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
-        private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
+        private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IRepository<Student, Guid> _studentRepository;
-        private readonly IEmailSender _emailSender;
+        private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
+        private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
 
-        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository, IEmailSender emailSender)
+        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository, IBackgroundJobManager backgroundJobManager)
             : base(courseApplicationRepository)
         {
-            _courseApplicationRepository = courseApplicationRepository;
-            _shortCourseRepository = shortCourseRepository;
+            _backgroundJobManager = backgroundJobManager;
             _studentRepository = studentRepository;
-            _emailSender = emailSender;
+            _shortCourseRepository = shortCourseRepository;
+            _courseApplicationRepository = courseApplicationRepository;
         }
 
         public override async Task<CourseApplicationDto> CreateAsync(CourseApplicationDto input)
@@ -173,6 +176,11 @@ namespace Moipone.PublicSite.CourseApplications
             await _shortCourseRepository.UpdateAsync(shortCourse);
             var updated = await _courseApplicationRepository.UpdateAsync(application);
 
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters {
+                    Student = ObjectMapper.Map<StudentDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse)
+                });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
 
@@ -196,6 +204,13 @@ namespace Moipone.PublicSite.CourseApplications
             application.DecisionReason = reason ?? "Application Declined";
 
             var updated = await _courseApplicationRepository.UpdateAsync(application);
+
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters
+                {
+                    Student = ObjectMapper.Map<StudentDto>(application.Student),
+                    Course = ObjectMapper.Map<ShortCourseDto>(application.ShortCourse)
+                });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
     }
