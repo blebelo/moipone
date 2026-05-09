@@ -17,6 +17,7 @@
     <RootNamespace>Moipone.PublicSite</RootNamespace>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591;NU1902;NU1903</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moipone.PublicSite.Application\Moipone.PublicSite.Application.csproj" />
