@@ -237,13 +237,11 @@ namespace Moipone.PublicSite.CourseApplications
             if (shortCourse == null)
                 throw new UserFriendlyException("Short course not found.");
 
-            if (shortCourse.Applications.Contains(application))
-            {
-                application.Status = RefListApplicationStatus.Withdrawn;
-                application.DecisionDate = DateTime.UtcNow;
-                application.DecisionReason = "Student withdrew application voluntarily";
-                await _courseApplicationRepository.UpdateAsync(application);
-            }
+
+            application.Status = RefListApplicationStatus.Withdrawn;
+            application.DecisionDate = DateTime.UtcNow;
+            application.DecisionReason = "Student withdrew application voluntarily";
+            await _courseApplicationRepository.UpdateAsync(application);
 
             var student = await _studentRepository.GetAsync(application.StudentId);
 
