@@ -53,7 +53,7 @@ namespace Moipone.PublicSite.Students
                 _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
                     new EmailJobParameters
                     {
-                        Student = input,
+                        Student = ObjectMapper.Map<StudentEmailDto>(student),
                         EmailType = RefListEmailType.Welcome
                     });
 

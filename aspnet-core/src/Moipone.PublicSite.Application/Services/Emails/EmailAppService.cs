@@ -26,7 +26,7 @@ namespace Moipone.PublicSite.Services.Emails
 
         [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
-        public async Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course)
+        public async Task SendCourseReminderEmail(StudentEmailDto student, ShortCourseEmailDto course)
         {
             try
             {
@@ -51,14 +51,14 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to send course reminder email");
-                throw new UserFriendlyException("Failed to send course reminder", ex.Message);
+                Logger.Error($"Failed to send course reminder email", ex);
+                throw new UserFriendlyException("Failed to send course reminder");
             }
         }
 
         [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
-        public async Task SendWelcomeEmail(StudentDto student)
+        public async Task SendWelcomeEmail(StudentEmailDto student)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace Moipone.PublicSite.Services.Emails
         }
 
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
-        public async Task SendCustomEmail(StudentDto student, CustomEmail customEmailDto)
+        public async Task SendCustomEmail(StudentEmailDto student, CustomEmail customEmailDto)
         {
             try
             {
@@ -106,14 +106,14 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to send custom email");
-                throw new UserFriendlyException("Failed to send custom email", ex.Message);
+                Logger.Error($"Failed to send custom email", ex);
+                throw new UserFriendlyException("Failed to send custom email");
             }
         }
 
         [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
-        public async Task SendAdmissionEmail(StudentDto student, ShortCourseDto course)
+        public async Task SendAdmissionEmail(StudentEmailDto student, ShortCourseEmailDto course)
         {
             try
             {
@@ -137,14 +137,14 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to send admission email");
-                throw new UserFriendlyException("Failed to send admission email", ex.Message);
+                Logger.Error($"Failed to send admission email", ex);
+                throw new UserFriendlyException("Failed to send admission email");
             }
         }
 
         [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
-        public async Task SendRejectionEmail(StudentDto student, string? rejectionReason)
+        public async Task SendRejectionEmail(StudentEmailDto student, string? rejectionReason)
         {
             try
             {
@@ -165,8 +165,8 @@ namespace Moipone.PublicSite.Services.Emails
             }
             catch (Exception ex)
             {
-                Logger.Error($"Failed to send rejection email");
-                throw new UserFriendlyException("Failed to send rejection email", ex.Message);
+                Logger.Error($"Failed to send rejection email", ex);
+                throw new UserFriendlyException("Failed to send rejection email");
             }
         }
     }

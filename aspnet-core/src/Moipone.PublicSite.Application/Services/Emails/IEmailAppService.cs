@@ -8,11 +8,11 @@ namespace Moipone.PublicSite.Services.Emails
 {
     public interface IEmailAppService : IApplicationService
     {
-        Task SendWelcomeEmail(StudentDto student); 
-        Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course);
-        Task SendCustomEmail(StudentDto student, CustomEmail customEmailDto);
-        Task SendAdmissionEmail(StudentDto student, ShortCourseDto course);
-        Task SendRejectionEmail(StudentDto student, string? rejectionReason);
+        Task SendWelcomeEmail(StudentEmailDto student); 
+        Task SendCourseReminderEmail(StudentEmailDto student, ShortCourseEmailDto course);
+        Task SendCustomEmail(StudentEmailDto student, CustomEmail customEmailDto);
+        Task SendAdmissionEmail(StudentEmailDto student, ShortCourseEmailDto course);
+        Task SendRejectionEmail(StudentEmailDto student, string? rejectionReason);
 
     }
 }

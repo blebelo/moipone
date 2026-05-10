@@ -7,8 +7,8 @@ namespace Moipone.PublicSite.Services.Emails.BackgroundJobs
     public class EmailJobParameters
     {
         public RefListEmailType EmailType { get; set; }  
-        public StudentDto Student { get; set; }
-        public ShortCourseDto Course { get; set; }
+        public StudentEmailDto Student { get; set; }
+        public ShortCourseEmailDto Course { get; set; }
         public string RejectionReason { get; set; }
         public CustomEmail CustomEmail { get; set; }
     }

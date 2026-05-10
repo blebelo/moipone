@@ -179,8 +179,8 @@ namespace Moipone.PublicSite.CourseApplications
                 new EmailJobParameters
                 {
                     EmailType = RefListEmailType.Admission,
-                    Student = ObjectMapper.Map<StudentDto>(student),
-                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse)
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse)
                 });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
@@ -212,8 +212,8 @@ namespace Moipone.PublicSite.CourseApplications
                 new EmailJobParameters
                 {
                     EmailType = RefListEmailType.Rejection,
-                    Student = ObjectMapper.Map<StudentDto>(student),
-                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse),
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse),
                     RejectionReason = reason ?? "We decided to pursue other candidacy. Please try again in the future"
                 });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
@@ -252,8 +252,8 @@ namespace Moipone.PublicSite.CourseApplications
                 new EmailJobParameters
                 {
                     EmailType = RefListEmailType.Rejection,
-                    Student = ObjectMapper.Map<StudentDto>(student),
-                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse)
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse)
                 });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
