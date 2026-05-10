@@ -30,7 +30,6 @@ export interface IApplicationStateContext {
   error?: string;
   application?: ICourseApplication;
   applications?: ICourseApplication[];
-  totalApplicationCount?: number;
 }
 
 export interface IApplicationActionContext {
@@ -41,8 +40,9 @@ export interface IApplicationActionContext {
   updateApplication: (id: string, application: ICourseApplication) => Promise<void>;
   deleteApplication: (id: string) => Promise<void>;
   getApplicationsByCourseId: (courseId: string) => Promise<void>;
-  approveApplication: (id: string, reason?: string | null) => Promise<void>;
-  rejectApplication: (id: string, reason?: string | null) => Promise<void>;
+  approveApplication: (id: string, reason?: string) => Promise<void>;
+  rejectApplication: (id: string, reason?: string) => Promise<void>;
+  withdrawApplication: (id: string, reason?: string) => Promise<void>;
 }
 
 

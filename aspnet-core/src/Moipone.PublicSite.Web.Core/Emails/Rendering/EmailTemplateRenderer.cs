@@ -4,36 +4,39 @@ using System.Dynamic;
 using System.IO;
 using System.Threading.Tasks;
 
-public class EmailTemplateRenderer : IEmailTemplateRenderer
+namespace Moipone.PublicSite.Emails.Rendering
 {
-    private readonly IRazorLightEngine _engine;
-    private readonly string _emailStyles;
-
-    public EmailTemplateRenderer()
+    public class EmailTemplateRenderer : IEmailTemplateRenderer
     {
-        var templatesRoot = Path.Combine(
-            Path.GetDirectoryName(typeof(EmailTemplateRenderer).Assembly.Location),
-            "Emails", "Templates"
-        );
+        private readonly IRazorLightEngine _engine;
+        private readonly string _emailStyles;
 
-        var stylesPath = Path.Combine(templatesRoot, "moipone-email.css");
+        public EmailTemplateRenderer()
+        {
+            var templatesRoot = Path.Combine(
+                Path.GetDirectoryName(typeof(EmailTemplateRenderer).Assembly.Location),
+                "Emails", "Templates"
+            );
 
-        _engine = new RazorLightEngineBuilder()
-            .UseFileSystemProject(templatesRoot)
-            .UseMemoryCachingProvider()
-            .Build();
+            var stylesPath = Path.Combine(templatesRoot, "moipone-email.css");
 
-        _emailStyles = File.Exists(stylesPath)
-            ? File.ReadAllText(stylesPath)
-            : string.Empty;
-    }
+            _engine = new RazorLightEngineBuilder()
+                .UseFileSystemProject(templatesRoot)
+                .UseMemoryCachingProvider()
+                .Build();
 
-    public async Task<string> RenderAsync<TModel>(string templateName, TModel model)
-    {
-        dynamic viewBag = new ExpandoObject();
-        viewBag.EmailStyles = _emailStyles;
+            _emailStyles = File.Exists(stylesPath)
+                ? File.ReadAllText(stylesPath)
+                : string.Empty;
+        }
 
-        // templateName resolves to Templates/<templateName>.cshtml
-        return await _engine.CompileRenderAsync(templateName, model, viewBag);
+        public async Task<string> RenderAsync<TModel>(string templateName, TModel model)
+        {
+            dynamic viewBag = new ExpandoObject();
+            viewBag.EmailStyles = _emailStyles;
+
+            // templateName resolves to Templates/<templateName>.cshtml
+            return await _engine.CompileRenderAsync(templateName, model, viewBag);
+        }
     }
 }

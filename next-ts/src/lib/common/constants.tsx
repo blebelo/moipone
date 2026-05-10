@@ -91,6 +91,15 @@ export const programmesList = [
   },
 ];
 
+export const withdrawalReasons = [
+  'Changed my mind',
+  'Found another programme',
+  'Personal circumstances',
+  'Schedule conflict',
+  'Financial reasons',
+  'Other',
+];
+
 export const provinceOptions = [
   { value: "Gauteng", label: "Gauteng" },
   { value: "Western Cape", label: "Western Cape" },

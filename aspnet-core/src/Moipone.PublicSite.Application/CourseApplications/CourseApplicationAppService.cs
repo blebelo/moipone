@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.BackgroundJobs;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.CourseApplications.Dto;
@@ -134,7 +135,7 @@ namespace Moipone.PublicSite.CourseApplications
         }
 
         [AbpAuthorize]
-        public async Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason)
+        public async Task<CourseApplicationDto> ApproveApplication(Guid input)
         {
             if (input == Guid.Empty)
                 throw new UserFriendlyException("Invalid Application ID.");
@@ -170,7 +171,7 @@ namespace Moipone.PublicSite.CourseApplications
 
             application.Status = RefListApplicationStatus.Approved;
             application.DecisionDate = DateTime.UtcNow;
-            application.DecisionReason = reason ?? "Application approved";
+            application.DecisionReason = "Application approved - Candidate Successful";
 
             await _shortCourseRepository.UpdateAsync(shortCourse);
             var updated = await _courseApplicationRepository.UpdateAsync(application);
@@ -237,10 +238,9 @@ namespace Moipone.PublicSite.CourseApplications
             if (shortCourse == null)
                 throw new UserFriendlyException("Short course not found.");
 
-
             application.Status = RefListApplicationStatus.Withdrawn;
             application.DecisionDate = DateTime.UtcNow;
-            application.DecisionReason = "Student withdrew application voluntarily";
+            application.DecisionReason = reason.IsNullOrWhiteSpace() ? "Student withdrew application voluntarily" : reason;
             await _courseApplicationRepository.UpdateAsync(application);
 
             var student = await _studentRepository.GetAsync(application.StudentId);
@@ -257,7 +257,5 @@ namespace Moipone.PublicSite.CourseApplications
                 });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
-
-
     }
 }

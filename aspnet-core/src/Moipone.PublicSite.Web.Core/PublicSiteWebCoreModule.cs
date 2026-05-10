@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Moipone.PublicSite.Authentication.JwtBearer;
+using Moipone.PublicSite.Emails.Rendering;
 using Moipone.PublicSite.EntityFrameworkCore;
 using Moipone.PublicSite.Services.Emails.Rendering;
 using System;

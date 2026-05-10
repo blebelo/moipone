@@ -10,7 +10,7 @@ namespace Moipone.PublicSite.CourseApplications
         : IAsyncCrudAppService<CourseApplicationDto, Guid>
     {
         Task<List<CourseApplicationDto>> GetApplicationsByCourseIdAsync(Guid courseId);
-        Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason);
+        Task<CourseApplicationDto> ApproveApplication(Guid input);
         Task<CourseApplicationDto> RejectApplication(Guid input, string? reason);
         Task<CourseApplicationDto> WithdrawApplication(Guid input, string? reason);
 

@@ -52,6 +52,11 @@ export const ApplicationReducer = handleActions<
     [ApplicationActionEnums.rejectApplicationPending]: mergePayloadHandler,
     [ApplicationActionEnums.rejectApplicationSuccess]: mergePayloadHandler,
     [ApplicationActionEnums.rejectApplicationError]: mergePayloadHandler,
+
+    // Withdraw Application
+    [ApplicationActionEnums.withdrawApplicationPending]: mergePayloadHandler,
+    [ApplicationActionEnums.withdrawApplicationSuccess]: mergePayloadHandler,
+    [ApplicationActionEnums.withdrawApplicationError]: mergePayloadHandler,
   },
   INITIAL_STATE
 );
