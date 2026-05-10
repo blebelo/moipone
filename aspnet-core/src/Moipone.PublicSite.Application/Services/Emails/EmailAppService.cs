@@ -7,6 +7,8 @@ using Moipone.PublicSite.Students.Dto;
 using Moipone.PublicSite.ShortCourses.Dto;
 using Moipone.PublicSite.Services.Emails.Rendering;
 using Moipone.PublicSite.Services.Emails.TemplateModels;
+using Abp.Authorization;
+using Moipone.PublicSite.Authorization;
 
 namespace Moipone.PublicSite.Services.Emails
 {
@@ -15,12 +17,14 @@ namespace Moipone.PublicSite.Services.Emails
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateRenderer _emailRenderer;
 
+
         public EmailAppService(IEmailSender emailSender, IEmailTemplateRenderer emailRenderer)
         {
             _emailSender = emailSender;
             _emailRenderer = emailRenderer;
         }
 
+        [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course)
         {
             try
@@ -51,6 +55,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendWelcomeEmail(StudentDto student)
         {
             try
@@ -72,6 +77,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendCustomEmail(StudentDto student, CustomEmail customEmailDto)
         {
             try
@@ -103,6 +109,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendAdmissionEmail(StudentDto student, ShortCourseDto course)
         {
             try
@@ -132,6 +139,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendRejectionEmail(StudentDto student, string? rejectionReason)
         {
             try

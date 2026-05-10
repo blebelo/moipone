@@ -132,7 +132,7 @@ namespace Moipone.PublicSite.CourseApplications
             var applications = await AsyncQueryableExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<CourseApplicationDto>>(applications);
         }
-        
+
         [AbpAuthorize]
         public async Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason)
         {
@@ -163,7 +163,6 @@ namespace Moipone.PublicSite.CourseApplications
 
             var student = await _studentRepository.GetAsync(application.StudentId);
 
-
             if (shortCourse.EnrolledStudents.Any(s => s.Id == student.Id))
                 throw new UserFriendlyException("Student already enrolled.");
 
@@ -177,7 +176,9 @@ namespace Moipone.PublicSite.CourseApplications
             var updated = await _courseApplicationRepository.UpdateAsync(application);
 
             _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
-                new EmailJobParameters {
+                new EmailJobParameters
+                {
+                    EmailType = RefListEmailType.Admission,
                     Student = ObjectMapper.Map<StudentDto>(student),
                     Course = ObjectMapper.Map<ShortCourseDto>(shortCourse)
                 });
@@ -204,14 +205,61 @@ namespace Moipone.PublicSite.CourseApplications
             application.DecisionReason = reason ?? "Application Declined";
 
             var updated = await _courseApplicationRepository.UpdateAsync(application);
+            var student = await _studentRepository.GetAsync(application.StudentId);
+            var shortCourse = await _shortCourseRepository.GetAsync(application.ShortCourseId);
 
             _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
                 new EmailJobParameters
                 {
-                    Student = ObjectMapper.Map<StudentDto>(application.Student),
-                    Course = ObjectMapper.Map<ShortCourseDto>(application.ShortCourse)
+                    EmailType = RefListEmailType.Rejection,
+                    Student = ObjectMapper.Map<StudentDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse),
+                    RejectionReason = reason ?? "We decided to pursue other candidacy. Please try again in the future"
                 });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
+
+        public async Task<CourseApplicationDto> WithdrawApplication(Guid input, string? reason)
+        {
+            if (input == Guid.Empty)
+                throw new UserFriendlyException("Invalid Application ID.");
+
+            var application = await _courseApplicationRepository.GetAsync(input);
+
+            if (application.Status == RefListApplicationStatus.Withdrawn)
+                throw new UserFriendlyException("Application is already withdrawn.");
+
+            var shortCourse = await _shortCourseRepository
+                .GetAll()
+                .Include(c => c.EnrolledStudents)
+                .FirstOrDefaultAsync(c => c.Id == application.ShortCourseId);
+
+            if (shortCourse == null)
+                throw new UserFriendlyException("Short course not found.");
+
+            if (shortCourse.Applications.Contains(application))
+            {
+                application.Status = RefListApplicationStatus.Withdrawn;
+                application.DecisionDate = DateTime.UtcNow;
+                application.DecisionReason = "Student withdrew application voluntarily";
+                await _courseApplicationRepository.UpdateAsync(application);
+            }
+
+            var student = await _studentRepository.GetAsync(application.StudentId);
+
+            await _shortCourseRepository.UpdateAsync(shortCourse);
+            var updated = await _courseApplicationRepository.UpdateAsync(application);
+
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters
+                {
+                    EmailType = RefListEmailType.Rejection,
+                    Student = ObjectMapper.Map<StudentDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseDto>(shortCourse)
+                });
+            return ObjectMapper.Map<CourseApplicationDto>(updated);
+        }
+
+
     }
 }

@@ -17,23 +17,23 @@ namespace Moipone.PublicSite.Services.Emails.BackgroundJobs
             switch (args.EmailType)
             {
                 case RefListEmailType.Welcome:
-                    _emailAppService.SendWelcomeEmail(args.Student).Wait();
+                    _emailAppService.SendWelcomeEmail(args.Student).GetAwaiter().GetResult();
                     break;
 
                 case RefListEmailType.Admission:
-                    _emailAppService.SendAdmissionEmail(args.Student, args.Course).Wait();
+                    _emailAppService.SendAdmissionEmail(args.Student, args.Course).GetAwaiter().GetResult();
                     break;
 
                 case RefListEmailType.Rejection:
-                    _emailAppService.SendRejectionEmail(args.Student, args.RejectionReason).Wait();
+                    _emailAppService.SendRejectionEmail(args.Student, args.RejectionReason).GetAwaiter().GetResult();
                     break;
 
                 case RefListEmailType.Reminder:
-                    _emailAppService.SendCourseReminderEmail(args.Student, args.Course).Wait();
+                    _emailAppService.SendCourseReminderEmail(args.Student, args.Course).GetAwaiter().GetResult();
                     break;
 
                 case RefListEmailType.Custom:
-                    _emailAppService.SendCustomEmail(args.Student, args.CustomEmail).Wait();
+                    _emailAppService.SendCustomEmail(args.Student, args.CustomEmail).GetAwaiter().GetResult();
                     break;
             }
         }

@@ -2,6 +2,7 @@
 {
     public enum RefListEmailType
     {
+        Unknown = 0,
         Welcome = 1,
         Admission = 2,
         Rejection = 3,
