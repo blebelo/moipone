@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./(public)/globals.css";
 import favicon from "./(public)/favicon.png";
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: "Moipone Academy",
@@ -22,6 +23,7 @@ export default function AppLayout({
       <body>
         {children}
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
