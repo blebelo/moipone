@@ -24,6 +24,7 @@ namespace Moipone.PublicSite.Services.Emails
             _emailRenderer = emailRenderer;
         }
 
+        [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendCourseReminderEmail(StudentDto student, ShortCourseDto course)
         {
@@ -55,6 +56,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendWelcomeEmail(StudentDto student)
         {
@@ -109,6 +111,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendAdmissionEmail(StudentDto student, ShortCourseDto course)
         {
@@ -139,6 +142,7 @@ namespace Moipone.PublicSite.Services.Emails
             }
         }
 
+        [RemoteService(false)]
         [AbpAuthorize(PermissionNames.Admin, PermissionNames.Instructor)]
         public async Task SendRejectionEmail(StudentDto student, string? rejectionReason)
         {
