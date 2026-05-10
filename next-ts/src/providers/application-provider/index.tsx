@@ -148,7 +148,7 @@ export const ApplicationProvider = ({
 
   const rejectApplication = async (id: string, reason?: string) => {
     dispatch(rejectApplicationPending());
-    const endpoint = `CourseApplication/RejectApplication?input=${id}&reason=${reason}`;
+    const endpoint = `CourseApplication/RejectApplication?input=${id}&reason=${encodeURIComponent(reason ?? '')}`;
 
     await instance
       .put(endpoint)
@@ -162,7 +162,7 @@ export const ApplicationProvider = ({
   
   const withdrawApplication = async (id: string, reason?: string) => {
     dispatch(withdrawApplicationPending());
-    const endpoint = `CourseApplication/WithdrawApplication?input=${id}&reason=${reason}`;
+    const endpoint = `CourseApplication/WithdrawApplication?input=${id}&reason=${encodeURIComponent(reason ?? '')}`;
 
     await instance
       .delete(endpoint)

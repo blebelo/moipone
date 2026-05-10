@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { Input, Button, Image, message, Modal } from 'antd';
 import {
   ExclamationCircleOutlined,
@@ -15,7 +15,7 @@ import { withdrawalReasons } from '@/src/lib/common/constants';
 
 const GUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-const WithdrawPage: React.FC = () => {
+const WithdrawPageContent: React.FC = () => {
   const { styles } = useWithdrawFormStyles();
   const router = useRouter();
   const pathname = usePathname();
@@ -223,6 +223,14 @@ const WithdrawPage: React.FC = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const WithdrawPage: React.FC = () => {
+  return (
+    <Suspense fallback={null}>
+      <WithdrawPageContent />
+    </Suspense>
   );
 };
 
