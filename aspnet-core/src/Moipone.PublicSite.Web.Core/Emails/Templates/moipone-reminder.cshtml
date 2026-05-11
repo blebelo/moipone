@@ -1,0 +1,41 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.Reminder
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewBag.Title = "Course Reminder - Moipone";
+    ViewBag.HeroBackground = "#116466";
+
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var courseTitle = string.IsNullOrWhiteSpace(Model?.CourseTitle) ? "[Course Title]" : Model.CourseTitle;
+    var startDate = string.IsNullOrWhiteSpace(Model?.StartDate) ? "[Start Date]" : Model.StartDate;
+    var duration = string.IsNullOrWhiteSpace(Model?.Duration) ? "[Duration]" : Model.Duration;
+    var courseDescription = string.IsNullOrWhiteSpace(Model?.CourseDescription) ? "[Course Description]" : Model.CourseDescription;
+    var withdrawLink = string.IsNullOrWhiteSpace(Model?.WithdrawLink) ? "[withdraw-link]" : Model.WithdrawLink;
+}
+
+@section Hero {
+  <div class="hero-greeting">A friendly reminder from Moipone</div>
+  <div class="hero-headline">Your course is<br><span>coming up.</span></div>
+  <div class="hero-sub">Here&rsquo;s everything you need to know before you begin.</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">Course Reminder</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    This is a friendly reminder that your upcoming course is just around the corner. Please review the details below and make sure you are ready for your start date.
+  </p>
+</div>
+
+<div class="section-label">Course details</div>
+<table class="meta-table">
+  <tr><td>Course Title</td><td>@courseTitle</td></tr>
+  <tr><td>Start Date</td><td>@startDate</td></tr>
+  <tr><td>Duration</td><td>@duration</td></tr>
+  <tr><td>Description</td><td>@courseDescription</td></tr>
+</table>
+
+<p class="intro-text">If you have any questions before your course begins, please do not hesitate to get in touch. We look forward to seeing you there.</p>
+
+<div class="btn-row">
+  <a href="@withdrawLink" class="btn-withdraw">Withdraw from Course</a>
+</div>

@@ -1,9 +1,9 @@
 param(
-    [string]$DbHost = "dpg-d4ub056uk2gs738ntk50-a.oregon-postgres.render.com",
+    [string]$DbHost = "dpg-d7t0g167r5hc738mp1u0-a.oregon-postgres.render.com",
     [int]$Port = 5432,
-    [string]$Database = "moipone_ps",
-    [string]$Username = "moipone_ps_user",
-    [string]$Password = "UNhtPfLWUJFkGJzNzKqBrJI4yuCJt9o4"
+    [string]$Database = "mpstage_mhdz",
+    [string]$Username = "zad",
+    [string]$Password = "NL6uDktrIuDOlWZpIpCG3iCDUqbpRWdD"
 )
 
 # Set password as environment variable for psql

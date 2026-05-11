@@ -1,0 +1,35 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.WelcomeEmail
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewBag.Title = "Welcome - Moipone";
+    ViewBag.HeroBackground = "#116466";
+
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+}
+
+@section Hero {
+  <div class="hero-greeting">A warm welcome awaits you</div>
+  <div class="hero-headline">Welcome to<br><span>Moipone.</span></div>
+  <div class="hero-sub">We&rsquo;re glad you&rsquo;re here &mdash; let&rsquo;s build something remarkable together.</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">A message for you</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    Thank you for joining <strong>Moipone</strong>. Your account is now active and everything you need to get started is right at your fingertips.<br><br>
+    We built Moipone with a single conviction: that the right tools, in the right hands, can turn ambitious ideas into lasting impact. You&rsquo;re now part of that story.
+  </p>
+  <div class="pull-quote">&ldquo;The beginning is always today.&rdquo;</div>
+  <p class="intro-text">Whether you&rsquo;re here to explore, create, or connect &mdash; we&rsquo;re here every step of the way. Your journey starts now.</p>
+</div>
+
+<div class="section-label">What&rsquo;s next</div>
+<div class="steps-grid">
+  <div class="step-item">
+    <div>
+      <div class="step-title">We&rsquo;ll be in touch if needed</div>
+      <div class="step-desc">We will contact you if we require any additional documents or information to proceed.</div>
+    </div>
+  </div>
+</div>

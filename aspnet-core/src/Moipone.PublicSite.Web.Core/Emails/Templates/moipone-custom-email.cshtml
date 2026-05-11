@@ -1,0 +1,39 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.CustomEmail
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewBag.Title = "Custom Email - Moipone";
+    ViewBag.HeroBackground = "#093334";
+
+    var emailSubjectLineOne = string.IsNullOrWhiteSpace(Model?.EmailSubjectLineOne) ? "[Email Subject]" : Model.EmailSubjectLineOne;
+    var emailSubjectLineTwo = string.IsNullOrWhiteSpace(Model?.EmailSubjectLineTwo) ? "Line Here." : Model.EmailSubjectLineTwo;
+    var heroSubheading = string.IsNullOrWhiteSpace(Model?.HeroSubheading) ? "[Optional subheading or context line]" : Model.HeroSubheading;
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var openingParagraph = string.IsNullOrWhiteSpace(Model?.OpeningParagraph) ? "[Opening paragraph]" : Model.OpeningParagraph;
+    var customBody = string.IsNullOrWhiteSpace(Model?.CustomBody) ? "[Main body content goes here]" : Model.CustomBody;
+    var closingLine = string.IsNullOrWhiteSpace(Model?.ClosingLine)
+        ? "[Closing line - e.g. \"Please do not hesitate to contact us should you have any questions.\"]"
+        : Model.ClosingLine;
+}
+
+@section Hero {
+  <div class="hero-greeting">A message from Moipone</div>
+  <div class="hero-headline">@emailSubjectLineOne<br><span>@emailSubjectLineTwo</span></div>
+  <div class="hero-sub">@heroSubheading</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">A message for you</div>
+  <p class="intro-text">
+    Dear <strong>@firstName</strong>,<br><br>
+    @openingParagraph
+  </p>
+</div>
+
+<div class="section-label">Message</div>
+<div class="custom-body-area">
+  @customBody
+</div>
+
+<p class="intro-text" style="margin-top: 24px;">
+  @closingLine
+</p>

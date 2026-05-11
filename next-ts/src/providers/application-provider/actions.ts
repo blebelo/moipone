@@ -32,6 +32,11 @@ export enum ApplicationActionEnums {
   deleteApplicationSuccess = "DELETE_APPLICATION_SUCCESS",
   deleteApplicationError = "DELETE_APPLICATION_ERROR",
 
+  // Withdraw Application
+  withdrawApplicationPending = "WITHDRAW_APPLICATION_PENDING",
+  withdrawApplicationSuccess = "WITHDRAW_APPLICATION_SUCCESS",
+  withdrawApplicationError = "WITHDRAW_APPLICATION_ERROR",
+
   // Get Application By CourseId
   getApplicationsByCourseIdPending = "GET_APPLICATIONS_BY_COURSE_ID_PENDING",
   getApplicationsByCourseIdSuccess = "GET_APPLICATIONS_BY_COURSE_ID_SUCCESS",
@@ -208,5 +213,21 @@ export const rejectApplicationSuccess = createAction<
 
 export const rejectApplicationError = createAction<IApplicationStateContext, string>(
   ApplicationActionEnums.rejectApplicationError,
+  (error: string) => ({ ...RequestState.Error, error }),
+);
+
+// ==================== WITHDRAW APPLICATION ====================
+export const withdrawApplicationPending = createAction<IApplicationStateContext>(
+  ApplicationActionEnums.withdrawApplicationPending,
+  () => RequestState.Pending,
+);
+
+export const withdrawApplicationSuccess = createAction<IApplicationStateContext>(
+  ApplicationActionEnums.withdrawApplicationSuccess,
+  () => RequestState.Success,
+);
+
+export const withdrawApplicationError = createAction<IApplicationStateContext, string>(
+  ApplicationActionEnums.withdrawApplicationError,
   (error: string) => ({ ...RequestState.Error, error }),
 );

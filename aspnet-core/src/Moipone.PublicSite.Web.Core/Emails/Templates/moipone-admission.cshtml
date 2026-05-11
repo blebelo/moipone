@@ -1,0 +1,35 @@
+@model Moipone.PublicSite.Services.Emails.TemplateModels.Admission
+@{
+    Layout = "_MoiponeEmailLayout.cshtml";
+    ViewBag.Title = "Admission Confirmed - Moipone";
+    ViewBag.HeroBackground = "#116466";
+
+    var firstName = string.IsNullOrWhiteSpace(Model?.FirstName) ? "[First Name]" : Model.FirstName;
+    var lastName = string.IsNullOrWhiteSpace(Model?.LastName) ? "[Last Name]" : Model.LastName;
+    var courseTitle = string.IsNullOrWhiteSpace(Model?.CourseTitle) ? "[Course Title]" : Model.CourseTitle;
+    var startDate = string.IsNullOrWhiteSpace(Model?.StartDate) ? "[Start Date]" : Model.StartDate;
+    var courseDuration = string.IsNullOrWhiteSpace(Model?.CourseDuration) ? "[Course Duration]" : Model.CourseDuration;
+}
+
+@section Hero {
+  <div class="hero-greeting">Congratulations on your admission</div>
+  <div class="hero-headline">You&rsquo;ve been admitted,<br><span>@firstName.</span></div>
+  <div class="hero-sub">Your application has been reviewed and approved.</div>
+}
+
+<div class="intro-block">
+  <div class="intro-label">Admission Confirmation</div>
+  <p class="intro-text">
+    Dear <strong>@firstName @lastName</strong>,<br><br>
+    We are delighted to inform you that your application has been reviewed and you have been officially <strong>admitted</strong> to the following course. Please review your course details below.
+  </p>
+  <div class="pull-quote">&ldquo;Every great achievement begins with the decision to try.&rdquo;</div>
+  <p class="intro-text">We look forward to supporting you throughout your learning journey. If you have any questions before your start date, please do not hesitate to reach out.</p>
+</div>
+
+<div class="section-label">Your course details</div>
+<table class="meta-table">
+  <tr><td>Course Name</td><td>@courseTitle</td></tr>
+  <tr><td>Start Date</td><td>@startDate</td></tr>
+  <tr><td>Duration</td><td>@courseDuration</td></tr>
+</table>

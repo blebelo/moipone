@@ -6,6 +6,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+	<NoWarn>$(NoWarn);1591;NU1902;NU1903</NoWarn>
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>

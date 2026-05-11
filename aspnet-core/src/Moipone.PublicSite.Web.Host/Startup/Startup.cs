@@ -2,6 +2,7 @@
 using Abp.AspNetCore.Mvc.Antiforgery;
 using Abp.AspNetCore.SignalR.Hubs;
 using Abp.Castle.Logging.Log4Net;
+using Abp.Configuration;
 using Abp.Extensions;
 using Castle.Facilities.Logging;
 using Microsoft.AspNetCore.Builder;
@@ -69,7 +70,7 @@ namespace Moipone.PublicSite.Web.Host.Startup
 
             services.AddSingleton<IConfigurationRoot>(_appConfiguration);
 
-            // Sentry
+            
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);
@@ -95,6 +96,7 @@ namespace Moipone.PublicSite.Web.Host.Startup
             app.UseStaticFiles();
 
             app.UseRouting();
+
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -172,6 +174,11 @@ namespace Moipone.PublicSite.Web.Host.Startup
                     options.IncludeXmlComments(webCoreXmlPath);
                 }
             });
+        }
+
+        private void ConfigureEmailSmtp()
+        {
+
         }
     }
 }

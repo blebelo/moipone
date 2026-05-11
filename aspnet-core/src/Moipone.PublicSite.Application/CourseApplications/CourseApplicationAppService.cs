@@ -1,14 +1,18 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.BackgroundJobs;
 using Abp.Domain.Repositories;
-using Abp.Net.Mail;
+using Abp.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.CourseApplications.Dto;
 using Moipone.PublicSite.Domain.CourseApplications;
 using Moipone.PublicSite.Domain.ShortCourses;
 using Moipone.PublicSite.Domain.Students;
+using Moipone.PublicSite.Services.Emails.BackgroundJobs;
+using Moipone.PublicSite.ShortCourses.Dto;
+using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +24,18 @@ namespace Moipone.PublicSite.CourseApplications
         : AsyncCrudAppService<CourseApplication, CourseApplicationDto, Guid, PagedAndSortedResultRequestDto, CourseApplicationDto, CourseApplicationDto>,
           ICourseApplicationAppService
     {
-        private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
-        private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
+        private readonly IBackgroundJobManager _backgroundJobManager;
         private readonly IRepository<Student, Guid> _studentRepository;
-        private readonly IEmailSender _emailSender;
+        private readonly IRepository<ShortCourse, Guid> _shortCourseRepository;
+        private readonly IRepository<CourseApplication, Guid> _courseApplicationRepository;
 
-        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository, IEmailSender emailSender)
+        public CourseApplicationAppService(IRepository<CourseApplication, Guid> courseApplicationRepository, IRepository<ShortCourse, Guid> shortCourseRepository, IRepository<Student, Guid> studentRepository, IBackgroundJobManager backgroundJobManager)
             : base(courseApplicationRepository)
         {
-            _courseApplicationRepository = courseApplicationRepository;
-            _shortCourseRepository = shortCourseRepository;
+            _backgroundJobManager = backgroundJobManager;
             _studentRepository = studentRepository;
-            _emailSender = emailSender;
+            _shortCourseRepository = shortCourseRepository;
+            _courseApplicationRepository = courseApplicationRepository;
         }
 
         public override async Task<CourseApplicationDto> CreateAsync(CourseApplicationDto input)
@@ -129,9 +133,9 @@ namespace Moipone.PublicSite.CourseApplications
             var applications = await AsyncQueryableExecuter.ToListAsync(query);
             return ObjectMapper.Map<List<CourseApplicationDto>>(applications);
         }
-        
+
         [AbpAuthorize]
-        public async Task<CourseApplicationDto> ApproveApplication(Guid input, string? reason)
+        public async Task<CourseApplicationDto> ApproveApplication(Guid input)
         {
             if (input == Guid.Empty)
                 throw new UserFriendlyException("Invalid Application ID.");
@@ -160,7 +164,6 @@ namespace Moipone.PublicSite.CourseApplications
 
             var student = await _studentRepository.GetAsync(application.StudentId);
 
-
             if (shortCourse.EnrolledStudents.Any(s => s.Id == student.Id))
                 throw new UserFriendlyException("Student already enrolled.");
 
@@ -168,11 +171,18 @@ namespace Moipone.PublicSite.CourseApplications
 
             application.Status = RefListApplicationStatus.Approved;
             application.DecisionDate = DateTime.UtcNow;
-            application.DecisionReason = reason ?? "Application approved";
+            application.DecisionReason = "Application approved - Candidate Successful";
 
             await _shortCourseRepository.UpdateAsync(shortCourse);
             var updated = await _courseApplicationRepository.UpdateAsync(application);
 
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters
+                {
+                    EmailType = RefListEmailType.Admission,
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse)
+                });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
 
@@ -196,6 +206,55 @@ namespace Moipone.PublicSite.CourseApplications
             application.DecisionReason = reason ?? "Application Declined";
 
             var updated = await _courseApplicationRepository.UpdateAsync(application);
+            var student = await _studentRepository.GetAsync(application.StudentId);
+            var shortCourse = await _shortCourseRepository.GetAsync(application.ShortCourseId);
+
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters
+                {
+                    EmailType = RefListEmailType.Rejection,
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse),
+                    RejectionReason = reason ?? "We decided to pursue other candidacy. Please try again in the future"
+                });
+            return ObjectMapper.Map<CourseApplicationDto>(updated);
+        }
+
+        public async Task<CourseApplicationDto> WithdrawApplication(Guid input, string? reason)
+        {
+            if (input == Guid.Empty)
+                throw new UserFriendlyException("Invalid Application ID.");
+
+            var application = await _courseApplicationRepository.GetAsync(input);
+
+            if (application.Status == RefListApplicationStatus.Withdrawn)
+                throw new UserFriendlyException("Application is already withdrawn.");
+
+            var shortCourse = await _shortCourseRepository
+                .GetAll()
+                .Include(c => c.EnrolledStudents)
+                .FirstOrDefaultAsync(c => c.Id == application.ShortCourseId);
+
+            if (shortCourse == null)
+                throw new UserFriendlyException("Short course not found.");
+
+            application.Status = RefListApplicationStatus.Withdrawn;
+            application.DecisionDate = DateTime.UtcNow;
+            application.DecisionReason = reason.IsNullOrWhiteSpace() ? "Student withdrew application voluntarily" : reason;
+            await _courseApplicationRepository.UpdateAsync(application);
+
+            var student = await _studentRepository.GetAsync(application.StudentId);
+
+            await _shortCourseRepository.UpdateAsync(shortCourse);
+            var updated = await _courseApplicationRepository.UpdateAsync(application);
+
+            _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                new EmailJobParameters
+                {
+                    EmailType = RefListEmailType.Rejection,
+                    Student = ObjectMapper.Map<StudentEmailDto>(student),
+                    Course = ObjectMapper.Map<ShortCourseEmailDto>(shortCourse)
+                });
             return ObjectMapper.Map<CourseApplicationDto>(updated);
         }
     }

@@ -18,6 +18,9 @@ import {
   deleteApplicationPending,
   deleteApplicationSuccess,
   deleteApplicationError,
+  withdrawApplicationPending,
+  withdrawApplicationSuccess,
+  withdrawApplicationError,
   approveApplicationPending,
   approveApplicationSuccess,
   approveApplicationError,
@@ -117,7 +120,7 @@ export const ApplicationProvider = ({
 
   const getApplicationsByCourseId = async (id: string) => {
     dispatch(getApplicationsByCourseIdPending());
-    const endpoint = `CourseApplication/GetByCourseId?CourseId=${id}`;
+    const endpoint = `CourseApplication/GetByCourseId?courseId=${id}`;
 
     await instance
       .get(endpoint)
@@ -128,9 +131,10 @@ export const ApplicationProvider = ({
         dispatch(getApplicationsByCourseIdError(err.message));
       });
   };
+
   const approveApplication = async (id: string) => {
     dispatch(approveApplicationPending());
-    const endpoint = `CourseApplication/Approve?Id=${id}`;
+    const endpoint = `CourseApplication/ApproveApplication?input=${id}`;
 
     await instance
       .put(endpoint)
@@ -142,9 +146,9 @@ export const ApplicationProvider = ({
       });
   };
 
-  const rejectApplication = async (id: string) => {
+  const rejectApplication = async (id: string, reason?: string) => {
     dispatch(rejectApplicationPending());
-    const endpoint = `CourseApplication/Reject?Id=${id}`;
+    const endpoint = `CourseApplication/RejectApplication?input=${id}&reason=${encodeURIComponent(reason ?? '')}`;
 
     await instance
       .put(endpoint)
@@ -153,6 +157,20 @@ export const ApplicationProvider = ({
       })
       .catch((err) => {
         dispatch(rejectApplicationError(err.message));
+      });
+  };
+  
+  const withdrawApplication = async (id: string, reason?: string) => {
+    dispatch(withdrawApplicationPending());
+    const endpoint = `CourseApplication/WithdrawApplication?input=${id}&reason=${encodeURIComponent(reason ?? '')}`;
+
+    await instance
+      .delete(endpoint)
+      .then(() => {
+        dispatch(withdrawApplicationSuccess());
+      })
+      .catch((err) => {
+        dispatch(withdrawApplicationError(err.message));
       });
   };
 
@@ -165,6 +183,7 @@ export const ApplicationProvider = ({
         getApplicationById,
         updateApplication,
         deleteApplication,
+        withdrawApplication,
         getApplicationsByCourseId,
         approveApplication,
         rejectApplication,

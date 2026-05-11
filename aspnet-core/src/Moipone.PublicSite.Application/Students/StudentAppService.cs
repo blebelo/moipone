@@ -1,11 +1,14 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.BackgroundJobs;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Moipone.PublicSite.Configuration;
 using Moipone.PublicSite.Domain.Students;
+using Moipone.PublicSite.Services.Emails;
+using Moipone.PublicSite.Services.Emails.BackgroundJobs;
 using Moipone.PublicSite.Students.Dto;
 using System;
 using System.Collections.Generic;
@@ -19,14 +22,16 @@ namespace Moipone.PublicSite.Students
         : AsyncCrudAppService<Student, StudentDto, Guid, PagedAndSortedResultRequestDto, StudentDto, StudentDto>,
           IStudentAppService
     {
-        private readonly IRepository<Student, Guid> _studentRepository;
         private readonly IConfigurationRoot _config;
+        private readonly IBackgroundJobManager _backgroundJobManager;
+        private readonly IRepository<Student, Guid> _studentRepository;
 
-        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config)
+        public StudentAppService(IRepository<Student, Guid> studentRepository, IConfigurationRoot config, IBackgroundJobManager backgroundJobManager)
             : base(studentRepository)
         {
             _config = config;
             _studentRepository = studentRepository;
+            _backgroundJobManager = backgroundJobManager;
         }
 
         public async override Task<StudentDto> CreateAsync(StudentDto input)
@@ -43,6 +48,15 @@ namespace Moipone.PublicSite.Students
 
                 var student = ObjectMapper.Map<Student>(input);
                 var result = await _studentRepository.InsertAsync(student);
+
+
+                _backgroundJobManager.Enqueue<SendEmailBackgroundJob, EmailJobParameters>(
+                    new EmailJobParameters
+                    {
+                        Student = ObjectMapper.Map<StudentEmailDto>(student),
+                        EmailType = RefListEmailType.Welcome
+                    });
+
                 return ObjectMapper.Map<StudentDto>(result);
             }
             catch (UserFriendlyException)

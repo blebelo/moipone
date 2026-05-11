@@ -17,18 +17,26 @@
     <RootNamespace>Moipone.PublicSite</RootNamespace>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591;NU1902;NU1903</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Moipone.PublicSite.Application\Moipone.PublicSite.Application.csproj" />
     <ProjectReference Include="..\Moipone.PublicSite.EntityFrameworkCore\Moipone.PublicSite.EntityFrameworkCore.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Abp.MailKit" Version="10.4.0" />
     <PackageReference Include="Abp.RedisCache" Version="10.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.2" />
+    <PackageReference Include="RazorLight" Version="2.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.0" />
     <PackageReference Include="Abp.AspNetCore" Version="10.3.0" />
     <PackageReference Include="Abp.ZeroCore" Version="10.3.0" />
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="10.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
+	<ItemGroup>
+		<Content Include="Emails\Templates\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>

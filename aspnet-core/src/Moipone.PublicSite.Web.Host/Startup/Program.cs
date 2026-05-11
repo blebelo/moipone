@@ -3,8 +3,6 @@ using Abp.Dependency;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Sentry;
-using Sentry.AspNetCore;
 
 namespace Moipone.PublicSite.Web.Host.Startup
 {
