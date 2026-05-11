@@ -82,16 +82,14 @@ namespace Moipone.PublicSite
             var settingManager = IocManager.Resolve<ISettingManager>();
 
             // Emailing
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UseDefaultCredentials, "false");
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Host, _appConfiguration["Abp.Net.Mail.Smtp.Host"]);
-            //settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, _appConfiguration["Abp.Net.Mail.Smtp.Port"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, "587");
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UserName, _appConfiguration["Abp.Net.Mail.Smtp.UserName"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Password, _appConfiguration["Abp.Net.Mail.Smtp.Password"]);
-            //settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, _appConfiguration["Abp.Net.Mail.Smtp.EnableSsl"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, "false");
-            settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromAddress, _appConfiguration["Abp.Net.Mail.DefaultFromAddress"]);
-            settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromDisplayName, _appConfiguration["Abp.Net.Mail.DefaultFromDisplayName"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UseDefaultCredentials, bool.FalseString);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Host, _appConfiguration["Abp:Net:Mail:Smtp:Host"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Port, _appConfiguration["Abp:Net:Mail:Smtp:Port"] ?? "587");
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.UserName, _appConfiguration["Abp:Net:Mail:Smtp:UserName"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.Password, _appConfiguration["Abp:Net:Mail:Smtp:Password"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.Smtp.EnableSsl, _appConfiguration["Abp:Net:Mail:Smtp:EnableSsl"] ?? bool.FalseString);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromAddress, _appConfiguration["Abp:Net:Mail:DefaultFromAddress"]);
+            settingManager.ChangeSettingForApplication(EmailSettingNames.DefaultFromDisplayName, _appConfiguration["Abp:Net:Mail:DefaultFromDisplayName"]);
         }
     }
 }
