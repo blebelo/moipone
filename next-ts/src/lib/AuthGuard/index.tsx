@@ -4,15 +4,34 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { decodeToken } from "../utils/decoder";
 
-const WithAuth = ({ children }: {children: ReactNode}) => {
+interface WithAuthProps {
+  children: ReactNode;
+  redirectTo?: string;
+}
+
+const getDefaultRedirectPath = () => {
+  if (typeof window === "undefined") {
+    return "/admin";
+  }
+
+  const host = window.location.host.toLowerCase();
+  if (host.startsWith("student.")) {
+    return "/student";
+  }
+
+  return "/admin";
+};
+
+const WithAuth = ({ children, redirectTo }: WithAuthProps) => {
   const router = useRouter();
   const [authorized, setAuthorized] = useState<boolean | null>(null);
  
   useEffect(() => {
+    const unauthorizedRedirect = redirectTo || getDefaultRedirectPath();
     const token = sessionStorage.getItem("token");
  
     if (!token) {
-      router.replace("/admin");
+      router.replace(unauthorizedRedirect);
       setAuthorized(false);
       return;
     }
@@ -28,10 +47,10 @@ const WithAuth = ({ children }: {children: ReactNode}) => {
       setAuthorized(true);
     } catch {
       sessionStorage.removeItem("token");
-      router.replace("/admin");
+      router.replace(unauthorizedRedirect);
       setAuthorized(false);
     }
-  }, [router]);
+  }, [redirectTo, router]);
  
   if (authorized === null) return null;
   if (!authorized) return null;

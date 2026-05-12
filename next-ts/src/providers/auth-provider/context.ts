@@ -17,7 +17,7 @@ export interface IAuthStateContext {
 }
 
 export interface IAuthActionContext {
-  authenticate: (credentials: ILogin) => Promise<void>;
+  authenticate: (credentials: ILogin, redirectPath?: string) => Promise<void>;
   logout: () => void;
 }
 
