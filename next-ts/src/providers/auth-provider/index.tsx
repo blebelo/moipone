@@ -22,7 +22,7 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
       .then(
         (response) => {
           const token = response.data.result.accessToken;
-          if (token == undefined || null)
+          if (!token)
             {
               throw new Error('Null or invalid token found. Authentication Failed')
             }
