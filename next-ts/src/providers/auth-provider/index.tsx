@@ -14,7 +14,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const instance = axiosInstance(false);
   const router = useRouter();
 
-const authenticate = async (user: ILogin) => {
+const authenticate = async (user: ILogin, redirectPath?: string) => {
     dispatch(authenticatePending());
     const endpoint = 'TokenAuth/Authenticate';
 
@@ -38,7 +38,7 @@ const authenticate = async (user: ILogin) => {
           sessionStorage.setItem("Id", userId);
 
           dispatch(authenticateSuccess());
-          router.push('/dashboard');
+          router.push(redirectPath || '/dashboard');
         }
       ).catch(
         () => {
