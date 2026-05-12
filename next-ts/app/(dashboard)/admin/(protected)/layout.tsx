@@ -8,7 +8,7 @@ export default function AdminProtectedLayout({
 }>) {
   return (
     <AdminLayout>
-      <WithAuth>
+      <WithAuth redirectTo="/">
         {children}
       </WithAuth>
     </AdminLayout>
