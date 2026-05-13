@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { dashboardStats, mockApplications, mockCourses } from '@/src/lib/common/mockData';
 import { useAdminDashboardStyles } from './style';
-import { getTimeGreeting } from '@/src/lib/common/helper-methods';
+import { getMonthlyCreationChange, getTimeGreeting } from '@/src/lib/common/helper-methods';
 import { useStudentActions, useStudentState } from '@/src/providers/student-provider';
 
 
@@ -28,11 +28,19 @@ const DashboardPage : React.FC = () => {
     updateGreeting();
     const timer = globalThis.setInterval(updateGreeting, 60_000);
 
-    studentActions.getAllStudents();
     return () => {
       globalThis.clearInterval(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (hasLoadedStudents.current) {
+      return;
+    }
+
+    hasLoadedStudents.current = true;
+    void studentActions.getAllStudents();
+  }, [studentActions]);
 
   return (
     <div className={styles.page}>
@@ -50,7 +58,7 @@ const DashboardPage : React.FC = () => {
             <p className={styles.statLabel}>Active Students</p>
             <p className={styles.statValue}>{students.length}</p>
             <div className={styles.statTrend}>
-              <ArrowUpOutlined /> +12% this month
+              <ArrowUpOutlined /> {getMonthlyCreationChange(studentState.students)}
             </div>
           </div>
         </div>

@@ -30,6 +30,11 @@ export type StateMap =
   | IApplicationStateContext
   | IContactStateContext;
 
+export type EntityMap =
+  | ICourseApplication
+  | ICourse
+  | IStudent;
+
 export interface IFileUploadProps {
   studentId: string;
   filename: string;

@@ -1,8 +1,10 @@
 import { IStudent } from "@/src/providers/student-provider/context";
-import { MAX_SIZE, StateMap } from "./constants";
+import { EntityMap, MAX_SIZE, StateMap } from "./constants";
 import { getPresignedPost } from "./server-actions";
 import { message, Upload } from "antd";
 import dayjs from "dayjs";
+import { ICourseApplication } from "@/src/providers/application-provider/context";
+import { ICourse } from "@/src/providers/course-provider/context";
 
 export const mergePayloadHandler = (
   state: StateMap,
@@ -137,4 +139,49 @@ export const getTimeGreeting = () => {
   }
 
   return 'Good evening,';
+};
+
+export const getMonthlyCreationChange = (
+  items: (EntityMap)[]
+): number => {
+  if (items === undefined){
+    return 0;
+  } 
+
+  const now = new Date();
+
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const previousYear =
+    currentMonth === 0 ? currentYear - 1 : currentYear;
+
+  let currentCount = 0;
+  let previousCount = 0;
+
+  items.forEach(item => {
+    if (!item.creationTime) return;
+
+    const createdAt = new Date(item.creationTime);
+
+    const month = createdAt.getMonth();
+    const year = createdAt.getFullYear();
+
+    if (month === currentMonth && year === currentYear) {
+      currentCount++;
+    }
+
+    if (month === previousMonth && year === previousYear) {
+      previousCount++;
+    }
+  });
+
+  if (previousCount === 0) {
+    return currentCount > 0 ? 100 : 0;
+  }
+
+  return Number(
+    (((currentCount - previousCount) / previousCount) * 100).toFixed(2)
+  );
 };
