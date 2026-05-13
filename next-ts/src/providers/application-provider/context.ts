@@ -30,6 +30,7 @@ export interface IApplicationStateContext {
   error?: string;
   application?: ICourseApplication;
   applications?: ICourseApplication[];
+  creationTime?: Date;
 }
 
 export interface IApplicationActionContext {

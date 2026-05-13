@@ -97,15 +97,22 @@ export const useAdminDashboardStyles = createStyles(() => ({
     fontWeight: 600,
     color: 'var(--color-teal)',
   },
-  mainGrid: {
+  kanbanGrid: {
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr',
+    gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
     gap: '1rem',
-    '@media (max-width: 75rem)': {
+    alignItems: 'stretch',
+    '@media (max-width: 87.5rem)': {
+      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    },
+    '@media (max-width: 62rem)': {
       gridTemplateColumns: '1fr',
     },
   },
-  card: {
+  kanbanCard: {
+    minHeight: '31rem',
+    display: 'flex',
+    flexDirection: 'column',
     borderRadius: '1rem',
     overflow: 'hidden',
     border: '0.0625rem solid color-mix(in srgb, var(--color-mint) 55%, #fff)',
@@ -142,8 +149,44 @@ export const useAdminDashboardStyles = createStyles(() => ({
       color: 'var(--color-dark-teal)',
     },
   },
-  cardBody: {
-    padding: '0.25rem 1.2rem 0.3rem',
+  kanbanBody: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '0.75rem 1.2rem 1.05rem',
+    gap: '0.9rem',
+  },
+  kanbanList: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    gap: '0.75rem',
+  },
+  seeMoreButton: {
+    border: '0.0625rem solid color-mix(in srgb, var(--color-mint) 55%, #fff)',
+    borderRadius: '0.75rem',
+    background: 'color-mix(in srgb, var(--color-mint) 32%, #fff)',
+    color: 'var(--color-dark-teal)',
+    padding: '0.6rem 0.85rem',
+    fontSize: '0.82rem',
+    fontWeight: 700,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.35rem',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      background: 'color-mix(in srgb, var(--color-mint) 52%, #fff)',
+      borderColor: 'color-mix(in srgb, var(--color-teal) 45%, #fff)',
+      color: 'var(--color-teal)',
+    },
+  },
+  emptyState: {
+    padding: '1rem 0',
+    fontSize: '0.84rem',
+    color: 'color-mix(in srgb, var(--color-dark-teal) 58%, #6f7c7d)',
   },
   courseItem: {
     display: 'flex',
@@ -155,7 +198,7 @@ export const useAdminDashboardStyles = createStyles(() => ({
       borderBottom: 'none',
     },
   },
-  courseIcon: {
+  listItemIcon: {
     width: '2.8rem',
     height: '2.8rem',
     borderRadius: '0.75rem',
@@ -217,22 +260,7 @@ export const useAdminDashboardStyles = createStyles(() => ({
     display: 'flex',
     alignItems: 'center',
     gap: '0.7rem',
-    padding: '0.85rem 0',
-    borderBottom: '0.0625rem solid color-mix(in srgb, var(--color-mint) 35%, #fff)',
-    '&:last-child': {
-      borderBottom: 'none',
-    },
-  },
-  applicantAvatar: {
-    width: '2.4rem',
-    height: '2.4rem',
-    borderRadius: '0.68rem',
-    display: 'grid',
-    placeItems: 'center',
-    color: 'var(--color-dark-teal)',
-    background:
-      'linear-gradient(135deg, color-mix(in srgb, var(--color-light-peach) 85%, #fff) 0%, color-mix(in srgb, var(--color-peach) 42%, #fff) 100%)',
-    flexShrink: 0,
+    padding: '0.35rem 0',
   },
   applicantInfo: {
     flex: 1,
