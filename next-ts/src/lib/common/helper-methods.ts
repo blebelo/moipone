@@ -142,7 +142,7 @@ export const getTimeGreeting = () => {
 };
 
 export const getMonthlyCreationChange = (
-  items: (EntityMap)[]
+  items?: (EntityMap)[]
 ): number => {
   if (items === undefined){
     return 0;
