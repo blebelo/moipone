@@ -2,9 +2,13 @@ import { createStyles } from 'antd-style';
 
 export const useAdminDashboardStyles = createStyles(() => ({
   page: {
-    display: 'flex',
-    flexDirection: 'column',
+    minHeight: 'calc(100vh - 4rem)',
+    display: 'grid',
+    gridTemplateRows: 'auto auto minmax(0, 1fr)',
     gap: '1.5rem',
+    '@media (max-width: 64rem)': {
+      minHeight: 'calc(100vh - 5.75rem)',
+    },
   },
   header: {
     marginBottom: '0.5rem',
@@ -98,6 +102,8 @@ export const useAdminDashboardStyles = createStyles(() => ({
     color: 'var(--color-teal)',
   },
   kanbanGrid: {
+    minHeight: 0,
+    height: '100%',
     display: 'grid',
     gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
     gap: '1rem',
@@ -110,7 +116,8 @@ export const useAdminDashboardStyles = createStyles(() => ({
     },
   },
   kanbanCard: {
-    minHeight: '31rem',
+    minHeight: 0,
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     borderRadius: '1rem',
@@ -150,6 +157,7 @@ export const useAdminDashboardStyles = createStyles(() => ({
     },
   },
   kanbanBody: {
+    minHeight: 0,
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -157,11 +165,37 @@ export const useAdminDashboardStyles = createStyles(() => ({
     gap: '0.9rem',
   },
   kanbanList: {
+    minHeight: 0,
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     gap: '0.75rem',
+    overflowY: 'auto',
+    paddingRight: '0.15rem',
+  },
+  kanbanItemButton: {
+    width: '100%',
+    minHeight: '5.75rem',
+    borderRadius: '0.8rem',
+    border: '0.0625rem solid color-mix(in srgb, var(--color-mint) 35%, #fff)',
+    background: '#ffffff',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '0.65rem 0.75rem',
+    textAlign: 'left',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      borderColor: 'color-mix(in srgb, var(--color-teal) 35%, #fff)',
+      boxShadow: '0 0.5rem 1.2rem -0.9rem rgba(0, 0, 0, 0.35)',
+      transform: 'translateY(-0.0625rem)',
+    },
+  },
+  kanbanItemButtonActive: {
+    borderColor: 'color-mix(in srgb, var(--color-teal) 45%, #fff)',
+    boxShadow: '0 0.65rem 1.3rem -0.9rem rgba(17, 100, 102, 0.45)',
+    background: 'color-mix(in srgb, var(--color-mint) 18%, #fff)',
   },
   seeMoreButton: {
     border: '0.0625rem solid color-mix(in srgb, var(--color-mint) 55%, #fff)',
@@ -189,14 +223,11 @@ export const useAdminDashboardStyles = createStyles(() => ({
     color: 'color-mix(in srgb, var(--color-dark-teal) 58%, #6f7c7d)',
   },
   courseItem: {
+    width: '100%',
+    minHeight: '100%',
     display: 'flex',
     alignItems: 'center',
     gap: '0.8rem',
-    padding: '0.95rem 0',
-    borderBottom: '0.0625rem solid color-mix(in srgb, var(--color-mint) 35%, #fff)',
-    '&:last-child': {
-      borderBottom: 'none',
-    },
   },
   listItemIcon: {
     width: '2.8rem',
@@ -257,10 +288,11 @@ export const useAdminDashboardStyles = createStyles(() => ({
     transition: 'width 0.25s ease',
   },
   applicationItem: {
+    width: '100%',
+    minHeight: '100%',
     display: 'flex',
     alignItems: 'center',
     gap: '0.7rem',
-    padding: '0.35rem 0',
   },
   applicantInfo: {
     flex: 1,

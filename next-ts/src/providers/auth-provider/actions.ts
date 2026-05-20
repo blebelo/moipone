@@ -8,6 +8,7 @@ export enum AuthActionEnums {
   authenticatePending = "AUTHENTICATE_PENDING",
   authenticateSuccess = "AUTHENTICATE_SUCCESS",
   authenticateError = "AUTHENTICATE_ERROR",
+  setSessionUser = "SET_SESSION_USER",
 
   // Logout
   logoutPending = "LOGOUT_PENDING",
@@ -23,7 +24,10 @@ export const authenticatePending = createAction<IAuthStateContext>(
 
 export const authenticateSuccess = createAction<IAuthStateContext>(
   AuthActionEnums.authenticateSuccess,
-  () => RequestState.Success,
+  (authState: Partial<IAuthStateContext> = {}) => ({
+    ...RequestState.Success,
+    ...authState,
+  }),
 );
 
 export const authenticateError = createAction<IAuthStateContext>(
@@ -39,10 +43,22 @@ export const logoutPending = createAction<IAuthStateContext>(
 
 export const logoutSuccess = createAction<IAuthStateContext>(
   AuthActionEnums.logoutSuccess,
-  () => RequestState.Success,
+  () => ({
+    ...RequestState.Success,
+    userId: undefined,
+    userRole: undefined,
+    userName: undefined,
+  }),
 );
 
 export const logoutError = createAction<IAuthStateContext>(
   AuthActionEnums.logoutError,
   () => RequestState.Error,
+);
+
+export const setSessionUser = createAction<IAuthStateContext>(
+  AuthActionEnums.setSessionUser,
+  (authState: Partial<IAuthStateContext> = {}) => ({
+    ...authState,
+  }),
 );

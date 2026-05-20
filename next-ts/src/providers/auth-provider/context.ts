@@ -13,7 +13,9 @@ export interface IAuthStateContext {
   isPending: boolean;
   isSuccess: boolean;
   isError: boolean;
-  userId?: number;
+  userId?: string;
+  userRole?: string;
+  userName?: string;
 }
 
 export interface IAuthActionContext {

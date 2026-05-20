@@ -14,6 +14,7 @@ import type { ComponentType } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAdminSidebarStyles } from './style';
+import { useAuthActions, useAuthState } from '@/src/providers/auth-provider';
 
 interface AdminSidebarProps {
   collapsed: boolean;
@@ -47,9 +48,17 @@ const AdminSidebar = ({ collapsed, onToggle }: AdminSidebarProps) => {
   const { styles } = useAdminSidebarStyles();
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuthActions();
+  const { userName, userRole } = useAuthState();
 
   const isItemActive = (path: string) => pathname === path || pathname?.startsWith(`${path}/`);
   const isMobileViewport = () => window.matchMedia('(max-width: 64rem)').matches;
+  const dashboardUserName = userName
+    ? (userName.includes('@') ? userName.split('@')[0] : userName).trim()
+    : 'Admin User';
+  const roleLabel = userRole
+    ? userRole.split('.').pop()?.replace(/_/g, ' ').trim() ?? 'Administrator'
+    : 'Administrator';
 
   const handleNavigate = (path: string) => {
     router.push(path);
@@ -124,13 +133,13 @@ const AdminSidebar = ({ collapsed, onToggle }: AdminSidebarProps) => {
           </div>
           {!collapsed ? (
             <div className={styles.userInfo}>
-              <p className={styles.userName}>Admin User</p>
-              <p className={styles.userRole}>Administrator</p>
+              <p className={styles.userName}>{dashboardUserName}</p>
+              <p className={styles.userRole}>{roleLabel}</p>
             </div>
           ) : null}
         </div>
         {!collapsed ? (
-          <button type="button" className={styles.logoutButton} onClick={() => handleNavigate('/admin')}>
+          <button type="button" className={styles.logoutButton} onClick={logout}>
             <LogoutOutlined /> Sign Out
           </button>
         ) : null}

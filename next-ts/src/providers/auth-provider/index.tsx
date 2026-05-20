@@ -1,18 +1,52 @@
 'use client'
 
-import { useContext, useReducer } from "react"
+import { useContext, useEffect, useReducer } from "react"
 import { AuthReducer } from "./reducer"
 import { INITIAL_STATE } from "@/src/lib/common/constants"
 import { axiosInstance } from "@/src/lib/utils/axiosInstance"
 import { useRouter } from "next/navigation"
 import { AuthActionContext, AuthStateContext, ILogin } from "./context"
-import { authenticateError, authenticatePending, authenticateSuccess, logoutError, logoutPending, logoutSuccess } from "./actions"
+import { authenticateError, authenticatePending, authenticateSuccess, logoutError, logoutPending, logoutSuccess, setSessionUser } from "./actions"
 import { AbpTokenProperies, decodeToken } from "@/src/lib/utils/decoder"
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+  const [state, dispatch] = useReducer(AuthReducer, {
+    ...INITIAL_STATE,
+    userId: undefined,
+    userRole: undefined,
+    userName: undefined,
+  });
   const instance = axiosInstance(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    try {
+      const decoded = decodeToken(token);
+      const exp = Number(decoded.exp);
+
+      if (!exp || Date.now() >= exp * 1000) {
+        sessionStorage.clear();
+        return;
+      }
+
+      dispatch(
+        setSessionUser({
+          userRole: decoded[AbpTokenProperies.role],
+          userId: decoded[AbpTokenProperies.nameidentifier],
+          userName:
+            sessionStorage.getItem("userName") ?? decoded[AbpTokenProperies.name],
+        }),
+      );
+    } catch {
+      sessionStorage.clear();
+    }
+  }, []);
 
 const authenticate = async (user: ILogin, redirectPath?: string) => {
     dispatch(authenticatePending());
@@ -30,15 +64,17 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
           const decoded = decodeToken(token);
           const userRole = decoded[AbpTokenProperies.role];
           const userId = decoded[AbpTokenProperies.nameidentifier];
+          const userName = decoded[AbpTokenProperies.name];
 
           document.cookie = `token=${token}; path=/; secure; samesite=strict`;
 
           sessionStorage.setItem("token", token);
           sessionStorage.setItem("role", userRole);
           sessionStorage.setItem("Id", userId);
+          sessionStorage.setItem("userName", userName);
 
-          dispatch(authenticateSuccess());
-          router.push(redirectPath || '/dashboard');
+          dispatch(authenticateSuccess({ userRole, userId, userName }));
+          router.push(redirectPath || '/admin/dashboard');
         }
       ).catch(
         () => {
