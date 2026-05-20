@@ -8,7 +8,6 @@ export enum AuthActionEnums {
   authenticatePending = "AUTHENTICATE_PENDING",
   authenticateSuccess = "AUTHENTICATE_SUCCESS",
   authenticateError = "AUTHENTICATE_ERROR",
-  setSessionUser = "SET_SESSION_USER",
 
   // Logout
   logoutPending = "LOGOUT_PENDING",
@@ -23,7 +22,7 @@ export const authenticatePending = createAction<IAuthStateContext>(
 );
 
 export const authenticateSuccess = createAction<IAuthStateContext, ICurrentUser>(
-  AuthActionEnums.logoutSuccess,
+  AuthActionEnums.authenticateSuccess,
   (authenticatedUser : ICurrentUser) => ({
     ...RequestState.Success,
     currentUser: authenticatedUser

@@ -25,6 +25,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
       const exp = Number(decoded.exp);
 
       if (!exp || Date.now() >= exp * 1000) {
+        localStorage.removeItem("token");
         sessionStorage.clear();
         return;
       }
@@ -39,6 +40,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         authenticateSuccess(authenticatedUser),
       );
     } catch {
+      localStorage.removeItem("token");
       sessionStorage.clear();
     }
   }, []);
@@ -82,6 +84,7 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
     dispatch(logoutPending());
 
     try {
+      localStorage.removeItem("token");
       sessionStorage.clear();
       dispatch(logoutSuccess());
       router.push('/')

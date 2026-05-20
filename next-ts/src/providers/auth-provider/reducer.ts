@@ -11,7 +11,6 @@ export const AuthReducer = handleActions<IAuthStateContext, IAuthStateContext>(
     [AuthActionEnums.authenticatePending]: mergePayloadHandler,
     [AuthActionEnums.authenticateSuccess]: mergePayloadHandler,
     [AuthActionEnums.authenticateError]: mergePayloadHandler,
-    [AuthActionEnums.setSessionUser]: mergePayloadHandler,
 
     // Log Out
     [AuthActionEnums.logoutPending]: mergePayloadHandler,
