@@ -8,14 +8,18 @@ export interface ILogin {
   rememberClient?: boolean;
 }
 
+export interface ICurrentUser {
+  userId?: string;
+  userRole?: string;
+  userName?: string;
+}
+
 // ==================== AUTH CONTEXT ====================
 export interface IAuthStateContext {
   isPending: boolean;
   isSuccess: boolean;
   isError: boolean;
-  userId?: string;
-  userRole?: string;
-  userName?: string;
+  currentUser?: ICurrentUser;
 }
 
 export interface IAuthActionContext {

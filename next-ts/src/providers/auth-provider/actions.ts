@@ -1,6 +1,6 @@
 "use client";
 import { createAction } from "redux-actions";
-import { IAuthStateContext } from "./context";
+import { IAuthStateContext, ICurrentUser } from "./context";
 import { RequestState } from "@/src/lib/common/constants";
 
 export enum AuthActionEnums {
@@ -22,11 +22,11 @@ export const authenticatePending = createAction<IAuthStateContext>(
   () => RequestState.Pending,
 );
 
-export const authenticateSuccess = createAction<IAuthStateContext>(
-  AuthActionEnums.authenticateSuccess,
-  (authState: Partial<IAuthStateContext> = {}) => ({
+export const authenticateSuccess = createAction<IAuthStateContext, ICurrentUser>(
+  AuthActionEnums.logoutSuccess,
+  (authenticatedUser : ICurrentUser) => ({
     ...RequestState.Success,
-    ...authState,
+    currentUser: authenticatedUser
   }),
 );
 
@@ -45,20 +45,11 @@ export const logoutSuccess = createAction<IAuthStateContext>(
   AuthActionEnums.logoutSuccess,
   () => ({
     ...RequestState.Success,
-    userId: undefined,
-    userRole: undefined,
-    userName: undefined,
+    currentUser: undefined
   }),
 );
 
 export const logoutError = createAction<IAuthStateContext>(
   AuthActionEnums.logoutError,
   () => RequestState.Error,
-);
-
-export const setSessionUser = createAction<IAuthStateContext>(
-  AuthActionEnums.setSessionUser,
-  (authState: Partial<IAuthStateContext> = {}) => ({
-    ...authState,
-  }),
 );

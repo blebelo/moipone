@@ -6,11 +6,14 @@ import {
   BookOutlined,
   CheckCircleOutlined,
   CloseCircleOutlined,
+  DashboardOutlined,
   ExclamationCircleOutlined,
+  FileTextOutlined,
   InfoCircleOutlined,
+  SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import React from "react";
+import React, { ComponentType } from "react";
 
 export const RequestState = {
   Pending: { isPending: true, isSuccess: false, isError: false, error: undefined },
@@ -173,3 +176,31 @@ export const INITIAL_FORM_DATA: IContact = {
   subject: undefined,
   message: "",
 };
+
+export interface AdminSidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
+export interface NavItem {
+  path: string;
+  icon: ComponentType;
+  label: string;
+  badge?: string;
+}
+
+export const dashboardNavItems: { section: string; items: NavItem[] }[] = [
+  {
+    section: 'Main',
+    items: [
+      { path: '/admin/dashboard', icon: DashboardOutlined, label: 'Dashboard' },
+      { path: '/admin/courses', icon: BookOutlined, label: 'Courses' },
+      { path: '/admin/students', icon: UserOutlined, label: 'Students' },
+      { path: '/admin/applications', icon: FileTextOutlined, label: 'Applications', badge: '12' },
+    ],
+  },
+  {
+    section: 'Settings',
+    items: [{ path: '/admin/settings', icon: SettingOutlined, label: 'Settings' }],
+  },
+];

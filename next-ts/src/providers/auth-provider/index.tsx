@@ -1,26 +1,20 @@
 'use client'
-
 import { useContext, useEffect, useReducer } from "react"
 import { AuthReducer } from "./reducer"
 import { INITIAL_STATE } from "@/src/lib/common/constants"
 import { axiosInstance } from "@/src/lib/utils/axiosInstance"
 import { useRouter } from "next/navigation"
-import { AuthActionContext, AuthStateContext, ILogin } from "./context"
-import { authenticateError, authenticatePending, authenticateSuccess, logoutError, logoutPending, logoutSuccess, setSessionUser } from "./actions"
+import { AuthActionContext, AuthStateContext, ICurrentUser, ILogin } from "./context"
+import { authenticateError, authenticatePending, authenticateSuccess, logoutError, logoutPending, logoutSuccess } from "./actions"
 import { AbpTokenProperies, decodeToken } from "@/src/lib/utils/decoder"
 
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
-  const [state, dispatch] = useReducer(AuthReducer, {
-    ...INITIAL_STATE,
-    userId: undefined,
-    userRole: undefined,
-    userName: undefined,
-  });
+  const [state, dispatch] = useReducer(AuthReducer, {...INITIAL_STATE,});
   const instance = axiosInstance(false);
   const router = useRouter();
 
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     if (!token) {
       return;
@@ -35,13 +29,14 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
         return;
       }
 
-      dispatch(
-        setSessionUser({
+      const authenticatedUser: ICurrentUser = {
           userRole: decoded[AbpTokenProperies.role],
           userId: decoded[AbpTokenProperies.nameidentifier],
-          userName:
-            sessionStorage.getItem("userName") ?? decoded[AbpTokenProperies.name],
-        }),
+          userName:sessionStorage.getItem("userName") ?? decoded[AbpTokenProperies.name],
+        }
+
+      dispatch(
+        authenticateSuccess(authenticatedUser),
       );
     } catch {
       sessionStorage.clear();
@@ -68,7 +63,7 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
 
           document.cookie = `token=${token}; path=/; secure; samesite=strict`;
 
-          sessionStorage.setItem("token", token);
+          localStorage.setItem("token", token);
           sessionStorage.setItem("role", userRole);
           sessionStorage.setItem("Id", userId);
           sessionStorage.setItem("userName", userName);
