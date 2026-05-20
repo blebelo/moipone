@@ -245,8 +245,8 @@ const Contact = () => {
                   type="primary"
                   htmlType="submit"
                   className={styles.submitButton}
-                  loading={isPending}
-                  icon={isPending ? <Loader /> : <SendOutlined />}
+                  disabled={isPending}
+                  icon={isPending ? <Loader inline size={18} /> : <SendOutlined />}
                 >
                   {isPending ? "Sending" : "Send Message"}
                 </Button>
