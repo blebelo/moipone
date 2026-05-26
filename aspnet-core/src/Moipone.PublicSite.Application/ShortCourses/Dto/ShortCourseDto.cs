@@ -28,5 +28,9 @@ namespace Moipone.PublicSite.ShortCourses.Dto
         public ICollection<StudentDto> EnrolledStudents { get; set; }
         public ICollection<CourseApplicationDto> Applications { get; set; }
         #endregion
+
+        #region Audit Field
+        public DateTime CreationTime { get; set; }
+        #endregion
     }
 }

@@ -26,5 +26,9 @@ namespace Moipone.PublicSite.Students.Dto
         public string? CurriculumVitae { get; set; }
         public string? CertifiedHighestQualification { get; set; }
         #endregion
+
+        #region Audit Field
+        public DateTime CreationTime { get; set; }
+        #endregion
     }
 }

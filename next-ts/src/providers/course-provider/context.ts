@@ -17,7 +17,8 @@ export interface ICourse {
   displayIcon: string;
   features: string[];
   enrolledStudents?: IStudent[];
-  applicaions: ICourseApplication[];
+  applications: ICourseApplication[];
+  creationTime?: Date
 }
 
 // ==================== COURSE STATE CONTEXT ====================

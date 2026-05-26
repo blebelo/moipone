@@ -26,6 +26,7 @@ export interface IStudent {
   proofOfResidence?: string;
   curriculumVitae?: string;
   certifiedHighestQualification?: string;
+  creationTime?: Date
 }
 
 // ==================== STUDENT CONTEXT ====================

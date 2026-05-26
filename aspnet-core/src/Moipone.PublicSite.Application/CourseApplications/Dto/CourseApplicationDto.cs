@@ -15,5 +15,9 @@ namespace Moipone.PublicSite.CourseApplications.Dto
         public string? DecisionReason { get; set; }
         public DateTime? DecisionDate { get; set; }
         #endregion
+
+        #region Audit Field
+        public DateTime CreationTime { get; set; }
+        #endregion
     }
 }

@@ -20,6 +20,7 @@ export interface ICourseApplication {
   status?: RefListApplicationStatus;
   decisionReason?: string;
   decisionDate?: Date;
+  creationTime?: Date;
 }
 
 // ==================== ADDRESS CONTEXT ====================

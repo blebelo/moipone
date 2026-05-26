@@ -1,20 +1,26 @@
 'use client'
 
 import { ArrowRightOutlined, ArrowUpOutlined, BookOutlined, FileTextOutlined, TrophyOutlined, UserOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { dashboardStats, mockApplications, mockCourses } from '@/src/lib/common/mockData';
 import { useAdminDashboardStyles } from './style';
-import { getTimeGreeting } from '@/src/lib/common/helper-methods';
+import { getMonthlyCreationChange, getTimeGreeting } from '@/src/lib/common/helper-methods';
+import { useStudentActions, useStudentState } from '@/src/providers/student-provider';
 
 
-const DashboardPage = () => {
-  const { styles } = useAdminDashboardStyles();
+const DashboardPage : React.FC = () => {
   const router = useRouter();
+  const studentActions = useStudentActions();
+  const studentState = useStudentState();
+  const { styles } = useAdminDashboardStyles();
   const [greeting, setGreeting] = useState(getTimeGreeting);
 
   const pendingApps = mockApplications.filter((app) => app.status === 'pending').slice(0, 5);
   const activeCourses = mockCourses.filter((course) => course.status === 'active').slice(0, 4);
+  const students = studentState.students ?? [];
+  const studentPreview = students.slice(0, 5);
+  const hasLoadedStudents = useRef(false);
 
   useEffect(() => {
     const updateGreeting = () => setGreeting(getTimeGreeting());
@@ -26,6 +32,15 @@ const DashboardPage = () => {
       globalThis.clearInterval(timer);
     };
   }, []);
+
+  useEffect(() => {
+    if (hasLoadedStudents.current) {
+      return;
+    }
+
+    hasLoadedStudents.current = true;
+    void studentActions.getAllStudents();
+  }, [studentActions]);
 
   return (
     <div className={styles.page}>
@@ -41,9 +56,9 @@ const DashboardPage = () => {
           </div>
           <div className={styles.statContent}>
             <p className={styles.statLabel}>Active Students</p>
-            <p className={styles.statValue}>{dashboardStats.activeStudents}</p>
+            <p className={styles.statValue}>{students.length}</p>
             <div className={styles.statTrend}>
-              <ArrowUpOutlined /> +12% this month
+              <ArrowUpOutlined /> {getMonthlyCreationChange(studentState.students)}
             </div>
           </div>
         </div>
@@ -88,79 +103,131 @@ const DashboardPage = () => {
         </div>
       </section>
 
-      <section className={styles.mainGrid}>
-        <article className={styles.card}>
+      <section className={styles.kanbanGrid}>
+        <article className={styles.kanbanCard}>
           <div className={styles.cardHeader}>
-            <h3 className={styles.cardTitle}>Active Courses</h3>
-            <button type="button" className={styles.viewAllLink} onClick={() => router.push('/admin/courses')}>
-              View All <ArrowRightOutlined />
-            </button>
+            <h3 className={styles.cardTitle}>Applications</h3>
           </div>
-          <div className={styles.cardBody}>
-            {activeCourses.map((course) => {
-              const fillPercent = course.capacity > 0
-                ? Math.min(100, Math.round((course.enrolled / course.capacity) * 100))
-                : 0;
-
-              return (
-                <div key={course.id} className={styles.courseItem}>
-                  <div className={styles.courseIcon}>
-                    <BookOutlined />
+          <div className={styles.kanbanBody}>
+            <div className={styles.kanbanList}>
+              {pendingApps.map((app) => (
+                <div key={app.id} className={styles.applicationItem}>
+                  <div className={styles.listItemIcon}>
+                    <FileTextOutlined />
                   </div>
-                  <div className={styles.courseInfo}>
-                    <p className={styles.courseName}>{course.name}</p>
-                    <p className={styles.courseDetails}>
-                      {course.instructor} • {course.duration}
-                    </p>
+                  <div className={styles.applicantInfo}>
+                    <p className={styles.applicantName}>{app.applicantName}</p>
+                    <p className={styles.applicantCourse}>{app.course}</p>
                   </div>
-                  <div className={styles.courseStats}>
-                    <p className={styles.courseEnrolled}>
-                      {course.enrolled}/{course.capacity}
-                    </p>
-                    <p className={styles.courseCapacity}>enrolled</p>
-                    <div className={styles.progressBar}>
-                      <div className={styles.progressFill} style={{ width: `${fillPercent}%` }} />
-                    </div>
-                  </div>
+                  <span
+                    className={`${styles.statusBadge} ${app.status === 'pending'
+                      ? styles.statusPending
+                      : app.status === 'approved'
+                        ? styles.statusApproved
+                        : styles.statusRejected
+                      }`}
+                  >
+                    {app.status}
+                  </span>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <button
+              type="button"
+              className={styles.seeMoreButton}
+              onClick={() => router.push('/admin/applications')}
+            >
+              See More <ArrowRightOutlined />
+            </button>
           </div>
         </article>
 
-        <article className={styles.card}>
+        <article className={styles.kanbanCard}>
           <div className={styles.cardHeader}>
-            <h3 className={styles.cardTitle}>Recent Applications</h3>
+            <h3 className={styles.cardTitle}>Courses</h3>
+          </div>
+          <div className={styles.kanbanBody}>
+            <div className={styles.kanbanList}>
+              {activeCourses.map((course) => {
+                const fillPercent = course.capacity > 0
+                  ? Math.min(100, Math.round((course.enrolled / course.capacity) * 100))
+                  : 0;
+
+                return (
+                  <div key={course.id} className={styles.courseItem}>
+                    <div className={styles.listItemIcon}>
+                      <BookOutlined />
+                    </div>
+                    <div className={styles.courseInfo}>
+                      <p className={styles.courseName}>{course.name}</p>
+                      <p className={styles.courseDetails}>
+                        {course.instructor} • {course.duration}
+                      </p>
+                    </div>
+                    <div className={styles.courseStats}>
+                      <p className={styles.courseEnrolled}>
+                        {course.enrolled}/{course.capacity}
+                      </p>
+                      <p className={styles.courseCapacity}>enrolled</p>
+                      <div className={styles.progressBar}>
+                        <div className={styles.progressFill} style={{ width: `${fillPercent}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
             <button
               type="button"
-              className={styles.viewAllLink}
-              onClick={() => router.push('/admin/applications')}
+              className={styles.seeMoreButton}
+              onClick={() => router.push('/admin/courses')}
             >
-              View All <ArrowRightOutlined />
+              See More <ArrowRightOutlined />
             </button>
           </div>
-          <div className={styles.cardBody}>
-            {pendingApps.map((app) => (
-              <div key={app.id} className={styles.applicationItem}>
-                <div className={styles.applicantAvatar}>
-                  <UserOutlined />
+        </article>
+
+        <article className={styles.kanbanCard}>
+          <div className={styles.cardHeader}>
+            <h3 className={styles.cardTitle}>Students</h3>
+          </div>
+          <div className={styles.kanbanBody}>
+            <div className={styles.kanbanList}>
+              {studentState.isPending && studentPreview.length === 0 ? (
+                <p className={styles.emptyState}>Loading students...</p>
+              ) : null}
+
+              {studentState.isError ? (
+                <p className={styles.emptyState}>Couldn&apos;t load students right now.</p>
+              ) : null}
+
+              {!studentState.isPending && !studentState.isError && studentPreview.length === 0 ? (
+                <p className={styles.emptyState}>No students found.</p>
+              ) : null}
+
+              {!studentState.isError && studentPreview.map((student, index) => (
+                <div key={`${student.id ?? student.emailAddress ?? index}`} className={styles.applicationItem}>
+                  <div className={styles.listItemIcon}>
+                    <UserOutlined />
+                  </div>
+                  <div className={styles.applicantInfo}>
+                    <p className={styles.applicantName}>
+                      {`${student.name ?? ''} ${student.surname ?? ''}`.trim() || 'Unnamed Student'}
+                    </p>
+                    <p className={styles.applicantCourse}>
+                      {student.emailAddress || student.phoneNumber || 'No contact details'}
+                    </p>
+                  </div>
                 </div>
-                <div className={styles.applicantInfo}>
-                  <p className={styles.applicantName}>{app.applicantName}</p>
-                  <p className={styles.applicantCourse}>{app.course}</p>
-                </div>
-                <span
-                  className={`${styles.statusBadge} ${app.status === 'pending'
-                    ? styles.statusPending
-                    : app.status === 'approved'
-                      ? styles.statusApproved
-                      : styles.statusRejected
-                    }`}
-                >
-                  {app.status}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
+            <button
+              type="button"
+              className={styles.seeMoreButton}
+              onClick={() => router.push('/admin/students')}
+            >
+              See More <ArrowRightOutlined />
+            </button>
           </div>
         </article>
       </section>

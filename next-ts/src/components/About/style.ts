@@ -91,7 +91,7 @@ export const useAboutStyles = createStyles(() => ({
   statItem: {
     textAlign: "center",
     padding: "1.5rem 1rem",
-    background: "var(--color-background)",
+    background: "var(--background)",
     borderRadius: "1rem",
     boxShadow: "0 0.25rem 1.5rem -0.5rem rgba(0,0,0,0.06)",
     transition: "all 0.3s ease",

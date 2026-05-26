@@ -3,6 +3,7 @@ import "./(public)/globals.css";
 import favicon from "./(public)/favicon.png";
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import HydrationWrapper from "@/src/components/HydrationWrapper";
 
 export const metadata: Metadata = {
   title: "Moipone Academy",
@@ -21,7 +22,7 @@ export default function AppLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <HydrationWrapper>{children}</HydrationWrapper>
         <Analytics />
         <SpeedInsights />
       </body>
