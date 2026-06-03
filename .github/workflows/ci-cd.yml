@@ -34,7 +34,6 @@ jobs:
   test:
     name: Test Stage
     runs-on: [self-hosted, linux, x64, moipone-pipeline]
-    needs: build
 
     steps:
       - uses: actions/checkout@v6
@@ -54,8 +53,6 @@ jobs:
 
     env:
       ASPNETCORE_ENVIRONMENT: Production
-      App__S3Prefix: ${{ secrets.APP__S3PREFIX }}
-      App__CorsOrigins: ${{ secrets.APP__CORSORIGINS }}
       ConnectionStrings__Default: ${{ secrets.CONNECTIONSTRINGS__DEFAULT }}
     
     steps:
@@ -91,7 +88,7 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/moiponeps:latest
   
   deploy:
-    name: Deploy DLL to EC2
+    name: Deploy DLL 
     runs-on: [self-hosted, linux, x64, moipone-pipeline]
     needs: [build, test, db_update, upload_image]
     if: github.ref == 'refs/heads/main'
@@ -115,4 +112,4 @@ jobs:
   
       - name: Smoke test
         run: |
-          curl -I http://127.0.0.1:8080 || true
+          curl -I http://0.0.0.0:8080 || true
