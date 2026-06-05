@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
-import { decodeToken } from "../utils/decoder";
+import { decodeToken } from "../../lib/utils/decoder";
 
 interface WithAuthProps {
   children: ReactNode;
@@ -10,11 +10,11 @@ interface WithAuthProps {
 }
 
 const getDefaultRedirectPath = () => {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return "/admin";
   }
 
-  const host = window.location.host.toLowerCase();
+  const host = globalThis.window.location.host.toLowerCase();
   if (host.startsWith("student.")) {
     return "/student";
   }
@@ -28,7 +28,7 @@ const WithAuth = ({ children, redirectTo }: WithAuthProps) => {
  
   useEffect(() => {
     const unauthorizedRedirect = redirectTo || getDefaultRedirectPath();
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
  
     if (!token) {
       router.replace(unauthorizedRedirect);
@@ -46,7 +46,7 @@ const WithAuth = ({ children, redirectTo }: WithAuthProps) => {
  
       setAuthorized(true);
     } catch {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       router.replace(unauthorizedRedirect);
       setAuthorized(false);
     }

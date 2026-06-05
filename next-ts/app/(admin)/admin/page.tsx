@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react';
 import { Form, Input, Button, Checkbox, Image } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuthPageStyles } from './style';
@@ -11,7 +12,13 @@ const AdminLogin : React.FC = () => {
   const router = useRouter();
   const [form] = Form.useForm<ILogin>();
   const authActions = useAuthActions();
-  const { isPending, isError } = useAuthState();
+  const { currentUser, isPending, isError } = useAuthState();
+
+  useEffect(() => {
+    if (currentUser) {
+      router.replace('/admin/dashboard');
+    }
+  }, [currentUser, router]);
 
   const handleSubmit = async (values: ILogin) => {
     const { userNameOrEmailAddress, password } = values;
@@ -20,6 +27,8 @@ const AdminLogin : React.FC = () => {
       await authActions.authenticate(values);
     }
   };
+
+  if (currentUser) return null;
 
   return (
       <div className={styles.wrapper}>

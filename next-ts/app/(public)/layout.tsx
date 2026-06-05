@@ -14,7 +14,9 @@ export default function RootLayout({
       <StudentProvider>
         <CourseProvider>
           <ApplicationProvider>
-            <ContactProvider>{children}</ContactProvider>
+            <ContactProvider>
+              {children}
+            </ContactProvider>
           </ApplicationProvider>
         </CourseProvider>
       </StudentProvider>

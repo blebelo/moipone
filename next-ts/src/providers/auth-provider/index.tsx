@@ -26,14 +26,14 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
       if (!exp || Date.now() >= exp * 1000) {
         localStorage.removeItem("token");
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
 
       const authenticatedUser: ICurrentUser = {
           userRole: decoded[AbpTokenProperies.role],
           userId: decoded[AbpTokenProperies.nameidentifier],
-          userName:sessionStorage.getItem("userName") ?? decoded[AbpTokenProperies.name],
+          userName: decoded[AbpTokenProperies.name],
         }
 
       dispatch(
@@ -63,12 +63,7 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
           const userId = decoded[AbpTokenProperies.nameidentifier];
           const userName = decoded[AbpTokenProperies.name];
 
-          document.cookie = `token=${token}; path=/; secure; samesite=strict`;
-
           localStorage.setItem("token", token);
-          sessionStorage.setItem("role", userRole);
-          sessionStorage.setItem("Id", userId);
-          sessionStorage.setItem("userName", userName);
 
           dispatch(authenticateSuccess({ userRole, userId, userName }));
           router.push(redirectPath || '/admin/dashboard');
@@ -87,7 +82,7 @@ const authenticate = async (user: ILogin, redirectPath?: string) => {
       localStorage.removeItem("token");
       sessionStorage.clear();
       dispatch(logoutSuccess());
-      router.push('/')
+      router.push('/admin')
     }
     catch {
       dispatch(logoutError());
