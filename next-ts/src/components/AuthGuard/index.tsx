@@ -10,11 +10,11 @@ interface WithAuthProps {
 }
 
 const getDefaultRedirectPath = () => {
-  if (typeof window === "undefined") {
+  if (globalThis.window === undefined) {
     return "/admin";
   }
 
-  const host = window.location.host.toLowerCase();
+  const host = globalThis.window.location.host.toLowerCase();
   if (host.startsWith("student.")) {
     return "/student";
   }
