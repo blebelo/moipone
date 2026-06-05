@@ -3,7 +3,7 @@ import axios from "axios";
 export const axiosInstance = (isAppService: boolean = true) => {
   const token =
     typeof window !== "undefined"
-      ? sessionStorage.getItem("token")
+      ? localStorage.getItem("token")
       : null;
 
   const rawBaseUrl = process.env.NEXT_PUBLIC_API_LINK ?? "";

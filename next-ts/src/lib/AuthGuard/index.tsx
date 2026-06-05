@@ -28,7 +28,7 @@ const WithAuth = ({ children, redirectTo }: WithAuthProps) => {
  
   useEffect(() => {
     const unauthorizedRedirect = redirectTo || getDefaultRedirectPath();
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
  
     if (!token) {
       router.replace(unauthorizedRedirect);
@@ -46,7 +46,7 @@ const WithAuth = ({ children, redirectTo }: WithAuthProps) => {
  
       setAuthorized(true);
     } catch {
-      sessionStorage.removeItem("token");
+      localStorage.removeItem("token");
       router.replace(unauthorizedRedirect);
       setAuthorized(false);
     }

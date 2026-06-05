@@ -26,7 +26,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
 
       if (!exp || Date.now() >= exp * 1000) {
         localStorage.removeItem("token");
-        sessionStorage.clear();
+        localStorage.clear();
         return;
       }
 
