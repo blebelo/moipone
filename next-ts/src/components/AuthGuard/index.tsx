@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
-import { decodeToken } from "../utils/decoder";
+import { decodeToken } from "../../lib/utils/decoder";
 
 interface WithAuthProps {
   children: ReactNode;

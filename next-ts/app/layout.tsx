@@ -22,7 +22,9 @@ export default function AppLayout({
   return (
     <html lang="en">
       <body>
-        <HydrationWrapper>{children}</HydrationWrapper>
+        <HydrationWrapper>
+          {children}
+        </HydrationWrapper>
         <Analytics />
         <SpeedInsights />
       </body>

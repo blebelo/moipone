@@ -1,3 +1,4 @@
+import AuthGuard from '@/src/components/AuthGuard';
 import { ApplicationProvider } from '@/src/providers/application-provider';
 import { AuthProvider } from '@/src/providers/auth-provider';
 
@@ -8,7 +9,9 @@ export default function StudentLayout({
 }>) {
   return (
     <AuthProvider>
-      <ApplicationProvider>{children}</ApplicationProvider>
+          <ApplicationProvider>
+            {children}
+          </ApplicationProvider>
     </AuthProvider>
   );
 }

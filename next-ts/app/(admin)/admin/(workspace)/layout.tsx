@@ -1,4 +1,4 @@
-import WithAuth from '@/src/lib/AuthGuard';
+import WithAuth from '@/src/components/AuthGuard';
 import AdminLayout from '@/src/components/Admin/AdminLayout';
 
 export default function AdminProtectedLayout({
