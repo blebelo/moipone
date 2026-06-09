@@ -10,14 +10,14 @@ export interface ICourse {
   description: string;
   capacity?: number;
   requirements?: string;
-  code?: string;
+  code: string;
   isActive?: boolean;
-  startDate: Date;
+  startDate?: Date;
   duration: number;
   displayIcon: string;
   features: string[];
   enrolledStudents?: IStudent[];
-  applications: ICourseApplication[];
+  applications?: ICourseApplication[];
   creationTime?: Date
 }
 
