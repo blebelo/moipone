@@ -238,6 +238,10 @@ FakesAssemblies/
 **/*.DesktopClient/ModelManifest.xml
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
+
+# Local launch and database utility files
+src/Moipone.PublicSite.Web.Host/Properties/launchSettings.json
+src/Moipone.PublicSite.EntityFrameworkCore/clear_database.ps1
 _Pvt_Extensions
 
 # Paket dependency manager
