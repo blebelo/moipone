@@ -1,12 +1,4 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "https://localhost:44311/",
-      "sslPort": 44311
-    }
-  },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
@@ -18,10 +10,19 @@
     "Moipone.PublicSite.Web.Host": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44311/",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__Default ": "Host=ep-odd-scene-avn8jm4q-pooler.c-11.us-east-1.aws.neon.tech; Database=neondb; Username=neondb_owner; Password=npg_d2zjwkqv6MrP; SSL Mode=VerifyFull; Channel Binding=Require;"
+      },
+      "applicationUrl": "https://localhost:44311/"
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "https://localhost:44311/",
+      "sslPort": 44311
     }
   }
 }
