@@ -44,7 +44,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
 }) => {
   const router = useRouter();
   const { styles } = useApplicationFormStyles();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [existingStudent, setExistingStudent] = useState<IStudent | null>(null);
   const hasResetStateOnMount = useRef(false);
@@ -662,7 +662,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                   </Radio.Group>
                 </Form.Item>
 
-                {/* {existingStudent !== null && ( */}
+                {existingStudent !== null && (
                   <>
                     <Form.Item
                     className={styles.inputGroup}
@@ -711,7 +711,7 @@ const ApplicationForm: React.FC<IApplicationFormProps> = ({
                     />
                   </Form.Item>
                 </>
-                {/* )} */}
+                )}
               </div>
             )}
 
