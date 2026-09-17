@@ -3,6 +3,7 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Moipone.PublicSite.Authorization.Users;
 using Moipone.PublicSite.Domain.Employees;
 using Moipone.PublicSite.Employees.Dto;
 using System;
@@ -13,24 +14,28 @@ using System.Threading.Tasks;
 namespace Moipone.PublicSite.Employees
 {
     public class EmployeeAppService
-        : AsyncCrudAppService<Employee, EmployeeDto, Guid, PagedAndSortedResultRequestDto, EmployeeDto, EmployeeDto>,
-          IEmployeeAppService
+        : AsyncCrudAppService<Employee, EmployeeDto, Guid, PagedAndSortedResultRequestDto, CreateEmployeeDto, EmployeeDto>
+        , IEmployeeAppService
     {
         private readonly IRepository<Employee, Guid> _employeeRepository;
+        private readonly UserManager _userManager;
 
-        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository)
+        public EmployeeAppService(IRepository<Employee, Guid> employeeRepository, UserManager userManager)
             : base(employeeRepository)
         {
             _employeeRepository = employeeRepository;
+            _userManager = userManager;
         }
 
         [AbpAuthorize]
-        public override async Task<EmployeeDto> CreateAsync(EmployeeDto input)
+        public override async Task<EmployeeDto> CreateAsync(CreateEmployeeDto input)
         {
             if (input == null)
             {
                 throw new UserFriendlyException("Employee data cannot be null.");
             }
+
+
 
             var entity = ObjectMapper.Map<Employee>(input);
             var result = await _employeeRepository.InsertAsync(entity);

@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Entities.Auditing;
 using Microsoft.EntityFrameworkCore;
+using Moipone.PublicSite.Authorization.Users;
 using Moipone.PublicSite.Domain.Addresses;
 using Moipone.PublicSite.Domain.Students;
 using System;
@@ -123,5 +124,11 @@ namespace Moipone.PublicSite.Domain.Employees
         public string PoliceClearance { get; set; }
         #endregion
 
+        #region System Credentials
+        public long UserId { get; set; }
+
+        [ForeignKey(nameof(UserId))]
+        public virtual User User { get; set; }
+        #endregion
     }
 }

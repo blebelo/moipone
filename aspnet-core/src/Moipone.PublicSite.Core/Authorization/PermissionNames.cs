@@ -9,11 +9,9 @@ public static class PermissionNames
 
     public const string Pages_Roles = "Pages.Roles";
 
-    #region
+    #region Employee Permissions
     public const string Admin = "Admin";
     public const string Employee = "Employee";
     public const string Instructor = "Instructor";
-
-
     #endregion
 }

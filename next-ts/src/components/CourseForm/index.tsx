@@ -42,7 +42,7 @@ const CourseForm: React.FC<ICourseFormProps> = ({
 }) => {
   const { styles } = useCourseFormStyles();
 
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(true);
   const [isError, setIsError] = useState(false);
   const [featuresInput, setFeaturesInput] = useState('');
 
@@ -202,8 +202,8 @@ const CourseForm: React.FC<ICourseFormProps> = ({
   }
 
   return (
-    <div className={styles.section}>
-      <div className={styles.container}>
+    <div >
+      <div>
         <div className={styles.header}>
           <h1 className={styles.title}>
             Create New Course

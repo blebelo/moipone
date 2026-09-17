@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import {
   PlusOutlined,
   SearchOutlined,
@@ -13,6 +13,7 @@ import {
 import { mockCourses, Course } from '@/src/lib/common/mockData';
 import { useStyles } from './style';
 import CourseForm from '@/src/components/CourseForm';
+import CourseCard from '@/src/components/CourseCard';
 
 
 const Courses = () => {
@@ -22,7 +23,7 @@ const Courses = () => {
   const [isCreating, setIsCreating] = useState(false);
 
   const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.instructor.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -47,8 +48,7 @@ const Courses = () => {
   };
 
   const handleDeleteCourse = (id: string) => {
-    setCourses(courses.filter(c => c.id !== id));
-    message.success('Course deleted successfully!');
+    console.log('Calling API to delete course with id:', id);
   };
 
   const getStatusClass = (status: string) => {
@@ -107,56 +107,61 @@ const Courses = () => {
 
       <div className={styles.grid}>
         {filteredCourses.map(course => (
-          <div key={course.id} className={styles.card}>
-            <div className={styles.cardHeader}>
-              <div className={styles.cardIcon}>
-                <BookOutlined />
-              </div>
-              <div className={styles.cardTitleSection}>
-                <h3 className={styles.cardTitle}>{course.name}</h3>
-                <p className={styles.cardInstructor}>
-                  <UserOutlined /> {course.instructor}
-                </p>
-              </div>
-              <span className={`${styles.statusBadge} ${getStatusClass(course.status)}`}>
-                {course.status}
-              </span>
-            </div>
-            <div className={styles.cardBody}>
-              <p className={styles.cardDescription}>{course.description}</p>
-              <div className={styles.cardMeta}>
-                <span className={styles.metaItem}>
-                  <CalendarOutlined /> {course.duration}
-                </span>
-                <span className={styles.metaItem}>
-                  <UserOutlined /> {course.capacity} max
+          <><>
+            <div key={course.id} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardIcon}>
+                  <BookOutlined />
+                </div>
+                <div className={styles.cardTitleSection}>
+                  <h3 className={styles.cardTitle}>{course.name}</h3>
+                  <p className={styles.cardInstructor}>
+                    <UserOutlined /> {course.instructor}
+                  </p>
+                </div>
+                <span className={`${styles.statusBadge} ${getStatusClass(course.status)}`}>
+                  {course.status}
                 </span>
               </div>
-              <div className={styles.progressSection}>
-                <div className={styles.progressHeader}>
-                  <span className={styles.progressLabel}>Enrollment</span>
-                  <span className={styles.progressValue}>{course.enrolled}/{course.capacity}</span>
+              <div className={styles.cardBody}>
+                <p className={styles.cardDescription}>{course.description}</p>
+                <div className={styles.cardMeta}>
+                  <span className={styles.metaItem}>
+                    <CalendarOutlined /> {course.duration}
+                  </span>
+                  <span className={styles.metaItem}>
+                    <UserOutlined /> {course.capacity} max
+                  </span>
                 </div>
-                <div className={styles.progressBar}>
-                  <div 
-                    className={styles.progressFill} 
-                    style={{ width: `${(course.enrolled / course.capacity) * 100}%` }}
-                  />
+                <div className={styles.progressSection}>
+                  <div className={styles.progressHeader}>
+                    <span className={styles.progressLabel}>Enrollment</span>
+                    <span className={styles.progressValue}>{course.enrolled}/{course.capacity}</span>
+                  </div>
+                  <div className={styles.progressBar}>
+                    <div
+                      className={styles.progressFill}
+                      style={{ width: `${(course.enrolled / course.capacity) * 100}%` }} />
+                  </div>
                 </div>
               </div>
+              <div className={styles.cardActions}>
+                <button className={styles.actionButton}>
+                  <EditOutlined /> Edit
+                </button>
+                <button
+                  className={`${styles.actionButton} ${styles.deleteButton}`}
+                  onClick={() => handleDeleteCourse(course.id)}
+                >
+                  <DeleteOutlined /> Delete
+                </button>
+              </div>
             </div>
-            <div className={styles.cardActions}>
-              <button className={styles.actionButton}>
-                <EditOutlined /> Edit
-              </button>
-              <button 
-                className={`${styles.actionButton} ${styles.deleteButton}`}
-                onClick={() => handleDeleteCourse(course.id)}
-              >
-                <DeleteOutlined /> Delete
-              </button>
-            </div>
-          </div>
+          </><CourseCard
+              key={course.id}
+              course={course}
+              onEdit={() => { } }
+              onDelete={handleDeleteCourse} /></>
         ))}
       </div>
     </>
@@ -164,63 +169,3 @@ const Courses = () => {
 };
 
 export default Courses;
-
-//       <div className={styles.grid}>
-//         {filteredCourses.map(course => (
-//           <div key={course.id} className={styles.card}>
-//             <div className={styles.cardHeader}>
-//               <div className={styles.cardIcon}>
-//                 <BookOutlined />
-//               </div>
-//               <div className={styles.cardTitleSection}>
-//                 <h3 className={styles.cardTitle}>{course.name}</h3>
-//                 <p className={styles.cardInstructor}>
-//                   <UserOutlined /> {course.instructor}
-//                 </p>
-//               </div>
-//               <span className={`${styles.statusBadge} ${getStatusClass(course.status)}`}>
-//                 {course.status}
-//               </span>
-//             </div>
-//             <div className={styles.cardBody}>
-//               <p className={styles.cardDescription}>{course.description}</p>
-//               <div className={styles.cardMeta}>
-//                 <span className={styles.metaItem}>
-//                   <CalendarOutlined /> {course.duration}
-//                 </span>
-//                 <span className={styles.metaItem}>
-//                   <UserOutlined /> {course.capacity} max
-//                 </span>
-//               </div>
-//               <div className={styles.progressSection}>
-//                 <div className={styles.progressHeader}>
-//                   <span className={styles.progressLabel}>Enrollment</span>
-//                   <span className={styles.progressValue}>{course.enrolled}/{course.capacity}</span>
-//                 </div>
-//                 <div className={styles.progressBar}>
-//                   <div 
-//                     className={styles.progressFill} 
-//                     style={{ width: `${(course.enrolled / course.capacity) * 100}%` }}
-//                   />
-//                 </div>
-//               </div>
-//             </div>
-//             <div className={styles.cardActions}>
-//               <button className={styles.actionButton}>
-//                 <EditOutlined /> Edit
-//               </button>
-//               <button 
-//                 className={`${styles.actionButton} ${styles.deleteButton}`}
-//                 onClick={() => handleDeleteCourse(course.id)}
-//               >
-//                 <DeleteOutlined /> Delete
-//               </button>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Courses;

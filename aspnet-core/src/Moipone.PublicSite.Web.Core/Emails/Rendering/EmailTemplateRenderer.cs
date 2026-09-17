@@ -36,7 +36,8 @@ namespace Moipone.PublicSite.Emails.Rendering
             viewBag.EmailStyles = _emailStyles;
 
             // templateName resolves to Templates/<templateName>.cshtml
-            return await _engine.CompileRenderAsync(templateName, model, viewBag);
+            return await _engine.CompileRenderAsync(templateName, model, viewBag);boom 3d crack
+
         }
     }
 }

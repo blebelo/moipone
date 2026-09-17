@@ -25,7 +25,8 @@ const getUnauthorizedRedirectPath = () => {
 };
 
 export const axiosInstance = (isAppService: boolean = true) => {
-  const rawBaseUrl = process.env.NEXT_PUBLIC_API_LINK ?? "";
+  // const rawBaseUrl = process.env.NEXT_PUBLIC_API_LINK ?? "";
+  const rawBaseUrl = 'https://localhost:44311/api/';
 
   const baseURL = isAppService
     ? rawBaseUrl
