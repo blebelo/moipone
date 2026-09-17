@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build Stage
-    runs-on: [self-hosted, linux, x64, moipone-pipeline]
+    runs-on: [self-hosted, linux, x64, moipone-prod]
 
     steps:
       - uses: actions/checkout@v6
@@ -33,7 +33,7 @@ jobs:
 
   test:
     name: Test Stage
-    runs-on: [self-hosted, linux, x64, moipone-pipeline]
+    runs-on: [self-hosted, linux, x64, moipone-prod]
 
     steps:
       - uses: actions/checkout@v6
@@ -47,7 +47,7 @@ jobs:
   
   db_update:
     name: Database Update
-    runs-on: [self-hosted, linux, x64, moipone-pipeline]
+    runs-on: [self-hosted, linux, x64, moipone-prod]
     needs: [build, test]
     if: github.ref == 'refs/heads/main'
 
@@ -89,7 +89,7 @@ jobs:
   
   deploy:
     name: Deploy DLL 
-    runs-on: [self-hosted, linux, x64, moipone-pipeline]
+    runs-on: [self-hosted, linux, x64, moipone-prod]
     needs: [build, test, db_update, upload_image]
     if: github.ref == 'refs/heads/main'
   
