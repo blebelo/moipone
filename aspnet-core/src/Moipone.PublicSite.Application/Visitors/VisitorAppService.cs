@@ -114,7 +114,7 @@ namespace Moipone.PublicSite.Visitors
             {
                 Logger.Error($"Error retrieving Visitor with ID {input?.Id}", ex);
                 throw new UserFriendlyException(
-                    $"Could not retrieve Visitor. Error: {ex.Message}",
+                    $"Could not retrieve Visitor.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
@@ -178,6 +178,46 @@ namespace Moipone.PublicSite.Visitors
                     Abp.Logging.LogSeverity.Error
                 );
             }
+        }
+
+        public async Task<VisitorDto> LookupVisitorAsync(string emailAddress)
+        {
+            try
+            {
+                if (emailAddress == null)
+                {
+                    throw new UserFriendlyException(
+                        "Invalid Visitor ID.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                var entity = await _visitorRepository.FirstOrDefaultAsync(
+                    v => v.EmailAddress == emailAddress);
+
+                if (entity == null)
+                {
+                    throw new UserFriendlyException(
+                        "Visitor not found.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
+                return ObjectMapper.Map<VisitorDto>(entity);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Error retrieving Visitor with ID ");
+                throw new UserFriendlyException(
+                    $"Could not retrieve Visitor.",
+                    Abp.Logging.LogSeverity.Error
+                );
+            }
+
         }
     }
 }

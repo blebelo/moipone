@@ -1,6 +1,6 @@
 using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using Moipone.PublicSite.Domain.Addresses;
+using Moipone.PublicSite.Addresses.Dto;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Domain.Visits;
 using Moipone.PublicSite.Visits.Dto;
@@ -14,7 +14,7 @@ namespace Moipone.PublicSite.Visitors.Dto
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public Address? VisitorAddress { get; set; }
+        public AddressDto? VisitorAddress { get; set; }
         public string? ContactNumber { get; set; }
         public string? EmailAddress { get; set; }
         public int? WardNumber { get; set; }
@@ -26,7 +26,7 @@ namespace Moipone.PublicSite.Visitors.Dto
         public bool IsCsg { get; set; }
 
         #region Navigation Properties
-        public virtual List<VisitDto> Vists { get; set; }
+        public virtual List<VisitDto> Visits { get; set; }
         #endregion
     }
 }
