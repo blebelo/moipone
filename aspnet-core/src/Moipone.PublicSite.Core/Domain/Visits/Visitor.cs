@@ -22,7 +22,7 @@ namespace Moipone.PublicSite.Domain.Visitors
         public bool IsCsg { get; set; }
 
         #region Navigation Properties
-        public virtual ICollection<Visit> Vists { get; set; }
+        public virtual ICollection<Visit> Vists { get; set; } = new List<Visit>();
         #endregion
     }
 }
