@@ -24,7 +24,9 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
     public DbSet<Employee> Employees{ get; set; }
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Visitor> Visitors { get; set; }
-    public DbSet<Visit> Visits{ get; set; }
+    public DbSet<Visit> Visits { get; set; }
+    public DbSet<AttendanceRegister> AttendanceRegisters { get; set; }
+
     #endregion
 
     public PublicSiteDbContext(DbContextOptions<PublicSiteDbContext> options)

@@ -21,8 +21,9 @@ public class PublicSiteDbContextFactory : IDesignTimeDbContextFactory<PublicSite
          Use Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") method or from string[] args to get environment if necessary.
          https://docs.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli#args
          */
-        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
-
+        //var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
+        var connectionString = "Host=ep-odd-scene-avn8jm4q-pooler.c-11.us-east-1.aws.neon.tech; Database=neondb; Username=neondb_owner; Password=npg_d2zjwkqv6MrP; SSL Mode=VerifyFull; Channel Binding=Require;";
+        Console.WriteLine("Found CONN String");
         PublicSiteDbContextConfigurer.Configure(builder, connectionString);
 
         return new PublicSiteDbContext(builder.Options);
