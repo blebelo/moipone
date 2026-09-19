@@ -1,5 +1,6 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Moipone.PublicSite.Domain.Visitors;
@@ -11,13 +12,12 @@ using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.Visitors
 {
-    public class VisitorAppService
-        : AsyncCrudAppService<Visitor, VisitorDto, Guid, PagedAndSortedResultRequestDto, VisitorDto, VisitorDto>,
-          IVisitorAppService
+    public class VisitorAppService : AsyncCrudAppService<Visitor, VisitorDto, Guid, PagedAndSortedResultRequestDto, VisitorDto, VisitorDto>, IVisitorAppService
     {
         private readonly IRepository<Visitor, Guid> _visitorRepository;
 
-        public VisitorAppService(IRepository<Visitor, Guid> visitorRepository)
+        public VisitorAppService(
+            IRepository<Visitor, Guid> visitorRepository)
             : base(visitorRepository)
         {
             _visitorRepository = visitorRepository;
@@ -30,12 +30,15 @@ namespace Moipone.PublicSite.Visitors
                 if (input == null)
                 {
                     throw new UserFriendlyException(
-                        "Visitor data cannot be null.",
+                        "Visitor data is required.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
 
                 var entity = ObjectMapper.Map<Visitor>(input);
+
+                NormalizeVisitor(entity);
+
                 var result = await _visitorRepository.InsertAsync(entity);
 
                 return ObjectMapper.Map<VisitorDto>(result);
@@ -46,26 +49,33 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error("Error creating Visitor", ex);
+                Logger.Error("Error creating Visitor.", ex);
+
                 throw new UserFriendlyException(
-                    $"Could not create Visitor. Error: {ex.Message}",
+                    "Could not create the visitor. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
         }
 
-        public override async Task<PagedResultDto<VisitorDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
+        [AbpAuthorize]
+        public override async Task<PagedResultDto<VisitorDto>> GetAllAsync(
+            PagedAndSortedResultRequestDto input)
         {
             try
             {
                 var query = Repository.GetAll();
-                var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
-                var items = await AsyncQueryableExecuter.ToListAsync(
-                    query.OrderBy(x => x.Id)
-                         .Skip(input.SkipCount)
-                         .Take(input.MaxResultCount)
-                );
+                var totalCount =
+                    await AsyncQueryableExecuter.CountAsync(query);
+
+                var items =
+                    await AsyncQueryableExecuter.ToListAsync(
+                        query
+                            .OrderBy(x => x.Id)
+                            .Skip(input.SkipCount)
+                            .Take(input.MaxResultCount)
+                    );
 
                 return new PagedResultDto<VisitorDto>(
                     totalCount,
@@ -74,35 +84,31 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error("Error retrieving Visitors", ex);
+                Logger.Error("Error retrieving Visitors.", ex);
+
                 throw new UserFriendlyException(
-                    $"Could not retrieve Visitors. Error: {ex.Message}",
+                    "Could not retrieve visitors. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
         }
 
-        public override async Task<VisitorDto> GetAsync(EntityDto<Guid> input)
+        [AbpAuthorize]
+        public override async Task<VisitorDto> GetAsync(
+            EntityDto<Guid> input)
         {
             try
             {
                 if (input == null || input.Id == Guid.Empty)
                 {
                     throw new UserFriendlyException(
-                        "Invalid Visitor ID.",
+                        "Invalid visitor ID.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
 
-                var entity = await _visitorRepository.GetAsync(input.Id);
-
-                if (entity == null)
-                {
-                    throw new UserFriendlyException(
-                        "Visitor not found.",
-                        Abp.Logging.LogSeverity.Warn
-                    );
-                }
+                var entity =
+                    await _visitorRepository.GetAsync(input.Id);
 
                 return ObjectMapper.Map<VisitorDto>(entity);
             }
@@ -112,30 +118,42 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error($"Error retrieving Visitor with ID {input?.Id}", ex);
+                Logger.Error(
+                    $"Error retrieving Visitor with ID {input?.Id}.",
+                    ex
+                );
+
                 throw new UserFriendlyException(
-                    $"Could not retrieve Visitor.",
+                    "Could not retrieve the visitor. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
         }
 
-        public override async Task<VisitorDto> UpdateAsync(VisitorDto input)
+        [AbpAuthorize]
+        public override async Task<VisitorDto> UpdateAsync(
+            VisitorDto input)
         {
             try
             {
                 if (input == null || input.Id == Guid.Empty)
                 {
                     throw new UserFriendlyException(
-                        "Invalid Visitor data.",
+                        "Invalid visitor data.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
 
-                var entity = await _visitorRepository.GetAsync(input.Id);
+                var entity =
+                    await _visitorRepository.GetAsync(input.Id);
+
                 ObjectMapper.Map(input, entity);
 
-                var updated = await _visitorRepository.UpdateAsync(entity);
+                NormalizeVisitor(entity);
+
+                var updated =
+                    await _visitorRepository.UpdateAsync(entity);
+
                 return ObjectMapper.Map<VisitorDto>(updated);
             }
             catch (UserFriendlyException)
@@ -144,22 +162,28 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error($"Error updating Visitor with ID {input?.Id}", ex);
+                Logger.Error(
+                    $"Error updating Visitor with ID {input?.Id}.",
+                    ex
+                );
+
                 throw new UserFriendlyException(
-                    $"Could not update Visitor. Error: {ex.Message}",
+                    "Could not update the visitor. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
         }
 
-        public override async Task DeleteAsync(EntityDto<Guid> input)
+        [AbpAuthorize]
+        public override async Task DeleteAsync(
+            EntityDto<Guid> input)
         {
             try
             {
                 if (input == null || input.Id == Guid.Empty)
                 {
                     throw new UserFriendlyException(
-                        "Invalid Visitor ID.",
+                        "Invalid visitor ID.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
@@ -172,33 +196,43 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error($"Error deleting Visitor with ID {input?.Id}", ex);
+                Logger.Error(
+                    $"Error deleting Visitor with ID {input?.Id}.",
+                    ex
+                );
+
                 throw new UserFriendlyException(
-                    $"Could not delete Visitor. Error: {ex.Message}",
+                    "Could not delete the visitor. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
         }
 
-        public async Task<VisitorDto> LookupVisitorAsync(string emailAddress)
+        public async Task<VisitorDto> LookupVisitorAsync(
+            string emailAddress)
         {
             try
             {
-                if (emailAddress == null)
+                if (string.IsNullOrWhiteSpace(emailAddress))
                 {
                     throw new UserFriendlyException(
-                        "Invalid Visitor ID.",
+                        "Email address is required.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
 
-                var entity = await _visitorRepository.FirstOrDefaultAsync(
-                    v => v.EmailAddress == emailAddress);
+                var normalizedEmail =
+                    emailAddress.Trim().ToLowerInvariant();
+
+                var entity =
+                    await _visitorRepository.FirstOrDefaultAsync(
+                        v => v.EmailAddress == normalizedEmail
+                    );
 
                 if (entity == null)
                 {
                     throw new UserFriendlyException(
-                        "Visitor not found.",
+                        "Visitor could not be found.",
                         Abp.Logging.LogSeverity.Warn
                     );
                 }
@@ -211,13 +245,43 @@ namespace Moipone.PublicSite.Visitors
             }
             catch (Exception ex)
             {
-                Logger.Error($"Error retrieving Visitor with ID ");
+                Logger.Error(
+                    "Error looking up Visitor.",
+                    ex
+                );
+
                 throw new UserFriendlyException(
-                    $"Could not retrieve Visitor.",
+                    "Could not look up the visitor. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
             }
+        }
 
+        private void NormalizeVisitor(Visitor visitor)
+        {
+            if (!string.IsNullOrWhiteSpace(visitor.EmailAddress))
+            {
+                visitor.EmailAddress =
+                    visitor.EmailAddress.Trim().ToLowerInvariant();
+            }
+
+            if (!string.IsNullOrWhiteSpace(visitor.ContactNumber))
+            {
+                visitor.ContactNumber =
+                    visitor.ContactNumber.Trim();
+            }
+
+            if (!string.IsNullOrWhiteSpace(visitor.Name))
+            {
+                visitor.Name =
+                    visitor.Name.Trim();
+            }
+
+            if (!string.IsNullOrWhiteSpace(visitor.Surname))
+            {
+                visitor.Surname =
+                    visitor.Surname.Trim();
+            }
         }
     }
 }

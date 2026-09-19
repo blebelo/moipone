@@ -33,4 +33,25 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
         : base(options)
     {
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AttendanceRegister>(entity =>
+        {
+            entity.HasIndex(r => r.Date)
+                .IsUnique();
+        });
+
+        modelBuilder.Entity<Visitor>(entity =>
+        {
+            entity.HasIndex(v => v.ContactNumber)
+                .IsUnique();
+
+            entity.HasIndex(v => v.EmailAddress)
+                .IsUnique();
+        });
+
+
+    }
 }

@@ -15,8 +15,7 @@ namespace Moipone.PublicSite.Visits.Dto
         public string OtherReason { get; set; }
 
         #region Navigation Properties
-        public Guid VisitorId { get; set; }
-        public virtual VisitorDto Visitor { get; set; }
+        public VisitorDto Visitor { get; set; }
         #endregion
     }
 }

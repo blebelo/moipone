@@ -11,7 +11,7 @@ namespace Moipone.PublicSite.AttendanceRegisters.Dto
     public class AttendanceRegisterDto : EntityDto<int>
     {
         public DateOnly Date { get; set; }
-        public int Week { get; set; }
+        public bool IsClosed { get; set; }
 
         #region Navigation Properties
         public List<VisitDto> Visits { get; set; }

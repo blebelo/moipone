@@ -4,6 +4,7 @@
     {
         Enquiry = 1,
         Visit = 2,
-        Other = 3
+        Meeting = 3,
+        Other = 4
     }
 }

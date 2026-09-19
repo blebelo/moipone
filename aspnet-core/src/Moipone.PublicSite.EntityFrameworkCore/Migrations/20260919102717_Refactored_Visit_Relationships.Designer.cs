@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Moipone.PublicSite.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Moipone.PublicSite.Migrations
 {
     [DbContext(typeof(PublicSiteDbContext))]
-    partial class PublicSiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260919102717_Refactored_Visit_Relationships")]
+    partial class Refactored_Visit_Relationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2072,7 +2075,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ContactNumber")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreationTime")
@@ -2091,7 +2093,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EmailAddress")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("IsCsg")
@@ -2110,7 +2111,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Residence")
@@ -2123,7 +2123,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<Guid?>("VisitorAddressId")
@@ -2133,12 +2132,6 @@ namespace Moipone.PublicSite.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContactNumber")
-                        .IsUnique();
-
-                    b.HasIndex("EmailAddress")
-                        .IsUnique();
 
                     b.HasIndex("VisitorAddressId");
 
@@ -2168,9 +2161,6 @@ namespace Moipone.PublicSite.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsClosed")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -2180,10 +2170,10 @@ namespace Moipone.PublicSite.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Week")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("Date")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("AttendanceRegisters");
                 });
