@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.Visits
 {
-    public interface IVisitAppService
-        : IAsyncCrudAppService<VisitDto, Guid>
+    public interface IVisitAppService : IAsyncCrudAppService<VisitDto, Guid>
     {
         Task<VisitDto> CheckInAsync(CheckinDto input);
         Task<VisitDto> CheckOutAsync(Guid input); 
