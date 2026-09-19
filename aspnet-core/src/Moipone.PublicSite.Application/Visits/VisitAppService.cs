@@ -6,7 +6,6 @@ using Abp.Timing;
 using Abp.UI;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Domain.Visits;
-using Moipone.PublicSite.Visitors.Dto;
 using Moipone.PublicSite.Visits.Dto;
 using System;
 using System.Collections.Generic;
@@ -19,12 +18,15 @@ namespace Moipone.PublicSite.Visits
     {
         private readonly IRepository<Visit, Guid> _visitRepository;
         private readonly IRepository<AttendanceRegister, int> _attendanceRegisterRepository;
+        private readonly IRepository<Visitor, Guid> _visitorRepository;
 
-        public VisitAppService(IRepository<Visit, Guid> visitRepository,IRepository<AttendanceRegister, int> attendanceRegisterRepository)
+        public VisitAppService(IRepository<Visit, Guid> visitRepository,IRepository<AttendanceRegister, int> attendanceRegisterRepository,
+            IRepository<Visitor, Guid> visitorRepository)
             : base(visitRepository)
         {
             _visitRepository = visitRepository;
             _attendanceRegisterRepository = attendanceRegisterRepository;
+            _visitorRepository = visitorRepository;
         }
 
         public override async Task<VisitDto> CreateAsync(VisitDto input)
@@ -50,10 +52,7 @@ namespace Moipone.PublicSite.Visits
                 }
 
                 var visit = ObjectMapper.Map<Visit>(input);
-                if (visit.Visitor != null)
-                {
-                    NormalizeVisitor(visit.Visitor);
-                }
+
                 visit.AttendanceRegisterId = register.Id;
 
                 var result = await _visitRepository.InsertAsync(visit);
@@ -211,6 +210,62 @@ namespace Moipone.PublicSite.Visits
                     "Could not delete the visit. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
+            }
+        }
+
+        public async Task<VisitDto> CheckInAsync(CheckinDto input)
+        {
+            try
+            {
+                if (input == null)
+                {
+                    throw new UserFriendlyException(
+                        "Check-in data is required.",
+                        Abp.Logging.LogSeverity.Warn);
+                }
+
+                if (input.Visitor == null)
+                {
+                    throw new UserFriendlyException(
+                        "Visitor information is required.",
+                        Abp.Logging.LogSeverity.Warn);
+                }
+
+                var register = await GetTodaysRegisterAsync();
+
+                if (register.IsClosed)
+                {
+                    throw new UserFriendlyException(
+                        "Today's attendance register is closed.",
+                        Abp.Logging.LogSeverity.Warn);
+                }
+
+                var visitor = ObjectMapper.Map<Visitor>(input.Visitor);
+                NormalizeVisitor(visitor);
+                visitor = await _visitorRepository.InsertAsync(visitor);
+
+                var visit = new Visit
+                {
+                    VisitorId = visitor.Id,
+                    AttendanceRegisterId = register.Id,
+                    VisitReason = input.VisitReason,
+                    OtherReason = input.OtherReason
+                };
+
+                var result = await _visitRepository.InsertAsync(visit);
+
+                return ObjectMapper.Map<VisitDto>(result);
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error checking in visitor.", ex);
+                throw new UserFriendlyException(
+                    "Could not check in the visitor. Please try again.",
+                    Abp.Logging.LogSeverity.Error);
             }
         }
 
