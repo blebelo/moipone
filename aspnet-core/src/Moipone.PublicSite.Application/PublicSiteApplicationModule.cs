@@ -15,6 +15,7 @@ public class PublicSiteApplicationModule : AbpModule
     public override void PreInitialize()
     {
         Configuration.Authorization.Providers.Add<PublicSiteAuthorizationProvider>();
+        IocManager.Register<AttendanceRegisterCreatorWorker>();
     }
 
     public override void Initialize()
