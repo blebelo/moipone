@@ -24,11 +24,34 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
     public DbSet<Employee> Employees{ get; set; }
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Visitor> Visitors { get; set; }
-    public DbSet<Visit> Visits{ get; set; }
+    public DbSet<Visit> Visits { get; set; }
+    public DbSet<AttendanceRegister> AttendanceRegisters { get; set; }
+
     #endregion
 
     public PublicSiteDbContext(DbContextOptions<PublicSiteDbContext> options)
         : base(options)
     {
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<AttendanceRegister>(entity =>
+        {
+            entity.HasIndex(r => r.Date)
+                .IsUnique();
+        });
+
+        modelBuilder.Entity<Visitor>(entity =>
+        {
+            entity.HasIndex(v => v.ContactNumber)
+                .IsUnique();
+
+            entity.HasIndex(v => v.EmailAddress)
+                .IsUnique();
+        });
+
+
     }
 }

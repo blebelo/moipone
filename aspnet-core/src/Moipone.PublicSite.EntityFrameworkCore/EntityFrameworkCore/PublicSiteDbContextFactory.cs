@@ -22,7 +22,6 @@ public class PublicSiteDbContextFactory : IDesignTimeDbContextFactory<PublicSite
          https://docs.microsoft.com/en-us/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli#args
          */
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__Default");
-
         PublicSiteDbContextConfigurer.Configure(builder, connectionString);
 
         return new PublicSiteDbContext(builder.Options);
