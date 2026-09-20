@@ -2,8 +2,11 @@ using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.Threading.BackgroundWorkers;
 using Abp.Threading.Timers;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.Domain.Visits;
 using System;
+using System.Reflection;
+using System.Transactions;
 using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.AttendanceRegisters.BackgroundWorkers
@@ -35,37 +38,73 @@ namespace Moipone.PublicSite.AttendanceRegisters.BackgroundWorkers
 
         protected override async Task DoWorkAsync()
         {
-            using (var uow = _unitOfWorkManager.Begin())
-            {
-                var now = GetSouthAfricaTime();
-                var today = DateOnly.FromDateTime(now);
+            var now = GetSouthAfricaTime();
+            var today = DateOnly.FromDateTime(now);
 
-                var register =
-                    await _attendanceRegisterRepository.FirstOrDefaultAsync(
+            try
+            {
+                using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
+                {
+                    var register = await _attendanceRegisterRepository.FirstOrDefaultAsync(
                         r => r.Date == today);
 
-                if (register == null)
-                {
-                    register = new AttendanceRegister
+                    if (register == null)
                     {
-                        Date = today,
-                        IsClosed = false
-                    };
+                        register = new AttendanceRegister
+                        {
+                            Date = today,
+                            IsClosed = false
+                        };
 
-                    await _attendanceRegisterRepository.InsertAsync(register);
+                        await _attendanceRegisterRepository.InsertAsync(register);
+                    }
+
+                    if (!register.IsClosed && now.TimeOfDay >= RegisterCloseTime)
+                    {
+                        register.IsClosed = true;
+
+                        await _attendanceRegisterRepository.UpdateAsync(register);
+                    }
+
+                    await uow.CompleteAsync();
                 }
-
-                if (!register.IsClosed && now.TimeOfDay >= RegisterCloseTime)
+            }
+            catch (DbUpdateException ex) when (IsUniqueConstraintViolation(ex))
+            {
+                using (var retryUow = _unitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
                 {
-                    register.IsClosed = true;
+                    var register = await _attendanceRegisterRepository.FirstOrDefaultAsync(
+                        r => r.Date == today);
 
-                    await _attendanceRegisterRepository.UpdateAsync(register);
+                    if (!register.IsClosed && now.TimeOfDay >= RegisterCloseTime)
+                    {
+                        register.IsClosed = true;
+
+                        await _attendanceRegisterRepository.UpdateAsync(register);
+                    }
+
+                    await retryUow.CompleteAsync();
                 }
-
-                await uow.CompleteAsync();
             }
 
             Timer.Period = 15 * 60 * 1000;
+        }
+
+        private static bool IsUniqueConstraintViolation(DbUpdateException exception)
+        {
+            var databaseException = exception.GetBaseException();
+
+            if (databaseException.GetType().Name == "SqlException")
+            {
+                var number = databaseException.GetType().GetProperty("Number")
+                    ?.GetValue(databaseException) as int?;
+
+                return number is 2601 or 2627;
+            }
+
+            return databaseException.GetType().Name == "PostgresException" &&
+                databaseException.GetType().GetProperty("SqlState", BindingFlags.Public | BindingFlags.Instance)
+                    ?.GetValue(databaseException)?.ToString() == "23505";
         }
 
         private static DateTime GetSouthAfricaTime()

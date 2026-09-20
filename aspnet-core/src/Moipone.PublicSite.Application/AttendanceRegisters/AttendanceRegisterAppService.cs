@@ -2,12 +2,16 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
 using Abp.UI;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.AttendanceRegisters.Dto;
 using Moipone.PublicSite.Domain.Visits;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Transactions;
 using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.AttendanceRegisters
@@ -201,18 +205,37 @@ namespace Moipone.PublicSite.AttendanceRegisters
 
                 var today = DateOnly.FromDateTime(now);
 
-                var entity = await _attendanceRegisterRepository
-                    .FirstOrDefaultAsync(r => r.Date == today);
-
-                if (entity == null)
+                AttendanceRegister entity;
+                try
                 {
-                    entity = new AttendanceRegister
+                    using (var uow = UnitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
                     {
-                        Date = today,
-                        IsClosed = false
-                    };
+                        entity = await _attendanceRegisterRepository
+                            .FirstOrDefaultAsync(r => r.Date == today);
 
-                    await _attendanceRegisterRepository.InsertAsync(entity);
+                        if (entity == null)
+                        {
+                            entity = new AttendanceRegister
+                            {
+                                Date = today,
+                                IsClosed = false
+                            };
+
+                            await _attendanceRegisterRepository.InsertAsync(entity);
+                        }
+
+                        await uow.CompleteAsync();
+                    }
+                }
+                catch (DbUpdateException ex) when (IsUniqueConstraintViolation(ex))
+                {
+                    using (var retryUow = UnitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
+                    {
+                        entity = await _attendanceRegisterRepository.FirstOrDefaultAsync(
+                            r => r.Date == today);
+
+                        await retryUow.CompleteAsync();
+                    }
                 }
 
                 return ObjectMapper.Map<AttendanceRegisterDto>(entity);
@@ -230,6 +253,23 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     Abp.Logging.LogSeverity.Error
                 );
             }
+        }
+
+        private static bool IsUniqueConstraintViolation(DbUpdateException exception)
+        {
+            var databaseException = exception.GetBaseException();
+
+            if (databaseException.GetType().Name == "SqlException")
+            {
+                var number = databaseException.GetType().GetProperty("Number")
+                    ?.GetValue(databaseException) as int?;
+
+                return number is 2601 or 2627;
+            }
+
+            return databaseException.GetType().Name == "PostgresException" &&
+                databaseException.GetType().GetProperty("SqlState", BindingFlags.Public | BindingFlags.Instance)
+                    ?.GetValue(databaseException)?.ToString() == "23505";
         }
       
         [AbpAuthorize]
