@@ -1,9 +1,5 @@
-﻿using Moipone.PublicSite.Configuration;
-using Moipone.PublicSite.Web;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-using Abp.Data;
 using System;
 
 namespace Moipone.PublicSite.EntityFrameworkCore;
