@@ -1,5 +1,4 @@
 "use client";
-
 import { useContext, useReducer } from "react";
 import { VisitorActionContext, VisitorStateContext, IVisitor } from "./context";
 import {
@@ -19,7 +18,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
 
   const create = async (input: IVisitor) => {
     dispatch(createPending());
-    const endpoint = "services/app/Visitor/Create";
+    const endpoint = "Visitor/Create";
 
     await instance.post(endpoint, input)
       .then((response) => {
@@ -32,7 +31,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
 
   const getAll = async (skipCount: number, maxResultCount: number, sorting?: string) => {
     dispatch(getAllPending());
-    const endpoint = "services/app/Visitor/GetAll";
+    const endpoint = "Visitor/GetAll";
 
     await instance.get(endpoint, {
       params: {
@@ -51,7 +50,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
 
   const get = async (id: string) => {
     dispatch(getPending());
-    const endpoint = "services/app/Visitor/Get";
+    const endpoint = "Visitor/Get";
 
     await instance.get(endpoint, { params: { Id: id } })
       .then((response) => {
@@ -64,7 +63,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
 
   const update = async (input: IVisitor) => {
     dispatch(updatePending());
-    const endpoint = "services/app/Visitor/Update";
+    const endpoint = "Visitor/Update";
 
     await instance.put(endpoint, input)
       .then((response) => {
@@ -77,7 +76,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
 
   const lookup = async (emailAddress: string) => {
     dispatch(lookupPending());
-    const endpoint = "services/app/Visitor/LookupVisitor";
+    const endpoint = "Visitor/LookupVisitor";
 
     await instance.get(endpoint, { params: { emailAddress } })
       .then((response) => {

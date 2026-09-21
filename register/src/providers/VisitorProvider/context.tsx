@@ -1,4 +1,3 @@
-import { INITIAL_STATE } from "@/lib/common/constants";
 import { IVisit } from "@/providers/VisitProvider/context";
 import { createContext } from "react";
 
@@ -46,6 +45,6 @@ export interface IVisitorActionContext {
   lookup: (emailAddress: string) => Promise<void>;
 }
 
-export const VisitorStateContext = createContext<IVisitorStateContext>(INITIAL_STATE);
+export const VisitorStateContext = createContext<IVisitorStateContext | undefined>(undefined);
 
 export const VisitorActionContext = createContext<IVisitorActionContext | undefined>(undefined);

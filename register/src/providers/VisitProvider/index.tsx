@@ -18,7 +18,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
 
   const create = async (input: IVisit) => {
     dispatch(createPending());
-    const endpoint = "services/app/Visit/Create";
+    const endpoint = "Visit/Create";
 
     await instance.post(endpoint, input)
       .then((response) => {
@@ -31,7 +31,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getAll = async (skipCount: number, maxResultCount: number, sorting?: string) => {
     dispatch(getAllPending());
-    const endpoint = "services/app/Visit/GetAll";
+    const endpoint = "Visit/GetAll";
 
     await instance.get(endpoint, {
       params: {
@@ -50,7 +50,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
 
   const get = async (id: string) => {
     dispatch(getPending());
-    const endpoint = "services/app/Visit/Get";
+    const endpoint = "Visit/Get";
 
     await instance.get(endpoint, {params: { Id: id }})
       .then((response) => {
@@ -63,7 +63,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
 
   const update = async (input: IVisit) => {
     dispatch(updatePending());
-    const endpoint = "services/app/Visit/Update";
+    const endpoint = "Visit/Update";
 
     await instance.put(endpoint, input)
       .then((response) => {
@@ -77,7 +77,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
 
   const checkIn = async (input: ICheckin) => {
     dispatch(checkInPending());
-    const endpoint = "services/app/Visit/CheckIn";
+    const endpoint = "Visit/CheckIn";
 
     await instance.post(endpoint, input)
       .then((response) => {
@@ -91,7 +91,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
   const checkOut = async (visitId: string) => {
     dispatch(checkOutPending());
 
-    const endpoint = "services/app/Visit/CheckOut";
+    const endpoint = "Visit/CheckOut";
 
     await instance.post(endpoint, null, {
       params: { visitId }

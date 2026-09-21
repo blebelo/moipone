@@ -1,4 +1,3 @@
-import { INITIAL_STATE } from "@/lib/common/constants";
 import { createContext } from "react";
 
 // ==================== ENTITIES ====================
@@ -37,6 +36,6 @@ export interface IVisitActionContext {
   checkOut: (visitId: string) => Promise<void>;
 }
 
-export const VisitStateContext = createContext<IVisitStateContext>(INITIAL_STATE);
+export const VisitStateContext = createContext<IVisitStateContext | undefined>(undefined);
 
 export const VisitActionContext = createContext<IVisitActionContext | undefined>(undefined);

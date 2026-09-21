@@ -22,7 +22,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const create = async (input: IAttendanceRegister) => {
     dispatch(createPending());
-    const endpoint = "services/app/AttendanceRegister/Create";
+    const endpoint = "AttendanceRegister/Create";
 
     await instance.post(endpoint, input)
       .then((response) => {
@@ -35,7 +35,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const getAll = async (skipCount: number, maxResultCount: number, sorting?: string) => {
     dispatch(getAllPending());
-    const endpoint = "services/app/AttendanceRegister/GetAll";
+    const endpoint = "AttendanceRegister/GetAll";
 
     await instance.get(endpoint, {
       params: {
@@ -54,7 +54,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const get = async (id: number) => {
     dispatch(getPending());
-    const endpoint = "services/app/AttendanceRegister/Get";
+    const endpoint = "AttendanceRegister/Get";
 
     await instance.get(endpoint, {params: { Id: id }})
       .then((response) => {
@@ -67,7 +67,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const getToday = async () => {
     dispatch(getTodayPending());
-    const endpoint = "services/app/AttendanceRegister/GetToday";
+    const endpoint = "AttendanceRegister/GetToday";
 
     await instance.get(endpoint)
       .then((response) => {
@@ -80,7 +80,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const close = async (id: number) => {
     dispatch(closePending());
-    const endpoint = "services/app/AttendanceRegister/Close";
+    const endpoint = "AttendanceRegister/Close";
 
     await instance.post(endpoint, { id })
       .then((response) => {
@@ -93,7 +93,7 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const reopen = async (id: number) => {
     dispatch(reopenPending());
-    const endpoint = "services/app/AttendanceRegister/Reopen";
+    const endpoint = "AttendanceRegister/Reopen";
 
     await instance.post(endpoint, { id })
       .then((response) => {

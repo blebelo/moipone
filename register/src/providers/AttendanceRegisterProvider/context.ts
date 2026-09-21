@@ -1,6 +1,6 @@
-import { INITIAL_STATE } from "@/lib/common/constants";
 import { createContext } from "react";
 import { IVisit } from "../VisitProvider/context";
+import { IVisitor } from "../VisitorProvider/context";
 
 // ==================== ENTITIES ====================
 
@@ -18,6 +18,9 @@ export interface IAttendanceRegisterStateContext {
   isSuccess: boolean;
   isError: boolean;
   attendanceRegister?: IAttendanceRegister;
+  attendanceRegisters?: IAttendanceRegister[];
+  visits?: IVisit[];
+  visitors?: IVisitor[];
 }
 
 export interface IAttendanceRegisterActionContext {
@@ -29,6 +32,6 @@ export interface IAttendanceRegisterActionContext {
   reopen: (id: number) => Promise<void>;
 }
 
-export const AttendanceRegisterStateContext =createContext<IAttendanceRegisterStateContext>(INITIAL_STATE);
+export const AttendanceRegisterStateContext = createContext<IAttendanceRegisterStateContext | undefined>(undefined);
 
 export const AttendanceRegisterActionContext =createContext<IAttendanceRegisterActionContext | undefined>(undefined);
