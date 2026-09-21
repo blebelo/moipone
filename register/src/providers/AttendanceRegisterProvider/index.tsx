@@ -1,20 +1,15 @@
 "use client";
 import { useContext, useReducer } from "react";
 import { AttendanceRegisterReducer } from "./reducer";
-import {
-  AttendanceRegisterActionContext,
-  AttendanceRegisterStateContext,
-  IAttendanceRegister
-} from "./context";
+import { INITIAL_STATE } from "@/lib/common/constants";
+import { axiosInstance } from "@/lib/utils/axiosInstance";
 import {closeError, closePending, closeSuccess,
   createError, createPending, createSuccess,
   getAllError, getAllPending, getAllSuccess,
   getError, getPending, getSuccess,
   getTodayError, getTodayPending, getTodaySuccess,
-  reopenError, reopenPending, reopenSuccess
-} from "./actions";
-import { INITIAL_STATE } from "@/lib/common/constants";
-import { axiosInstance } from "@/lib/utils/axiosInstance";
+  reopenError, reopenPending, reopenSuccess} from "./actions";
+import {AttendanceRegisterActionContext, AttendanceRegisterStateContext, IAttendanceRegister} from "./context";
 
 export const AttendanceRegisterProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(AttendanceRegisterReducer, { ...INITIAL_STATE });

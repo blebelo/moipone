@@ -1,6 +1,5 @@
 "use client";
 import { AuthReducer } from "./reducer";
-import { useRouter } from "next/navigation";
 import { INITIAL_STATE } from "@/lib/common/constants";
 import { useContext, useEffect, useReducer } from "react";
 import { axiosInstance } from "@/lib/utils/axiosInstance";
@@ -12,7 +11,6 @@ import {authenticateError, authenticatePending, authenticateSuccess,
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(AuthReducer, { ...INITIAL_STATE });
   const instance = axiosInstance(false);
-  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -27,7 +25,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (!exp || Date.now() >= exp * 1000) {
         localStorage.removeItem("token");
-        localStorage.clear();
         return;
       }
 
@@ -64,7 +61,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.setItem("token", token);
 
         dispatch(authenticateSuccess({ userRole, userId, userName }));
-        router.push("/404");
       })
       .catch((error) => {
         const message =
@@ -84,7 +80,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem("token");
       sessionStorage.clear();
       dispatch(logoutSuccess());
-      router.push("/admin");
     } catch {
       dispatch(logoutError());
       throw new Error("Logout Failed");
