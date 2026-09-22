@@ -1,8 +1,10 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using Microsoft.AspNetCore.Mvc;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Visitors.Dto;
 using System;
@@ -208,7 +210,8 @@ namespace Moipone.PublicSite.Visitors
             }
         }
 
-        public async Task<VisitorDto> LookupVisitorAsync(
+        [HttpGet]
+        public async Task<LightWeightVisitorDto> LookupVisitorAsync(
             string emailAddress)
         {
             try
@@ -231,13 +234,10 @@ namespace Moipone.PublicSite.Visitors
 
                 if (entity == null)
                 {
-                    throw new UserFriendlyException(
-                        "Visitor could not be found.",
-                        Abp.Logging.LogSeverity.Warn
-                    );
+                    throw new EntityNotFoundException("Visitor could not be found.");
                 }
 
-                return ObjectMapper.Map<VisitorDto>(entity);
+                return ObjectMapper.Map<LightWeightVisitorDto>(entity);
             }
             catch (UserFriendlyException)
             {

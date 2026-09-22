@@ -7,7 +7,7 @@ using System;
 namespace Moipone.PublicSite.Visits.Dto
 {
     [AutoMap(typeof(Visit))]
-    public class CheckinDto : FullAuditedEntityDto<Guid>
+    public class CreateVisitDto : FullAuditedEntityDto<Guid>
     {
         public RefListVisitReason VisitReason { get; set; }
         public string? OtherReason { get; set; }

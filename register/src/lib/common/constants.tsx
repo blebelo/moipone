@@ -1,6 +1,6 @@
 import { IAttendanceRegister, IAttendanceRegisterStateContext } from "@/providers/AttendanceRegisterProvider/context";
 import { IVisitor, IVisitorStateContext } from "@/providers/VisitorProvider/context";
-import { IVisit, IVisitStateContext } from "@/providers/VisitProvider/context";
+import { ICheckin, IVisit, IVisitStateContext } from "@/providers/VisitProvider/context";
 
 export const RequestState = {
   Pending: { isPending: true, isSuccess: false, isError: false, error: undefined },
@@ -25,3 +25,47 @@ export type EntityMap =
   | IVisit
   | IVisitor
   ;
+
+export interface ICheckInFormProps {
+  checkInVisitor: (visitData: ICheckin) => Promise<void>;
+  lookupVisitor: (emailAddress: string) => Promise<void>;
+  visitorState: IVisitorStateContext;
+  visitState: IVisitStateContext;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
+
+export type Stringify<T> = {
+  [K in keyof T]: NonNullable<T[K]> extends object
+    ? Stringify<NonNullable<T[K]>>
+    : string;
+};
+
+export type CheckInFormErrors = Stringify<ICheckin>;
+
+export const defaultFormValues : ICheckin = {
+  visitor: {
+    name: "",
+    surname: "",
+    contactNumber: "",
+    emailAddress: "",
+    dateOfBirth: "",
+    sex: undefined,
+    residence: undefined,
+    wardNumber: undefined,
+    sexuality: undefined,
+    isDisabled: false,
+    isCsg: false,
+    visitorAddress: {
+      street: "",
+      suburb: "",
+      city: "",
+      postalCode: "",
+      province: "",
+      country: "",
+    },
+  },
+  visitReason: undefined,
+  attendanceRegisterId: undefined
+};
+

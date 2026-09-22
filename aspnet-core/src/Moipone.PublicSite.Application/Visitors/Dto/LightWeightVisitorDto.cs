@@ -1,16 +1,14 @@
-using Abp.Application.Services.Dto;
+﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Moipone.PublicSite.Addresses.Dto;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Domain.Visits;
-using Moipone.PublicSite.Visits.Dto;
 using System;
-using System.Collections.Generic;
 
 namespace Moipone.PublicSite.Visitors.Dto
 {
     [AutoMap(typeof(Visitor))]
-    public class VisitorDto : EntityDto<Guid>
+    public class LightWeightVisitorDto : EntityDto<Guid>
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
@@ -24,9 +22,5 @@ namespace Moipone.PublicSite.Visitors.Dto
         public RefListSexType Sex { get; set; }
         public bool IsDisabled { get; set; }
         public bool IsCsg { get; set; }
-
-        #region Navigation Properties
-        public virtual List<VisitDto>? Visits { get; set; }
-        #endregion
     }
 }

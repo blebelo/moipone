@@ -14,20 +14,14 @@ export const axiosInstance = (isAppService: boolean = true) => {
     throw new Error("NEXT_PUBLIC_API_LINK must be a valid HTTPS URL");
   }
 
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("token")
-      : null;
-
   const baseURL = isAppService
     ? rawBaseUrl
     : rawBaseUrl.replace(/\/services\/app\/?$/, "");
 
-  return axios.create({
+  const instance = axios.create({
     baseURL,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     beforeRedirect: (options) => {
       if (options.protocol !== "https:") {
@@ -35,4 +29,17 @@ export const axiosInstance = (isAppService: boolean = true) => {
       }
     },
   });
+
+  instance.interceptors.request.use((config) => {
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  });
+
+  return instance;
 };

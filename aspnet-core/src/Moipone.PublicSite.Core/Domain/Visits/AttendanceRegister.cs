@@ -12,7 +12,7 @@ namespace Moipone.PublicSite.Domain.Visits
         public bool IsClosed { get; set; }
 
         #region Navigation Properties
-        public virtual ICollection<Visit> Visits { get; set; } = new List<Visit>(); 
+        public virtual ICollection<Visit> Visits { get; set; } = new List<Visit>();
         #endregion
     }
 }

@@ -4,12 +4,12 @@ import { createContext } from "react";
 // ==================== ENTITIES ====================
 export interface IAddress {
   id?: string;
-  street: string;
-  suburb: string;
-  city: string;
-  postalCode: string;
-  province: string;
-  country: string;
+  street?: string;
+  suburb?: string;
+  city?: string;
+  postalCode?: string;
+  province?: string;
+  country?: string;
 }
 
 export interface IVisitor {
@@ -22,11 +22,11 @@ export interface IVisitor {
   wardNumber?: number;
   sexuality?: number;
   dateOfBirth: string;
-  residence: number;
-  sex: number;
+  residence?: number;
+  sex?: number;
   isDisabled: boolean;
   isCsg: boolean;
-  visits: IVisit[];
+  visits?: IVisit[];
 }
 
 // ==================== VISITOR CONTEXT ====================
@@ -35,6 +35,7 @@ export interface IVisitorStateContext {
   isSuccess: boolean;
   isError: boolean;
   visitor?: IVisitor;
+  visitors?: IVisitor[];
 }
 
 export interface IVisitorActionContext {
