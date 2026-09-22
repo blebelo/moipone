@@ -1,6 +1,6 @@
 import { IAttendanceRegister, IAttendanceRegisterStateContext } from "@/providers/AttendanceRegisterProvider/context";
 import { IVisitor, IVisitorStateContext } from "@/providers/VisitorProvider/context";
-import { ICheckin, IVisit, IVisitStateContext } from "@/providers/VisitProvider/context";
+import {  ICreateVisitDto, IVisit, IVisitStateContext } from "@/providers/VisitProvider/context";
 
 export const RequestState = {
   Pending: { isPending: true, isSuccess: false, isError: false, error: undefined },
@@ -27,7 +27,7 @@ export type EntityMap =
   ;
 
 export interface ICheckInFormProps {
-  checkInVisitor: (visitData: ICheckin) => Promise<void>;
+  checkInVisitor: (visitData: ICreateVisitDto) => Promise<void>;
   lookupVisitor: (emailAddress: string) => Promise<void>;
   visitorState: IVisitorStateContext;
   visitState: IVisitStateContext;
@@ -41,9 +41,9 @@ export type Stringify<T> = {
     : string;
 };
 
-export type CheckInFormErrors = Stringify<ICheckin>;
+export type CheckInFormErrors = Stringify<ICreateVisitDto>;
 
-export const defaultFormValues : ICheckin = {
+export const defaultFormValues : ICreateVisitDto = {
   visitor: {
     name: "",
     surname: "",

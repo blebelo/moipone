@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, SubmitEvent } from "react";
 import { Loading3QuartersOutlined } from "@ant-design/icons";
-import { ICheckin } from "@/providers/VisitProvider/context";
 import {
   CheckInFormErrors,
   defaultFormValues,
@@ -16,6 +15,7 @@ import {
   SexualityType,
   VisitReason,
 } from "@/lib/common/data";
+import { ICreateVisitDto } from "@/providers/VisitProvider/context";
 
 const CheckInForm: React.FC<ICheckInFormProps> = ({
   checkInVisitor,
@@ -25,7 +25,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
   open = false,
   onOpenChange,
 }) => {
-  const [formData, setFormData] = useState<ICheckin>(defaultFormValues);
+  const [formData, setFormData] = useState<ICreateVisitDto>(defaultFormValues);
   const [formError, setFormError] = useState<string>("");
   const [errors, setErrors] = useState<CheckInFormErrors>(toErrorDefaults(defaultFormValues));
   const lookupRequest = useRef(0);
@@ -204,7 +204,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
     }
 
     try {
-      const payload: ICheckin = {
+      const payload: ICreateVisitDto = {
         visitReason: formData.visitReason,
 
         ...(formData.visitReason === 4
