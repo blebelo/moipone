@@ -177,5 +177,5 @@ export const checkOutError = createAction<IVisitStateContext>(
 // ==================== RESET ====================
 export const resetState = createAction<IVisitStateContext>(
   VisitActionEnums.resetState,
-  () => INITIAL_STATE,
+  () => ({...INITIAL_STATE, visit: undefined}),
 );

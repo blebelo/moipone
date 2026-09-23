@@ -132,5 +132,5 @@ export const lookupError = createAction<IVisitorStateContext>(
 // ==================== RESET ====================
 export const resetState = createAction<IVisitorStateContext>(
   VisitorActionEnums.resetState,
-  () => INITIAL_STATE,
+  () => ({...INITIAL_STATE, visitor: undefined}),
 );
