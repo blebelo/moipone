@@ -20,7 +20,7 @@ namespace Moipone.PublicSite.Visits
         private readonly IRepository<AttendanceRegister, int> _attendanceRegisterRepository;
         private readonly IRepository<Visitor, Guid> _visitorRepository;
 
-        public VisitAppService(IRepository<Visit, Guid> visitRepository,IRepository<AttendanceRegister, int> attendanceRegisterRepository,
+        public VisitAppService(IRepository<Visit, Guid> visitRepository, IRepository<AttendanceRegister, int> attendanceRegisterRepository,
             IRepository<Visitor, Guid> visitorRepository)
             : base(visitRepository)
         {
@@ -264,8 +264,11 @@ namespace Moipone.PublicSite.Visits
                 );
 
 
-                var alreadyCheckedIn = visitor.Visits.Any(v =>
-                    v.CheckOutDate == null);
+                var alreadyCheckedIn = await AsyncQueryableExecuter.AnyAsync(
+                    _visitRepository.GetAll().Where(v =>
+                    v.VisitorId == input.VisitorId &&
+                    v.CheckOutDate == null)
+                );
 
                 if (alreadyCheckedIn)
                 {
