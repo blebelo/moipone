@@ -1,22 +1,24 @@
 "use client";
-import { useContext, useReducer } from "react";
-import { VisitActionContext, VisitStateContext, ICheckin, IVisit } from "./context";
+import { useCallback, useContext, useMemo, useReducer } from "react";
+import { VisitActionContext, VisitStateContext, IVisit, ICreateVisitDto } from "./context";
 import { checkInError, checkInPending, checkInSuccess,
   checkOutError, checkOutPending, checkOutSuccess,
   createError, createPending, createSuccess,
   getAllError, getAllPending, getAllSuccess,
   getError, getPending,getSuccess,
+  resetState,
   updateError, updatePending, updateSuccess
 } from "./actions";
 import { axiosInstance } from "@/lib/utils/axiosInstance";
+import { getErrorMessage } from "@/lib/common/helper-methods";
 import { INITIAL_STATE } from "@/lib/common/constants";
 import { VisitReducer } from "./reducer";
 
 export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(VisitReducer, { ...INITIAL_STATE });
-  const instance = axiosInstance(true);
+  const instance = useMemo(() => axiosInstance(true), []);
 
-  const create = async (input: IVisit) => {
+  const create = useCallback(async (input: ICreateVisitDto) => {
     dispatch(createPending());
     const endpoint = "Visit/Create";
 
@@ -24,12 +26,13 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(createSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(createError());
+        throw new Error(getErrorMessage(error, "Unable to create the visit."));
       });
-  };
+  }, [instance]);
 
-  const getAll = async (skipCount: number, maxResultCount: number, sorting?: string) => {
+  const getAll = useCallback(async (skipCount: number, maxResultCount: number, sorting?: string) => {
     dispatch(getAllPending());
     const endpoint = "Visit/GetAll";
 
@@ -43,12 +46,13 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(getAllSuccess(response.data.result.items));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(getAllError());
+        throw new Error(getErrorMessage(error, "Unable to load visits."));
       });
-  };
+  }, [instance]);
 
-  const get = async (id: string) => {
+  const get = useCallback(async (id: string) => {
     dispatch(getPending());
     const endpoint = "Visit/Get";
 
@@ -56,12 +60,13 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(getSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(getError());
+        throw new Error(getErrorMessage(error, "Unable to load the visit."));
       });
-  };
+  }, [instance]);
 
-  const update = async (input: IVisit) => {
+  const update = useCallback(async (input: IVisit) => {
     dispatch(updatePending());
     const endpoint = "Visit/Update";
 
@@ -69,13 +74,14 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(updateSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(updateError());
+        throw new Error(getErrorMessage(error, "Unable to update the visit."));
       });
-  };
+  }, [instance]);
 
 
-  const checkIn = async (input: ICheckin) => {
+  const checkIn = useCallback(async (input: IVisit) => {
     dispatch(checkInPending());
     const endpoint = "Visit/CheckIn";
 
@@ -83,12 +89,13 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(checkInSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(checkInError());
+        throw new Error(getErrorMessage(error, "Unable to check in the visitor."));
       });
-  };
+  }, [instance]);
 
-  const checkOut = async (visitId: string) => {
+  const checkOut = useCallback(async (visitId: string) => {
     dispatch(checkOutPending());
 
     const endpoint = "Visit/CheckOut";
@@ -99,15 +106,23 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       .then((response) => {
         dispatch(checkOutSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(checkOutError());
+        throw new Error(getErrorMessage(error, "Unable to check out the visitor."));
       });
-  };
+  }, [instance]);
+
+  const reset = useCallback(() => {
+    dispatch(resetState());
+  }, []);
+
+  const actions = useMemo(
+    () => ({ create, getAll, get, update, checkIn, checkOut, reset }),
+    [create, getAll, get, update, checkIn, checkOut, reset ],
+  );
 
   return (
-    <VisitActionContext.Provider
-      value={{ create, getAll, get, update,  checkIn, checkOut }}
-    >
+    <VisitActionContext.Provider value={actions}>
       <VisitStateContext.Provider value={state}>
         {children}
       </VisitStateContext.Provider>

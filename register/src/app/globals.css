@@ -1,26 +1,307 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "material-symbols";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
 
 @theme inline {
+  --font-sans:
+    var(--font-public-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-manrope), var(--font-public-sans), ui-sans-serif, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.985 0.004 197);
+  --foreground: oklch(0.21 0.02 230);
+  --surface: oklch(0.965 0.008 197);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.02 230);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.02 230);
+  --primary: oklch(0.43 0.083 203);
+  --primary-foreground: oklch(0.99 0.004 197);
+  --secondary: oklch(0.95 0.012 200);
+  --secondary-foreground: oklch(0.32 0.04 210);
+  --muted: oklch(0.955 0.008 200);
+  --muted-foreground: oklch(0.5 0.023 226);
+  --accent: oklch(0.93 0.03 200);
+  --accent-foreground: oklch(0.3 0.05 205);
+  --destructive: oklch(0.52 0.19 25);
+  --destructive-foreground: oklch(0.99 0.004 197);
+  --success: oklch(0.47 0.11 155);
+  --success-foreground: oklch(0.99 0.004 197);
+  --success-soft: oklch(0.94 0.04 155);
+  --warning: oklch(0.55 0.13 70);
+  --warning-soft: oklch(0.95 0.05 80);
+  --border: oklch(0.9 0.012 210);
+  --input: oklch(0.88 0.013 210);
+  --ring: oklch(0.43 0.083 203);
+  --chart-1: oklch(0.43 0.083 203);
+  --chart-2: oklch(0.47 0.11 155);
+  --chart-3: oklch(0.55 0.13 70);
+  --chart-4: oklch(0.6 0.05 226);
+  --chart-5: oklch(0.52 0.19 25);
+  --sidebar: oklch(0.26 0.032 220);
+  --sidebar-foreground: oklch(0.93 0.01 200);
+  --sidebar-primary: oklch(0.6 0.1 195);
+  --sidebar-primary-foreground: oklch(0.15 0.02 220);
+  --sidebar-accent: oklch(0.32 0.038 218);
+  --sidebar-accent-foreground: oklch(0.97 0.006 200);
+  --sidebar-border: oklch(0.36 0.03 218);
+  --sidebar-ring: oklch(0.6 0.1 195);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.015em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility label-caps {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
 }
+
+#check-in-form label {
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#check-in-form input,
+#check-in-form select {
+  height: 2.5rem;
+  border-width: 1px;
+  border-color: var(--color-input);
+  border-radius: 0.375rem;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+
+#check-in-form input:focus,
+#check-in-form select:focus {
+  border-color: var(--color-ring);
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-ring) 20%, transparent);
+}
+
+#check-in-form input:disabled,
+#check-in-form select:disabled {
+  background-color: var(--color-muted);
+}
+
+#check-in-form input::placeholder {
+  color: var(--color-muted-foreground);
+  opacity: 1;
+}
+
+#check-in-form p.text-error,
+#check-in-form p.text-destructive {
+  color: var(--color-destructive);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+#check-in-form [role="alert"] {
+  color: var(--color-destructive);
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+}
+
+#check-in-form #check-in-dateOfBirth {
+  color-scheme: light;
+  padding-right: 0.75rem;
+}
+
+#check-in-form #check-in-dateOfBirth::-webkit-datetime-edit {
+  color: var(--color-foreground);
+}
+
+#check-in-form #check-in-dateOfBirth::-webkit-datetime-edit-text,
+#check-in-form #check-in-dateOfBirth::-webkit-datetime-edit-month-field,
+#check-in-form #check-in-dateOfBirth::-webkit-datetime-edit-day-field,
+#check-in-form #check-in-dateOfBirth::-webkit-datetime-edit-year-field {
+  color: var(--color-muted-foreground);
+}
+
+#check-in-form #check-in-dateOfBirth::-webkit-calendar-picker-indicator {
+  width: 1rem;
+  height: 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+#check-in-form #check-in-dateOfBirth::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+@keyframes success-icon-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.45) rotate(-18deg);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.08) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes success-ring-expand {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.65);
+  }
+}
+
+@keyframes success-copy-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes success-action-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-icon-wrap {
+  position: relative;
+  height: 5rem;
+  width: 5rem;
+}
+
+.success-icon,
+.success-icon-ring {
+  position: absolute;
+  inset: 0;
+}
+
+.success-icon {
+  animation: success-icon-pop 650ms cubic-bezier(0.2, 0.9, 0.25, 1.2) both;
+}
+
+.success-icon-ring {
+  border: 2px solid var(--color-success);
+  animation: success-ring-expand 900ms ease-out 120ms both;
+}
+
+.success-copy {
+  animation: success-copy-rise 500ms ease-out 350ms both;
+}
+
+.success-action {
+  animation: success-action-rise 500ms ease-out 550ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .success-icon,
+  .success-icon-ring,
+  .success-copy,
+  .success-action {
+    animation: none;
+  }
+}
+

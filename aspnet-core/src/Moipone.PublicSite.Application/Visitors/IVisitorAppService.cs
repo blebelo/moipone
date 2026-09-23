@@ -8,6 +8,6 @@ namespace Moipone.PublicSite.Visitors
     public interface IVisitorAppService
         : IAsyncCrudAppService<VisitorDto, Guid>
     {
-        Task<VisitorDto> LookupVisitorAsync(string emailAddress);
+        Task<LightWeightVisitorDto> LookupVisitorAsync(string emailAddress);
     }
 }

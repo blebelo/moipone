@@ -1,22 +1,24 @@
 "use client";
-import { useContext, useReducer } from "react";
+import { useCallback, useContext, useMemo, useReducer } from "react";
 import { VisitorActionContext, VisitorStateContext, IVisitor } from "./context";
 import {
   createError, createPending, createSuccess,
   getAllError, getAllPending, getAllSuccess,
   getError, getPending, getSuccess,
   lookupError, lookupPending, lookupSuccess,
+  resetState,
   updateError, updatePending, updateSuccess
 } from "./actions";
 import { axiosInstance } from "@/lib/utils/axiosInstance";
+import { getErrorMessage } from "@/lib/common/helper-methods";
 import { INITIAL_STATE } from "@/lib/common/constants";
 import { VisitorReducer } from "./reducer";
 
 export const VisitorProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(VisitorReducer, { ...INITIAL_STATE });
-  const instance = axiosInstance(true);
+  const instance = useMemo(() => axiosInstance(true), []);
 
-  const create = async (input: IVisitor) => {
+  const create = useCallback(async (input: IVisitor) => {
     dispatch(createPending());
     const endpoint = "Visitor/Create";
 
@@ -24,12 +26,13 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       .then((response) => {
         dispatch(createSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(createError());
+        throw new Error(getErrorMessage(error, "Unable to create the visitor."));
       });
-  };
+  }, [instance]);
 
-  const getAll = async (skipCount: number, maxResultCount: number, sorting?: string) => {
+  const getAll = useCallback(async (skipCount: number, maxResultCount: number, sorting?: string) => {
     dispatch(getAllPending());
     const endpoint = "Visitor/GetAll";
 
@@ -43,12 +46,13 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       .then((response) => {
         dispatch(getAllSuccess(response.data.result.items));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(getAllError());
+        throw new Error(getErrorMessage(error, "Unable to load visitors."));
       });
-  };
+  }, [instance]);
 
-  const get = async (id: string) => {
+  const get = useCallback(async (id: string) => {
     dispatch(getPending());
     const endpoint = "Visitor/Get";
 
@@ -56,12 +60,13 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       .then((response) => {
         dispatch(getSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(getError());
+        throw new Error(getErrorMessage(error, "Unable to load the visitor."));
       });
-  };
+  }, [instance]);
 
-  const update = async (input: IVisitor) => {
+  const update = useCallback(async (input: IVisitor) => {
     dispatch(updatePending());
     const endpoint = "Visitor/Update";
 
@@ -69,27 +74,39 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       .then((response) => {
         dispatch(updateSuccess(response.data.result));
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch(updateError());
+        throw new Error(getErrorMessage(error, "Unable to update the visitor."));
       });
-  };
+  }, [instance]);
 
-  const lookup = async (emailAddress: string) => {
+  const lookup = useCallback(async (emailAddress: string) => {
     dispatch(lookupPending());
     const endpoint = "Visitor/LookupVisitor";
 
-    await instance.get(endpoint, { params: { emailAddress } })
-      .then((response) => {
-        dispatch(lookupSuccess(response.data.result));
-      })
-      .catch(() => {
-        dispatch(lookupError());
-      });
-  };
+    try {
+      const response = await instance.get(endpoint, { params: { emailAddress } });
+      const visitor = response.data.result;
+      dispatch(lookupSuccess(visitor));
+
+    } catch (error) {
+      dispatch(lookupError());
+      throw new Error(getErrorMessage(error, "Unable to look up the visitor."));
+    }
+  }, [instance]);
+
+  const reset = useCallback(() => {
+    dispatch(resetState());
+  }, []);
+
+  const actions = useMemo(
+    () => ({ create, getAll, get, update, lookup, reset }),
+    [create, getAll, get, update, lookup, reset],
+  );
 
   return (
     <VisitorActionContext.Provider
-      value={{ create, getAll, get, update, lookup }}
+      value={actions}
     >
       <VisitorStateContext.Provider value={state}>
         {children}

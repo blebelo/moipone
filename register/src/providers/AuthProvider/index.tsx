@@ -1,7 +1,7 @@
 "use client";
 import { AuthReducer } from "./reducer";
 import { INITIAL_STATE } from "@/lib/common/constants";
-import { useContext, useEffect, useReducer } from "react";
+import { useCallback, useContext, useEffect, useMemo, useReducer } from "react";
 import { axiosInstance } from "@/lib/utils/axiosInstance";
 import { AbpTokenProperies, decodeToken } from "@/lib/utils/decoder";
 import {AuthActionContext, AuthStateContext, ICurrentUser, IUser,} from "./context";
@@ -10,7 +10,7 @@ import {authenticateError, authenticatePending, authenticateSuccess,
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(AuthReducer, { ...INITIAL_STATE });
-  const instance = axiosInstance(false);
+  const instance = useMemo(() => axiosInstance(false), []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  const authenticate = async (user: IUser) => {
+  const authenticate = useCallback(async (user: IUser) => {
     dispatch(authenticatePending());
     const endpoint = "TokenAuth/Authenticate";
 
@@ -71,9 +71,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch(authenticateError(message));
         throw new Error(message);
       });
-  };
+  }, [instance]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     dispatch(logoutPending());
 
     try {
@@ -84,10 +84,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch(logoutError());
       throw new Error("Logout Failed");
     }
-  };
+  }, []);
+
+  const actions = useMemo(
+    () => ({ authenticate, logout }),
+    [authenticate, logout],
+  );
 
   return (
-    <AuthActionContext.Provider value={{ authenticate, logout }}>
+    <AuthActionContext.Provider value={actions}>
       <AuthStateContext.Provider value={state}>
         {children}
       </AuthStateContext.Provider>

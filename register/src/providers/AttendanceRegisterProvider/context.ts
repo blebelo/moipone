@@ -19,8 +19,8 @@ export interface IAttendanceRegisterStateContext {
   isError: boolean;
   attendanceRegister?: IAttendanceRegister;
   attendanceRegisters?: IAttendanceRegister[];
-  visits?: IVisit[];
-  visitors?: IVisitor[];
+  // visits?: IVisit[];
+  // visitors?: IVisitor[];
 }
 
 export interface IAttendanceRegisterActionContext {
