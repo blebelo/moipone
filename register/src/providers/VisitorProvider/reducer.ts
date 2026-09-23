@@ -30,6 +30,9 @@ export const VisitorReducer = handleActions<IVisitorStateContext, IVisitorStateC
     [VisitorActionEnums.lookupPending]: mergePayloadHandler,
     [VisitorActionEnums.lookupSuccess]: mergePayloadHandler,
     [VisitorActionEnums.lookupError]: mergePayloadHandler,
+
+    // Reset
+    [VisitorActionEnums.resetState]: mergePayloadHandler,
   },
   INITIAL_STATE
 );

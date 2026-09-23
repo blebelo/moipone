@@ -263,6 +263,18 @@ namespace Moipone.PublicSite.Visits
                     v => v.Id == input.VisitorId
                 );
 
+
+                var alreadyCheckedIn = visitor.Visits.Any(v =>
+                    v.CheckOutDate == null);
+
+                if (alreadyCheckedIn)
+                {
+                    throw new UserFriendlyException(
+                        "You are already checked in.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
+
                 if (visitor == null)
                 {
                     throw new UserFriendlyException(

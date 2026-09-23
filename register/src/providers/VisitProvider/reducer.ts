@@ -41,6 +41,9 @@ export const VisitReducer = handleActions<IVisitStateContext, IVisitStateContext
     [VisitActionEnums.checkOutPending]: mergePayloadHandler,
     [VisitActionEnums.checkOutSuccess]: mergePayloadHandler,
     [VisitActionEnums.checkOutError]: mergePayloadHandler,
+
+    // Reset
+    [VisitActionEnums.resetState]: mergePayloadHandler,
   },
   INITIAL_STATE
 );

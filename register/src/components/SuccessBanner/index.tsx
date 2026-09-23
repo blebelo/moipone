@@ -1,13 +1,6 @@
 'use client'
-import { useRouter } from "next/navigation";
 
-const SuccessBanner: React.FC = () => {
-  const router = useRouter();
-
-  const handleDone = () => {
-    router.refresh();
-  }
-
+const SuccessBanner: React.FC<{ onDone: () => void }> = ({ onDone }) => {
   return (
     <section className="relative flex w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-background shadow-lg">
       <div className="success-banner flex min-h-120 flex-col justify-center overflow-hidden bg-background px-6 py-10 text-center sm:px-10">
@@ -36,7 +29,7 @@ const SuccessBanner: React.FC = () => {
         <div className="success-action mt-8">
           <button
             type="button"
-            onClick={handleDone}
+            onClick={onDone}
             className="btn-primary w-full font-label text-label-md uppercase transition-transform hover:-translate-y-1 sm:w-48"
           >
             Done

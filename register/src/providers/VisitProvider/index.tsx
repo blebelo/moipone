@@ -6,6 +6,7 @@ import { checkInError, checkInPending, checkInSuccess,
   createError, createPending, createSuccess,
   getAllError, getAllPending, getAllSuccess,
   getError, getPending,getSuccess,
+  resetState,
   updateError, updatePending, updateSuccess
 } from "./actions";
 import { axiosInstance } from "@/lib/utils/axiosInstance";
@@ -111,9 +112,13 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       });
   }, [instance]);
 
+  const reset = useCallback(() => {
+    dispatch(resetState());
+  }, []);
+
   const actions = useMemo(
-    () => ({ create, getAll, get, update, checkIn, checkOut }),
-    [create, getAll, get, update, checkIn, checkOut],
+    () => ({ create, getAll, get, update, checkIn, checkOut, reset }),
+    [create, getAll, get, update, checkIn, checkOut, reset ],
   );
 
   return (

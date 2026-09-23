@@ -36,6 +36,7 @@ export interface IVisitActionContext {
   update: (input: IVisit) => Promise<void>;
   checkIn: (input: IVisit) => Promise<void>;
   checkOut: (visitId: string) => Promise<void>;
+  reset: () => void;
 }
 
 export const VisitStateContext = createContext<IVisitStateContext | undefined>(undefined);

@@ -2,7 +2,7 @@
 
 import { createAction } from "redux-actions";
 import { IVisitorStateContext, IVisitor } from "./context";
-import { RequestState } from "@/lib/common/constants";
+import { INITIAL_STATE, RequestState } from "@/lib/common/constants";
 
 export enum VisitorActionEnums {
   // Create
@@ -29,6 +29,9 @@ export enum VisitorActionEnums {
   lookupPending = "VISITOR_LOOKUP_PENDING",
   lookupSuccess = "VISITOR_LOOKUP_SUCCESS",
   lookupError = "VISITOR_LOOKUP_ERROR",
+
+  // Reset
+  resetState = 'RESET_STATE'
 }
 
 // ==================== CREATE ====================
@@ -124,4 +127,10 @@ export const lookupSuccess = createAction<IVisitorStateContext, IVisitor>(
 export const lookupError = createAction<IVisitorStateContext>(
   VisitorActionEnums.lookupError,
   () => RequestState.Error,
+);
+
+// ==================== RESET ====================
+export const resetState = createAction<IVisitorStateContext>(
+  VisitorActionEnums.resetState,
+  () => INITIAL_STATE,
 );

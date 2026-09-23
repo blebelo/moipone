@@ -16,6 +16,8 @@ import {
   VisitReason,
 } from "@/lib/common/data";
 import { ICreateVisitDto } from "@/providers/VisitProvider/context";
+import { useVisitActions } from "@/providers/VisitProvider";
+import { useVisitorActions } from "@/providers/VisitorProvider";
 
 const CheckInForm: React.FC<ICheckInFormProps> = ({
   checkInVisitor,
@@ -31,9 +33,11 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
   const lookupRequest = useRef(0);
   const [completedLookupRequest, setCompletedLookupRequest] = useState(0);
   const lookupEmailAddress = useRef("");
-  const existingVisitor = Boolean(visitorState.visitor?.id);
+  const existingVisitor = Boolean(formData.visitor?.id);
+  // const pending = visitState.isPending;
   const visitorFieldsDisabled = visitorState.isPending || visitState.isPending || existingVisitor;
-  const pending = visitState.isPending;
+  const visitActions = useVisitActions();
+  const visitorActions= useVisitorActions();
   
 
   const closeForm = (): void => {
@@ -255,7 +259,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
   if (visitState.isSuccess) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 backdrop-blur-md sm:p-6">
-        <SuccessBanner/>
+        <SuccessBanner onDone={() => { visitActions.reset(); visitorActions.reset(); closeForm(); }}/>
       </div>
     );
   }
@@ -860,7 +864,16 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                           },
                         }));
                         setFormError("");
-                      }}
+
+                        if (errors.visitor?.sexuality) {
+                          setErrors((current) => ({
+                            ...current,
+                            visitor: {
+                              ...current.visitor,
+                              sexuality: undefined,
+                            },
+                          }));
+                        }}}
                       disabled={visitorFieldsDisabled}
                       aria-invalid={Boolean(errors.visitor?.sexuality)}
                       className="h-14 w-full appearance-none rounded-none border-2 border-outline-variant bg-surface-container-lowest px-4 pl-12 pr-10 font-body text-body-md text-on-surface outline-none transition-colors hover:border-outline-variant focus:border-primary-container disabled:cursor-not-allowed disabled:opacity-60"
@@ -925,7 +938,16 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                           },
                         }));
                         setFormError("");
-                      }}
+
+                        if (errors.visitor?.sexuality) {
+                          setErrors((current) => ({
+                            ...current,
+                            visitor: {
+                              ...current.visitor,
+                              sexuality: undefined,
+                            },
+                          }));
+                        }}}
                       autoComplete="address-line1"
                       disabled={visitorFieldsDisabled}
                       aria-invalid={Boolean(
@@ -973,7 +995,19 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                           },
                         }));
                         setFormError("");
-                      }}
+
+                        if (errors.visitor?.visitorAddress?.suburb) {
+                          setErrors((current) => ({
+                            ...current,
+                            visitor: {
+                              ...current.visitor,
+                              visitorAddress: {
+                                ...current.visitor.visitorAddress,
+                                suburb: "",
+                              },
+                            },
+                          }));
+                        }}}
                       disabled={visitorFieldsDisabled}
                       aria-invalid={Boolean(
                         errors.visitor?.visitorAddress?.suburb,
@@ -1020,7 +1054,19 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                           },
                         }));
                         setFormError("");
-                      }}
+
+                        if (errors.visitor?.visitorAddress?.city) {
+                          setErrors((current) => ({
+                            ...current,
+                            visitor: {
+                              ...current.visitor,
+                              visitorAddress: {
+                                ...current.visitor.visitorAddress,
+                                city: "",
+                              },
+                            },
+                          }));
+                        }}}
                       autoComplete="address-level2"
                       disabled={visitorFieldsDisabled}
                       aria-invalid={Boolean(
@@ -1069,7 +1115,19 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                           },
                         }));
                         setFormError("");
-                      }}
+
+                        if (errors.visitor?.visitorAddress?.postalCode) {
+                          setErrors((current) => ({
+                            ...current,
+                            visitor: {
+                              ...current.visitor,
+                              visitorAddress: {
+                                ...current.visitor.visitorAddress,
+                                postalCode: "",
+                              },
+                            },
+                          }));
+                        }}}
                       disabled={visitorFieldsDisabled}
                       aria-invalid={Boolean(
                         errors.visitor?.visitorAddress?.postalCode,

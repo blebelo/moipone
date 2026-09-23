@@ -1,4 +1,5 @@
 import { StateMap, Stringify } from "./constants";
+import axios from "axios";
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
 
@@ -39,5 +40,11 @@ export const getErrorMessage = (
   error: unknown,
   fallback = "An unexpected error occurred.",
 ): string => {
+  if (axios.isAxiosError(error)) {
+    const payload = error.response?.data;
+    const backendError = payload?.error ?? payload;
+    return backendError?.message ?? backendError?.details ?? fallback;
+  }
+
   return error instanceof Error && error.message ? error.message : fallback;
 };

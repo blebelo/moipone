@@ -2,7 +2,7 @@
 
 import { createAction } from "redux-actions";
 import { IVisitStateContext, IVisit } from "./context";
-import { RequestState } from "@/lib/common/constants";
+import { INITIAL_STATE, RequestState } from "@/lib/common/constants";
 
 export enum VisitActionEnums {
   // Create
@@ -39,6 +39,9 @@ export enum VisitActionEnums {
   checkOutPending = "VISIT_CHECK_OUT_PENDING",
   checkOutSuccess = "VISIT_CHECK_OUT_SUCCESS",
   checkOutError = "VISIT_CHECK_OUT_ERROR",
+
+  // Reset
+  resetState = 'RESET_STATE'
 }
 
 // ==================== CREATE ====================
@@ -169,4 +172,10 @@ export const checkOutSuccess = createAction<IVisitStateContext, IVisit>(
 export const checkOutError = createAction<IVisitStateContext>(
   VisitActionEnums.checkOutError,
   () => RequestState.Error,
+);
+
+// ==================== RESET ====================
+export const resetState = createAction<IVisitStateContext>(
+  VisitActionEnums.resetState,
+  () => INITIAL_STATE,
 );

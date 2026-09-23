@@ -44,6 +44,7 @@ export interface IVisitorActionContext {
   get: (id: string) => Promise<void>;
   update: (input: IVisitor) => Promise<void>;
   lookup: (emailAddress: string) => Promise<void>;
+  reset: () => void;
 }
 
 export const VisitorStateContext = createContext<IVisitorStateContext | undefined>(undefined);
