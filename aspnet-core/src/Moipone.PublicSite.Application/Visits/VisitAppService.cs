@@ -126,9 +126,11 @@ namespace Moipone.PublicSite.Visits
                     );
                 }
 
-                var visitorInput = ObjectMapper.Map<Visitor>(input.Visitor);
-                NormalizeVisitor(visitorInput);
+                var visitor = ObjectMapper.Map<Visitor>(input.Visitor);
+                NormalizeVisitor(visitor);
                 var visit = ObjectMapper.Map<Visit>(input);
+                
+                visit.Visitor = visitor;
                 visit.AttendanceRegisterId = register.Id;
 
                 var result = await _visitRepository.InsertAsync(visit);
@@ -221,7 +223,6 @@ namespace Moipone.PublicSite.Visits
                 );
             }
         }
-
 
         public async Task<VisitDto> CheckInAsync(VisitDto input)
         {

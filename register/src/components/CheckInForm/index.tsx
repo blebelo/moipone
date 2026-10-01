@@ -231,7 +231,6 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
           residence: formData.visitor.residence,
           wardNumber: formData.visitor.wardNumber,
           sexuality: formData.visitor.sexuality,
-          isDisabled: formData.visitor.isDisabled,
           isCsg: formData.visitor.isCsg,
           visitorAddress: {
             street: formData.visitor.visitorAddress?.street?.trim(),
