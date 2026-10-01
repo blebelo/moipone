@@ -8,8 +8,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Moipone.PublicSite.Domain.Visitors
 {
-    [Index(nameof(EmailAddress), IsUnique = true)]
-    [Index(nameof(ContactNumber), IsUnique = true)]
     public class Visitor : FullAuditedEntity<Guid>
     {
         [Required]

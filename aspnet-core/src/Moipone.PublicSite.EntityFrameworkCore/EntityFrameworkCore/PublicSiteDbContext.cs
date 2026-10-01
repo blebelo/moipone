@@ -45,9 +45,6 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
 
         modelBuilder.Entity<Visitor>(entity =>
         {
-            entity.HasIndex(v => v.ContactNumber)
-                .IsUnique();
-
             entity.HasIndex(v => v.EmailAddress)
                 .IsUnique();
         });

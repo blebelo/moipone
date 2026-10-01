@@ -12,7 +12,7 @@ namespace Moipone.PublicSite.Visits.Dto
         public DateTime? CheckinDate => CreationTime;
         public DateTime? CheckOutDate { get; set; }
         public RefListVisitReason VisitReason { get; set; }
-        public string OtherReason { get; set; }
+        public string? OtherReason { get; set; }
 
         #region Navigation Properties
         public LightWeightVisitorDto Visitor { get; set; }
