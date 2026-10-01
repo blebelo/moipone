@@ -10,7 +10,7 @@ namespace Moipone.PublicSite.Domain.Visits
         public DateTime? CheckOutDate { get; set; }
         [Required]
         public RefListVisitReason VisitReason { get; set; }
-        public string OtherReason { get; set; }
+        public string? OtherReason { get; set; }
 
         #region Navigation Properties
         [Required]

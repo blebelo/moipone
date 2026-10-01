@@ -5,6 +5,7 @@ using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.UI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Visitors.Dto;
 using System;
@@ -228,9 +229,12 @@ namespace Moipone.PublicSite.Visitors
                     emailAddress.Trim().ToLowerInvariant();
 
                 var entity =
-                    await _visitorRepository.FirstOrDefaultAsync(
-                        v => v.EmailAddress == normalizedEmail
-                    );
+                    await _visitorRepository
+                        .GetAll()
+                        .Include(v => v.VisitorAddress)
+                        .FirstOrDefaultAsync(
+                            v => v.EmailAddress == normalizedEmail
+                        );
 
                 if (entity == null)
                 {

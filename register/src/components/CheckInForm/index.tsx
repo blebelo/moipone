@@ -177,7 +177,10 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
       nextErrors.visitReason = "Please select a reason.";
     }
 
-    if (formData.visitReason === 4 && !formData.otherReason?.trim()) {
+    if (
+      formData.visitReason === VisitReason.Other.value &&
+      !formData.otherReason?.trim()
+    ) {
       nextErrors.otherReason = "Please tell us the reason for your visit.";
     }
 
@@ -211,7 +214,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
       const payload: ICreateVisitDto = {
         visitReason: formData.visitReason,
 
-        ...(formData.visitReason === 4
+        ...(formData.visitReason === VisitReason.Other.value
           ? {
               otherReason: formData.otherReason?.trim(),
             }
@@ -228,7 +231,6 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
           residence: formData.visitor.residence,
           wardNumber: formData.visitor.wardNumber,
           sexuality: formData.visitor.sexuality,
-          isDisabled: formData.visitor.isDisabled,
           isCsg: formData.visitor.isCsg,
           visitorAddress: {
             street: formData.visitor.visitorAddress?.street?.trim(),
@@ -274,9 +276,60 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
         id="check-in-form"
         className="relative mx-auto flex h-[calc(100dvh-1.5rem)] w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-background shadow-lg sm:h-[calc(100dvh-3rem)]"
       >
+        {formError && (
+          <div
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="check-in-form-error-title"
+            aria-describedby="check-in-form-error-message"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-background/75 p-5 backdrop-blur-sm"
+          >
+            <div className="relative w-full max-w-md rounded-lg border border-destructive/30 bg-background p-6 pr-16 shadow-xl">
+              <h3
+                id="check-in-form-error-title"
+                className="font-label text-base font-semibold text-foreground"
+              >
+                Check-in could not be completed
+              </h3>
+              <p
+                id="check-in-form-error-message"
+                className="mt-2 wrap-break-word font-body text-sm text-muted-foreground"
+              >
+                {formError}
+              </p>
+              <button
+                type="button"
+                autoFocus
+                onClick={() => setFormError("")}
+                aria-label="Dismiss error and continue check-in"
+                className="absolute right-3 top-3 grid size-9 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <span className="material-symbols-outlined" aria-hidden="true">
+                  close
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {(visitorState.isPending || pending) && !formError && (
+          <div
+            role="status"
+            aria-live="polite"
+            className="absolute inset-0 z-20 flex items-center justify-center bg-background/75 backdrop-blur-sm"
+          >
+            <Loading3QuartersOutlined
+              spin
+              className="text-3xl text-primary"
+              aria-hidden="true"
+            />
+          </div>
+        )}
+
         <form
           onSubmit={handleSubmit}
           noValidate
+          inert={Boolean(formError || visitorState.isPending || pending)}
           className="flex h-full w-full flex-col"
         >
           <div className="border-b border-border bg-background px-5 py-4 sm:px-6">
@@ -314,18 +367,6 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
           </div>
 
           <div className="min-h-0 flex-1 space-y-7 overflow-y-auto bg-background px-5 py-5 sm:px-6">
-            {formError && (
-              <p
-                id="check-in-form-error"
-                role="alert"
-                className="rounded-md border border-destructive/30 bg-destructive/10 p-3 font-body text-sm text-destructive"
-              >
-                {formError}
-              </p>
-            )}
-
-            {visitorState.isPending && <Loading3QuartersOutlined />}
-
             <section className="space-y-4">
               <h3 className="font-label text-sm font-semibold tracking-tight text-foreground">
                 Your Details
@@ -898,6 +939,26 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                     </p>
                   )}
                 </div>
+                
+                <label className="flex min-h-14 items-center gap-3 text-left font-label text-label-md text-on-surface">
+                  <input
+                    type="checkbox"
+                    name="isCsg"
+                    checked={formData.visitor.isCsg}
+                    onChange={(event) =>
+                      setFormData((current) => ({
+                        ...current,
+                        visitor: {
+                          ...current.visitor,
+                          isCsg: event.target.checked,
+                        },
+                      }))
+                    }
+                    disabled={visitorFieldsDisabled}
+                    className="size-4 accent-primary disabled:cursor-not-allowed"
+                  />
+                  <span>I receive a Child Support Grant</span>
+                </label>
               </div>
             </section>
 
@@ -1175,7 +1236,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                             ? Number(event.target.value)
                             : undefined,
                           otherReason:
-                            event.target.value === "4"
+                            event.target.value === String(VisitReason.Other.value)
                               ? current.otherReason
                               : undefined,
                         }));
@@ -1224,7 +1285,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                   )}
                 </div>
 
-                {formData.visitReason === 4 && (
+                {formData.visitReason === VisitReason.Other.value && (
                   <div>
                     <label
                       htmlFor="check-in-otherReason"
@@ -1244,6 +1305,7 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                         type="text"
                         placeholder="Tell us more"
                         value={formData.otherReason ?? ""}
+                        required
                         onChange={(event) => {
                           setFormData((current) => ({
                             ...current,
@@ -1260,6 +1322,11 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                         }}
                         disabled={pending}
                         aria-invalid={Boolean(errors.otherReason)}
+                        aria-describedby={
+                          errors.otherReason
+                            ? "check-in-otherReason-error"
+                            : undefined
+                        }
                         className={`h-14 w-full rounded-none border-2 bg-surface-container-lowest px-4 pl-12 font-body text-body-md text-on-surface outline-none transition-colors placeholder:text-muted-foreground hover:border-outline-variant focus:border-primary-container disabled:cursor-not-allowed disabled:opacity-60 ${
                           errors.otherReason
                             ? "border-error"
@@ -1269,70 +1336,15 @@ const CheckInForm: React.FC<ICheckInFormProps> = ({
                     </div>
 
                     {errors.otherReason && (
-                      <p className="mt-2 font-body text-body-sm text-error">
+                      <p
+                        id="check-in-otherReason-error"
+                        className="mt-2 font-body text-body-sm text-error"
+                      >
                         {errors.otherReason}
                       </p>
                     )}
                   </div>
                 )}
-              </div>
-
-              <div className="grid gap-3 border-2 border-outline-variant bg-surface-container-lowest p-4 sm:grid-cols-2">
-                <button
-                  type="button"
-                  disabled={visitorFieldsDisabled}
-                  aria-pressed={formData.visitor.isDisabled}
-                  onClick={() =>
-                    setFormData((current) => ({
-                      ...current,
-                      visitor: {
-                        ...current.visitor,
-                        isDisabled: !current.visitor.isDisabled,
-                      },
-                    }))
-                  }
-                  className={`flex min-h-14 items-center gap-3 rounded-none border-2 px-4 text-left font-label text-label-md transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
-                    formData.visitor.isDisabled
-                      ? "border-primary-container bg-primary-container text-on-primary-container"
-                      : "border-outline-variant bg-surface-container-lowest text-on-surface"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-xl">
-                    {formData.visitor.isDisabled
-                      ? "check_box"
-                      : "check_box_outline_blank"}
-                  </span>
-
-                  <span>I am a person living with a disability</span>
-                </button>
-
-                <button
-                  type="button"
-                  disabled={visitorFieldsDisabled}
-                  aria-pressed={formData.visitor.isCsg}
-                  onClick={() =>
-                    setFormData((current) => ({
-                      ...current,
-                      visitor: {
-                        ...current.visitor,
-                        isCsg: !current.visitor.isCsg,
-                      },
-                    }))
-                  }
-                  className={`flex min-h-14 items-center gap-3 rounded-none border-2 px-4 text-left font-label text-label-md transition-colors disabled:cursor-not-allowed disabled:opacity-60 ${
-                    formData.visitor.isCsg
-                      ? "border-primary-container bg-primary-container text-on-primary-container"
-                      : "border-outline-variant bg-surface-container-lowest text-on-surface"
-                  }`}
-                >
-                  <span className="material-symbols-outlined text-xl">
-                    {formData.visitor.isCsg
-                      ? "check_box"
-                      : "check_box_outline_blank"}
-                  </span>
-
-                  <span>I receive a Child Support Grant</span>
-                </button>
               </div>
             </section>
           </div>

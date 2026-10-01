@@ -54,7 +54,6 @@ export const defaultFormValues : ICreateVisitDto = {
     residence: undefined,
     wardNumber: undefined,
     sexuality: undefined,
-    isDisabled: false,
     isCsg: false,
     visitorAddress: {
       street: "",

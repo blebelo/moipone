@@ -127,14 +127,10 @@ namespace Moipone.PublicSite.Visits
                 }
 
                 var visitor = ObjectMapper.Map<Visitor>(input.Visitor);
-
                 NormalizeVisitor(visitor);
-
-                visitor = await _visitorRepository.InsertAsync(visitor);
-
                 var visit = ObjectMapper.Map<Visit>(input);
-
-                visit.VisitorId = visitor.Id;
+                
+                visit.Visitor = visitor;
                 visit.AttendanceRegisterId = register.Id;
 
                 var result = await _visitRepository.InsertAsync(visit);
@@ -228,7 +224,6 @@ namespace Moipone.PublicSite.Visits
             }
         }
 
-
         public async Task<VisitDto> CheckInAsync(VisitDto input)
         {
             try
@@ -266,8 +261,10 @@ namespace Moipone.PublicSite.Visits
 
                 var alreadyCheckedIn = await AsyncQueryableExecuter.AnyAsync(
                     _visitRepository.GetAll().Where(v =>
-                    v.VisitorId == input.VisitorId &&
-                    v.CheckOutDate == null)
+                        v.VisitorId == input.VisitorId &&
+                        v.AttendanceRegisterId == register.Id &&
+                        v.CheckOutDate == null
+                    )
                 );
 
                 if (alreadyCheckedIn)
