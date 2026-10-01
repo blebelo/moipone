@@ -24,7 +24,6 @@ export interface IVisitor {
   dateOfBirth: string;
   residence?: number;
   sex?: number;
-  isDisabled: boolean;
   isCsg: boolean;
   visits?: IVisit[];
 }

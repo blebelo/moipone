@@ -1,8 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = (isAppService: boolean = true) => {
-  // const rawBaseUrl = process.env.NEXT_PUBLIC_API_LINK ?? "";
-  const rawBaseUrl = "https://localhost:44311/api/services/app";
+  const rawBaseUrl = process.env.NEXT_PUBLIC_API_LINK ?? "";
   let baseUrl: URL;
 
   try {
