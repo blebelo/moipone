@@ -4,11 +4,9 @@ using Moipone.PublicSite.Domain.Visitors;
 namespace Moipone.PublicSite.AttendanceRegisters.Dto
 {
     [AutoMap(typeof(Visitor))]
-    public class AttendanceRegisterVisitorDto
+    public class AttendanceRegisterVisitorDto 
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
-        public string? ContactNumber { get; set; }
-        public string? EmailAddress { get; set; }
     }
 }

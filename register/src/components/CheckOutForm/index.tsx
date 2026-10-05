@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Loader2, LogOut, Search } from "lucide-react";
 import { VisitReason } from "@/lib/common/data";
 import { PAGE_SIZE } from "@/lib/common/constants";
@@ -12,6 +12,7 @@ const getReasonLabel = (reason?: number): string | undefined =>
   Object.values(VisitReason).find((option) => option.value === reason)?.label;
 
 const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutVisitor, onOpenChange }: CheckOutFormProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const activeRegisterId = registerState.attendanceRegister?.id;
   const [search, setSearch] = useState("");
   const [pagination, setPagination] = useState({
@@ -22,6 +23,17 @@ const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutV
   const [checkingOutId, setCheckingOutId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const pending = visitorState.isPending || visitState.isPending;
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!open || !dialog || dialog.open) return;
+
+    dialog.showModal();
+    return () => {
+      if (dialog.open) dialog.close();
+    };
+  }, [open]);
+
   const visitorsById = new Map(
     (visitorState.visitors ?? []).map((visitor) => [visitor.id, visitor]),
   );
@@ -99,7 +111,15 @@ const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutV
   if (!open) return null;
 
   return (
-    <dialog open aria-labelledby="check-out-form-title" className="m-0 flex h-dvh w-dvw max-w-none items-center justify-center border-0 bg-black/80 p-3 backdrop-blur-md sm:p-6">
+    <dialog
+      ref={dialogRef}
+      onCancel={(event) => {
+        event.preventDefault();
+        if (checkingOutId === null) closeForm();
+      }}
+      aria-labelledby="check-out-form-title"
+      className="m-0 flex h-dvh w-dvw max-w-none items-center justify-center border-0 bg-black/80 p-3 backdrop-blur-md sm:p-6"
+    >
       <section className="relative mx-auto flex max-h-full w-full max-w-xl flex-col overflow-hidden rounded-lg border border-border bg-background shadow-lg">
         <header className="border-b border-border bg-background px-5 py-4 sm:px-6">
           <div className="flex items-start justify-between gap-4">

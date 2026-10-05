@@ -104,7 +104,7 @@ export const VisitProvider = ({ children }: { children: React.ReactNode }) => {
       params: { visitId }
     })
       .then((response) => {
-        dispatch(checkOutSuccess(response.data.result));
+        dispatch(checkOutSuccess({ ...response.data.result, id: visitId }));
       })
       .catch((error) => {
         dispatch(checkOutError());

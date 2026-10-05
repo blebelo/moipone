@@ -5,6 +5,22 @@ import { mergePayloadHandler } from "@/lib/common/helper-methods";
 import { INITIAL_STATE } from "@/lib/common/constants";
 ;
 
+const checkOutSuccessHandler = (
+  state: IVisitStateContext,
+  action: { payload: IVisitStateContext },
+): IVisitStateContext => {
+  const checkedOutVisitId = action.payload.visit?.id;
+
+  return {
+    ...state,
+    ...action.payload,
+    visits:
+      checkedOutVisitId === undefined
+        ? state.visits
+        : state.visits?.filter((visit) => visit.id !== checkedOutVisitId),
+  };
+};
+
 export const VisitReducer = handleActions<IVisitStateContext, IVisitStateContext>(
   {
     // Create
@@ -39,7 +55,7 @@ export const VisitReducer = handleActions<IVisitStateContext, IVisitStateContext
 
     // Check Out
     [VisitActionEnums.checkOutPending]: mergePayloadHandler,
-    [VisitActionEnums.checkOutSuccess]: mergePayloadHandler,
+    [VisitActionEnums.checkOutSuccess]: checkOutSuccessHandler,
     [VisitActionEnums.checkOutError]: mergePayloadHandler,
 
     // Reset
