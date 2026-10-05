@@ -4,6 +4,7 @@ import "./globals.css";
 import { AttendanceRegisterProvider } from "@/providers/AttendanceRegisterProvider";
 import { VisitProvider } from "@/providers/VisitProvider";
 import { VisitorProvider } from "@/providers/VisitorProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -31,9 +32,6 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
 };
 
 export default function RootLayout({
@@ -47,11 +45,13 @@ export default function RootLayout({
       className={`${manrope.variable} ${publicSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <AttendanceRegisterProvider>
-          <VisitorProvider>
-            <VisitProvider>{children}</VisitProvider>
-          </VisitorProvider>
-        </AttendanceRegisterProvider>
+        <AuthProvider>
+          <AttendanceRegisterProvider>
+            <VisitorProvider>
+              <VisitProvider>{children}</VisitProvider>
+            </VisitorProvider>
+          </AttendanceRegisterProvider>
+        </AuthProvider>
       </body>
     </html>
   );

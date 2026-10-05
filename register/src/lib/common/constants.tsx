@@ -68,3 +68,15 @@ export const defaultFormValues : ICreateVisitDto = {
   attendanceRegisterId: undefined
 };
 
+export type CheckOutFormProps = {
+  open: boolean;
+  registerState: IAttendanceRegisterStateContext;
+  visitorState: IVisitorStateContext;
+  visitState: IVisitStateContext;
+  checkOutVisitor: (visitId: string) => Promise<void>;
+  onOpenChange: (open: boolean) => void;
+};
+
+export type ListedVisit = { visit: IVisit; name: string; searchText: string };
+
+export const PAGE_SIZE = 10;

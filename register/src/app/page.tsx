@@ -1,17 +1,17 @@
 "use client"
-import Brand from "@/components/Brand";
+import Image from "next/image";
 import CheckInForm from "@/components/CheckInForm";
+import CheckOutForm from "@/components/CheckOutForm";
 import { getTodaysDate } from "@/lib/common/helper-methods";
 import { useAttendanceRegisterActions, useAttendanceRegisterState } from "@/providers/AttendanceRegisterProvider";
 import { ICreateVisitDto, IVisit } from "@/providers/VisitProvider/context";
 import { useVisitActions, useVisitState } from "@/providers/VisitProvider";
 import { useVisitorActions, useVisitorState } from "@/providers/VisitorProvider";
-import { CalendarDays, LogIn } from "lucide-react";
+import { CalendarDays, LogIn, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-
-export default function HomePage() {
+const HomePage : React.FC = () => {
   const router = useRouter();
   const registerState = useAttendanceRegisterState();
   const registerActions = useAttendanceRegisterActions();
@@ -20,6 +20,7 @@ export default function HomePage() {
   const visitorActions = useVisitorActions();
   const visitorState = useVisitorState();
   const [checkInOpen, setCheckInOpen] = useState(false);
+  const [checkOutOpen, setCheckOutOpen] = useState(false);
   const registerUnavailable =
     registerState.isPending ||
     !registerState.attendanceRegister ||
@@ -61,15 +62,27 @@ export default function HomePage() {
 
   };
 
+  const checkOutVisitor = async (visitId: string) => {
+    await visitActions.checkOut(visitId);
+    await visitActions.getAll(0, 1000).catch(() => undefined);
+  };
+
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <header className="border-b bg-card">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-          <Brand />
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <Image
+            src="/moipone-logo.png"
+            alt="Moipone Academy, Learn and Teach"
+            width={598}
+            height={302}
+            priority
+            className="h-16 w-auto object-contain sm:h-16"
+          />
 
         <button
           type="button"
-          onClick={() => router.push("/admin/login")}
+          onClick={() => router.push("/login")}
           className="inline-flex h-8 items-center justify-center rounded-md px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
           Staff sign in
@@ -90,7 +103,7 @@ export default function HomePage() {
             below — it takes about a minute and no account is needed.
           </p>
 
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <button
               type="button"
               onClick={() => setCheckInOpen(true)}
@@ -99,6 +112,22 @@ export default function HomePage() {
             >
               <LogIn aria-hidden="true" className="size-5" />
               Check In
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                visitorActions.reset();
+                visitActions.reset();
+                void visitorActions.getAll(0, 1000).catch(() => undefined);
+                void visitActions.getAll(0, 1000).catch(() => undefined);
+                setCheckOutOpen(true);
+              }}
+              disabled={registerUnavailable}
+              className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-md border border-input bg-background px-8 text-base font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            >
+              <LogOut aria-hidden="true" className="size-5" />
+              Check Out
             </button>
           </div>
 
@@ -136,7 +165,17 @@ export default function HomePage() {
         visitState={visitState}
       />
 
+      <CheckOutForm
+        open={checkOutOpen}
+        onOpenChange={setCheckOutOpen}
+        registerState={registerState}
+        checkOutVisitor={checkOutVisitor}
+        visitorState={visitorState}
+        visitState={visitState}
+      />
     </div>
   );
 }
  
+
+export default HomePage;

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const instance = useMemo(() => axiosInstance(false), []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
 
     if (!token) {
       return;
@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (!exp || Date.now() >= exp * 1000) {
         localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
         return;
       }
 
@@ -37,7 +38,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch(authenticateSuccess(authenticatedUser));
     } catch {
       localStorage.removeItem("token");
-      sessionStorage.clear();
+      sessionStorage.removeItem("token");
     }
   }, []);
 
@@ -58,7 +59,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const userId = decoded[AbpTokenProperies.nameidentifier];
         const userName = decoded[AbpTokenProperies.name];
 
-        localStorage.setItem("token", token);
+        if (user.rememberClient) {
+          localStorage.setItem("token", token);
+          sessionStorage.removeItem("token");
+        } else {
+          sessionStorage.setItem("token", token);
+          localStorage.removeItem("token");
+        }
 
         dispatch(authenticateSuccess({ userRole, userId, userName }));
       })
@@ -78,7 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     try {
       localStorage.removeItem("token");
-      sessionStorage.clear();
+      sessionStorage.removeItem("token");
       dispatch(logoutSuccess());
     } catch {
       dispatch(logoutError());
