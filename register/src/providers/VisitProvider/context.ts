@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { IVisitor } from "../VisitorProvider/context";
+import type { IVisitor } from "../VisitorProvider/context";
 
 // ==================== ENTITIES ====================
 export interface IVisit {
@@ -9,6 +9,7 @@ export interface IVisit {
   visitReason?: number;
   otherReason?: string;
   visitorId: string;
+  visitor?: IVisitor;
   attendanceRegisterId: number;
 }
 

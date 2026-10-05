@@ -48,3 +48,10 @@ export const getErrorMessage = (
 
   return error instanceof Error && error.message ? error.message : fallback;
 };
+
+export const formatCheckInTime = (date?: string): string => {
+  if (!date) return "Checked in";
+  const parsed = new Date(date);
+  if (Number.isNaN(parsed.getTime())) return "Checked in";
+  return `Checked in ${parsed.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+};

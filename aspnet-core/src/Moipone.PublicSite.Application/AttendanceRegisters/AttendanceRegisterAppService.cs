@@ -1,6 +1,7 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.Domain.Uow;
 using Abp.UI;
@@ -65,7 +66,9 @@ namespace Moipone.PublicSite.AttendanceRegisters
         {
             try
             {
-                var query = Repository.GetAll();
+                var query = Repository.GetAll()
+                    .Include(register => register.Visits)
+                    .ThenInclude(visit => visit.Visitor);
                 var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
                 var items = await AsyncQueryableExecuter.ToListAsync(
@@ -102,7 +105,10 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     );
                 }
 
-                var entity = await _attendanceRegisterRepository.GetAsync(input.Id);
+                var entity = await _attendanceRegisterRepository.GetAll()
+                    .Include(register => register.Visits)
+                    .ThenInclude(visit => visit.Visitor)
+                    .FirstOrDefaultAsync(register => register.Id == input.Id);
 
                 if (entity == null)
                 {
@@ -141,13 +147,26 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     );
                 }
 
-                var entity = await _attendanceRegisterRepository.GetAsync(input.Id);
+                var entity = await _attendanceRegisterRepository.GetAll()
+                    .Include(register => register.Visits)
+                    .ThenInclude(visit => visit.Visitor)
+                    .FirstOrDefaultAsync(register => register.Id == input.Id);
+
+                if (entity == null)
+                {
+                    throw new EntityNotFoundException(typeof(AttendanceRegister), input.Id);
+                }
+
                 ObjectMapper.Map(input, entity);
 
                 var updated = await _attendanceRegisterRepository.UpdateAsync(entity);
                 return ObjectMapper.Map<AttendanceRegisterDto>(updated);
             }
             catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (EntityNotFoundException)
             {
                 throw;
             }
@@ -205,12 +224,15 @@ namespace Moipone.PublicSite.AttendanceRegisters
 
                 var today = DateOnly.FromDateTime(now);
 
-                AttendanceRegister entity;
+                AttendanceRegister? entity;
                 try
                 {
                     using (var uow = UnitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
                     {
                         entity = await _attendanceRegisterRepository
+                            .GetAll()
+                            .Include(register => register.Visits)
+                            .ThenInclude(visit => visit.Visitor)
                             .FirstOrDefaultAsync(r => r.Date == today);
 
                         if (entity == null)
@@ -231,8 +253,10 @@ namespace Moipone.PublicSite.AttendanceRegisters
                 {
                     using (var retryUow = UnitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
                     {
-                        entity = await _attendanceRegisterRepository.FirstOrDefaultAsync(
-                            r => r.Date == today);
+                        entity = await _attendanceRegisterRepository.GetAll()
+                            .Include(register => register.Visits)
+                            .ThenInclude(visit => visit.Visitor)
+                            .FirstOrDefaultAsync(register => register.Date == today);
 
                         await retryUow.CompleteAsync();
                     }
@@ -285,7 +309,15 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     );
                 }
 
-                var entity = await _attendanceRegisterRepository.GetAsync(id);
+                var entity = await _attendanceRegisterRepository.GetAll()
+                    .Include(register => register.Visits)
+                    .ThenInclude(visit => visit.Visitor)
+                    .FirstOrDefaultAsync(register => register.Id == id);
+
+                if (entity == null)
+                {
+                    throw new EntityNotFoundException(typeof(AttendanceRegister), id);
+                }
 
                 if (entity.IsClosed)
                 {
@@ -302,6 +334,10 @@ namespace Moipone.PublicSite.AttendanceRegisters
                 return ObjectMapper.Map<AttendanceRegisterDto>(updated);
             }
             catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (EntityNotFoundException)
             {
                 throw;
             }
@@ -332,7 +368,15 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     );
                 }
 
-                var entity = await _attendanceRegisterRepository.GetAsync(id);
+                var entity = await _attendanceRegisterRepository.GetAll()
+                    .Include(register => register.Visits)
+                    .ThenInclude(visit => visit.Visitor)
+                    .FirstOrDefaultAsync(register => register.Id == id);
+
+                if (entity == null)
+                {
+                    throw new EntityNotFoundException(typeof(AttendanceRegister), id);
+                }
 
                 if (!entity.IsClosed)
                 {
@@ -349,6 +393,10 @@ namespace Moipone.PublicSite.AttendanceRegisters
                 return ObjectMapper.Map<AttendanceRegisterDto>(updated);
             }
             catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (EntityNotFoundException)
             {
                 throw;
             }

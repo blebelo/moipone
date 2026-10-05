@@ -310,7 +310,6 @@ namespace Moipone.PublicSite.Visits
             }
         }
 
-        [AbpAuthorize]
         public async Task<VisitDto> CheckOutAsync(Guid visitId)
         {
             try
