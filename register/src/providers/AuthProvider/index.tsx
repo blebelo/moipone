@@ -7,10 +7,12 @@ import { AbpTokenProperies, decodeToken } from "@/lib/utils/decoder";
 import {AuthActionContext, AuthStateContext, ICurrentUser, IUser,} from "./context";
 import {authenticateError, authenticatePending, authenticateSuccess,
   logoutError, logoutPending, logoutSuccess,} from "./actions";
+import { useRouter } from "next/navigation";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(AuthReducer, { ...INITIAL_STATE });
   const instance = useMemo(() => axiosInstance(false), []);
+  const router = useRouter();
 
   useEffect(() => {
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -66,8 +68,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           sessionStorage.setItem("token", token);
           localStorage.removeItem("token");
         }
-
+        
         dispatch(authenticateSuccess({ userRole, userId, userName }));
+        router.push("/dashboard");
       })
       .catch((error) => {
         const message =
@@ -78,7 +81,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         dispatch(authenticateError(message));
         throw new Error(message);
       });
-  }, [instance]);
+  }, [instance, router]);
 
   const logout = useCallback(() => {
     dispatch(logoutPending());
