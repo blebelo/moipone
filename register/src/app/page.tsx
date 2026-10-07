@@ -64,7 +64,7 @@ const HomePage : React.FC = () => {
 
   const checkOutVisitor = async (visitId: string) => {
     await visitActions.checkOut(visitId);
-    await visitActions.getAll(0, 1000).catch(() => undefined);
+    await registerActions.getToday().catch(() => undefined);
   };
 
   return (
@@ -117,10 +117,6 @@ const HomePage : React.FC = () => {
             <button
               type="button"
               onClick={() => {
-                visitorActions.reset();
-                visitActions.reset();
-                void visitorActions.getAll(0, 1000).catch(() => undefined);
-                void visitActions.getAll(0, 1000).catch(() => undefined);
                 setCheckOutOpen(true);
               }}
               disabled={registerUnavailable}
@@ -171,7 +167,6 @@ const HomePage : React.FC = () => {
         registerState={registerState}
         checkOutVisitor={checkOutVisitor}
         visitorState={visitorState}
-        visitState={visitState}
       />
     </div>
   );
