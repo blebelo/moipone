@@ -13,7 +13,7 @@ import { VisitReason } from "@/lib/common/data";
 import { useAuthActions, useAuthState } from "@/providers/AuthProvider";
 import { useAttendanceRegisterActions, useAttendanceRegisterState } from "@/providers/AttendanceRegisterProvider";
 import { useVisitActions, useVisitState } from "@/providers/VisitProvider";
-import { useVisitorActions, useVisitorState } from "@/providers/VisitorProvider";
+import { useVisitorState } from "@/providers/VisitorProvider";
 import { AttendanceEntry } from "@/lib/common/constants";
 import ActionButton from "@/components/ActionButton";
 import ErrorBanner from "@/components/Dashboard/ErrorBanner";
@@ -27,7 +27,6 @@ const Dashboard: React.FC = () => {
   const visitState = useVisitState();
   const visitActions = useVisitActions();
   const visitorState = useVisitorState();
-  const visitorActions = useVisitorActions();
   const [checkoutTarget, setCheckoutTarget] = useState<AttendanceEntry | null>(null);
   const [checkOutError, setCheckOutError] = useState<string>();
   const [actionError, setActionError] = useState<string>();
@@ -69,7 +68,7 @@ const Dashboard: React.FC = () => {
   };
 
   useEffect(() => {
-     visitorActions.getAll();
+     attendanceActions.getToday();
   }, []);
 
   const openCheckout = (entry: AttendanceEntry) => {

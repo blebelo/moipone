@@ -90,6 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
       dispatch(logoutSuccess());
+      router.push("/login");
     } catch {
       dispatch(logoutError());
       throw new Error("Logout Failed");
