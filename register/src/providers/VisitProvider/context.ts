@@ -32,7 +32,7 @@ export interface IVisitStateContext {
 
 export interface IVisitActionContext {
   create: (input: ICreateVisitDto) => Promise<void>;
-  getAll: (skipCount: number, maxResultCount: number, sorting?: string) => Promise<void>;
+  getAll: (skipCount?: number, maxResultCount?: number, sorting?: string) => Promise<void>;
   get: (id: string) => Promise<void>;
   update: (input: IVisit) => Promise<void>;
   checkIn: (input: IVisit) => Promise<void>;

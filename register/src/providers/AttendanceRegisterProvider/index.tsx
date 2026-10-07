@@ -30,11 +30,11 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
     });
   }, [instance]);
 
-  const getAll = useCallback(async (skipCount: number, maxResultCount: number, sorting?: string) => {
+  const getAll = useCallback(async (skipCount?: number, maxResultCount?: number, sorting?: string) => {
     dispatch(getAllPending());
     const endpoint = "AttendanceRegister/GetAll";
 
-    await instance.get(endpoint, {
+      await instance.get(endpoint, {
       params: {
         SkipCount: skipCount,
         MaxResultCount: maxResultCount,
@@ -80,9 +80,9 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const close = useCallback(async (id: number) => {
     dispatch(closePending());
-    const endpoint = "AttendanceRegister/Close";
+    const endpoint = `AttendanceRegister/Close?id=${id}`;
 
-    await instance.post(endpoint, { id })
+    await instance.post(endpoint)
       .then((response) => {
         dispatch(closeSuccess(response.data.result));
       })
@@ -94,9 +94,9 @@ export const AttendanceRegisterProvider = ({ children }: { children: React.React
 
   const reopen = useCallback(async (id: number) => {
     dispatch(reopenPending());
-    const endpoint = "AttendanceRegister/Reopen";
+    const endpoint = `AttendanceRegister/Reopen?id=${id}`;
 
-    await instance.post(endpoint, { id })
+    await instance.post(endpoint)
       .then((response) => {
         dispatch(reopenSuccess(response.data.result));
       })

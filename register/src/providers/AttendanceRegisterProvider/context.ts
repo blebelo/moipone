@@ -19,13 +19,11 @@ export interface IAttendanceRegisterStateContext {
   isError: boolean;
   attendanceRegister?: IAttendanceRegister;
   attendanceRegisters?: IAttendanceRegister[];
-  // visits?: IVisit[];
-  // visitors?: IVisitor[];
 }
 
 export interface IAttendanceRegisterActionContext {
   create: (input: IAttendanceRegister) => Promise<void>;
-  getAll: (skipCount: number, maxResultCount: number, sorting?: string) => Promise<void>;
+  getAll: (skipCount?: number, maxResultCount?: number, sorting?: string) => Promise<void>;
   get: (id: number) => Promise<void>;
   getToday: () => Promise<void>;
   close: (id: number) => Promise<void>;

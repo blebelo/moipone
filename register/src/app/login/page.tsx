@@ -3,10 +3,13 @@ import { Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { type SubmitEvent, useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import type { IUser } from "@/providers/AuthProvider/context";
 import { useAuthActions, useAuthState } from "@/providers/AuthProvider";
 
 const LoginPage = () => {
+  const router = useRouter();
   const authState = useAuthState();
   const { authenticate } = useAuthActions();
   const [formData, setFormData] = useState<IUser>({
@@ -16,6 +19,12 @@ const LoginPage = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authState.currentUser) {
+      router.replace("/dashboard");
+    }
+  }, [authState.currentUser, router]);
 
   const authenticateUser = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,6 +40,7 @@ const LoginPage = () => {
         ...formData,
         userNameOrEmailAddress: formData.userNameOrEmailAddress.trim(),
       });
+      router.replace("/dashboard");
     } catch (cause) {
       setError(
         cause instanceof Error && cause.message
