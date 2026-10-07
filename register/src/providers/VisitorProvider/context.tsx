@@ -39,7 +39,7 @@ export interface IVisitorStateContext {
 
 export interface IVisitorActionContext {
   create: (input: IVisitor) => Promise<void>;
-  getAll: (skipCount: number, maxResultCount: number, sorting?: string) => Promise<void>;
+  getAll: (skipCount?: number, maxResultCount?: number, sorting?: string) => Promise<void>;
   get: (id: string) => Promise<void>;
   update: (input: IVisitor) => Promise<void>;
   lookup: (emailAddress: string) => Promise<void>;

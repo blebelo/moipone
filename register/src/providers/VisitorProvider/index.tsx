@@ -32,7 +32,7 @@ export const VisitorProvider = ({ children }: { children: React.ReactNode }) => 
       });
   }, [instance]);
 
-  const getAll = useCallback(async (skipCount: number, maxResultCount: number, sorting?: string) => {
+  const getAll = useCallback(async (skipCount?: number, maxResultCount?: number, sorting?: string) => {
     dispatch(getAllPending());
     const endpoint = "Visitor/GetAll";
 
