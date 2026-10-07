@@ -80,3 +80,12 @@ export type CheckOutFormProps = {
 export type ListedVisit = { visit: IVisit; name: string; searchText: string };
 
 export const PAGE_SIZE = 10;
+
+export type AttendanceEntry = { visit: IVisit; visitor?: IVisitor };
+
+export interface CheckedInVisitorsProps {
+  entries: AttendanceEntry[];
+  loading: boolean;
+  onDetails: (entry: AttendanceEntry) => void;
+  onCheckout: (entry: AttendanceEntry) => void;
+}

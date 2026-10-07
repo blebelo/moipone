@@ -8,9 +8,6 @@ import type { CheckOutFormProps, ListedVisit } from "@/lib/common/constants";
 import { formatCheckInTime, getErrorMessage } from "@/lib/common/helper-methods";
 
 
-const getReasonLabel = (reason?: number): string | undefined =>
-  Object.values(VisitReason).find((option) => option.value === reason)?.label;
-
 const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutVisitor, onOpenChange }: CheckOutFormProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const activeRegisterId = registerState.attendanceRegister?.id;
@@ -37,6 +34,7 @@ const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutV
   const visitorsById = new Map(
     (visitorState.visitors ?? []).map((visitor) => [visitor.id, visitor]),
   );
+
   const checkedInVisits: ListedVisit[] = (visitState.visits ?? [])
     .filter(
       (visit) =>
@@ -59,6 +57,7 @@ const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutV
 
       return { visit, name, searchText };
     });
+    
   const normalizedSearch = search.trim().toLowerCase();
   const filteredVisits = checkedInVisits.filter(({ searchText }) =>
     searchText.includes(normalizedSearch),
@@ -158,7 +157,7 @@ const CheckOutForm = ({ open, registerState, visitorState, visitState, checkOutV
             visibleVisits.map(({ visit, name }) => {
               const visitId = visit.id;
               const rowPending = checkingOutId === visitId;
-              const reason = getReasonLabel(visit.visitReason);
+              const reason = visit.visitReason !== 4 ? visit.visitReason : visit.otherReason;
               return (
                 <article key={visitId ?? `${visit.visitorId}-${visit.checkinDate}`} className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-3 py-3">
                   <div className="min-w-0">

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import CheckInForm from "@/components/CheckInForm";
 import CheckOutForm from "@/components/CheckOutForm";
-import { getTodaysDate } from "@/lib/common/helper-methods";
+import { formatRegisterDate } from "@/lib/common/helper-methods";
 import { useAttendanceRegisterActions, useAttendanceRegisterState } from "@/providers/AttendanceRegisterProvider";
 import { ICreateVisitDto, IVisit } from "@/providers/VisitProvider/context";
 import { useVisitActions, useVisitState } from "@/providers/VisitProvider";
@@ -92,7 +92,7 @@ const HomePage : React.FC = () => {
 
       <main className="flex flex-1 items-center justify-center px-4 py-12 sm:px-6">
         <div className="w-full max-w-xl text-center">
-          <p className="label-caps">{getTodaysDate()}</p>
+          <p className="label-caps">{formatRegisterDate()}</p>
 
           <h1 className="mt-3 font-display text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
             Welcome — check in
