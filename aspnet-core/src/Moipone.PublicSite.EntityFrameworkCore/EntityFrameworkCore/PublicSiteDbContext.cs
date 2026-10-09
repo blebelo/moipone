@@ -1,16 +1,17 @@
 ﻿using Abp.Zero.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Moipone.PublicSite.Authorization.Roles;
 using Moipone.PublicSite.Authorization.Users;
-using Moipone.PublicSite.MultiTenancy;
-using Microsoft.EntityFrameworkCore;
-using Moipone.PublicSite.Domain.Students;
+using Moipone.PublicSite.Documents.Templates;
 using Moipone.PublicSite.Domain.Addresses;
-using Moipone.PublicSite.Domain.ShortCourses;
+using Moipone.PublicSite.Domain.Contacts;
 using Moipone.PublicSite.Domain.CourseApplications;
 using Moipone.PublicSite.Domain.Employees;
-using Moipone.PublicSite.Domain.Contacts;
+using Moipone.PublicSite.Domain.ShortCourses;
+using Moipone.PublicSite.Domain.Students;
 using Moipone.PublicSite.Domain.Visitors;
 using Moipone.PublicSite.Domain.Visits;
+using Moipone.PublicSite.MultiTenancy;
 
 namespace Moipone.PublicSite.EntityFrameworkCore;
 
@@ -26,6 +27,7 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
     public DbSet<Visitor> Visitors { get; set; }
     public DbSet<Visit> Visits { get; set; }
     public DbSet<AttendanceRegister> AttendanceRegisters { get; set; }
+    public DbSet<DocumentTemplate> DocumentTemplates { get; set; }
 
     #endregion
 
