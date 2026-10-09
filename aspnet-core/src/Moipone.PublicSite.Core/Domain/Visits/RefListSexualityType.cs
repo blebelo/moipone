@@ -13,6 +13,7 @@
         NonBinary = 9,
         Questioning = 10,
         Other = 11,
-        PreferNotToSay = 12
+        PreferNotToSay = 12,
+        Straight = 13
     }
 }
