@@ -132,7 +132,7 @@ namespace Moipone.PublicSite.Documents.Templates
                         FileName = template.FileName,
                         Version = template.Version,
                         IsActive = template.IsActive
-                    }
+                    })
                 );
 
                 return templates;
