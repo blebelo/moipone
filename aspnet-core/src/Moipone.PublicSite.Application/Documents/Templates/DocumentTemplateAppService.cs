@@ -2,6 +2,8 @@
 using Abp.Authorization;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
+using Abp.Linq;
 using Abp.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +21,12 @@ namespace Moipone.PublicSite.Documents.Templates
         private const long MaxFileSize = 10 * 1024 * 1024;
 
         private readonly IRepository<DocumentTemplate, int> _repository;
+        private readonly IAsyncQueryableExecuter _asyncQueryableExecuter;
 
-        public DocumentTemplateAppService(IRepository<DocumentTemplate, int> repository)
+        public DocumentTemplateAppService(IRepository<DocumentTemplate, int> repository, IAsyncQueryableExecuter asyncQueryableExecuter)
         {
             _repository = repository;
+            _asyncQueryableExecuter = asyncQueryableExecuter;
         }
 
         [AbpAuthorize]
@@ -89,7 +93,7 @@ namespace Moipone.PublicSite.Documents.Templates
 
                 var template = await _repository.GetAsync(id);
 
-                return MapToDto(template);
+                return ObjectMapper.Map<DocumentTemplateDto>(template);
             }
             catch (UserFriendlyException)
             {
@@ -119,11 +123,19 @@ namespace Moipone.PublicSite.Documents.Templates
         {
             try
             {
-                var templates = await _repository.GetAllListAsync();
+                var templates = await _asyncQueryableExecuter.ToListAsync(
+                    _repository.GetAll().Select(template => new DocumentTemplateDto
+                    {
+                        Id = template.Id,
+                        Name = template.Name,
+                        Category = template.Category,
+                        FileName = template.FileName,
+                        Version = template.Version,
+                        IsActive = template.IsActive
+                    }
+                );
 
-                return templates
-                    .Select(MapToDto)
-                    .ToList();
+                return templates;
             }
             catch (Exception ex)
             {
@@ -143,7 +155,7 @@ namespace Moipone.PublicSite.Documents.Templates
         {
             try
             {
-                if (input == null || input.Id <= 0)
+                if (input == null || input.Id <= 0 || input.Version <= 0)
                 {
                     throw new UserFriendlyException(
                         "Invalid document template data.",
@@ -152,6 +164,14 @@ namespace Moipone.PublicSite.Documents.Templates
                 }
 
                 var template = await _repository.GetAsync(input.Id);
+
+                if (template.Version != input.Version)
+                {
+                    throw new UserFriendlyException(
+                        "This document template has changed. Reload it before saving your changes.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
 
                 template.Name = input.Name;
                 template.Category = input.Category;
@@ -170,10 +190,18 @@ namespace Moipone.PublicSite.Documents.Templates
                 template.Version++;
 
                 await _repository.UpdateAsync(template);
+                await CurrentUnitOfWork.SaveChangesAsync();
             }
             catch (UserFriendlyException)
             {
                 throw;
+            }
+            catch (AbpDbConcurrencyException)
+            {
+                throw new UserFriendlyException(
+                    "This document template has changed. Reload it before saving your changes.",
+                    Abp.Logging.LogSeverity.Warn
+                );
             }
             catch (EntityNotFoundException)
             {
@@ -263,20 +291,7 @@ namespace Moipone.PublicSite.Documents.Templates
             }
         }
 
-        private static DocumentTemplateDto MapToDto(
-            DocumentTemplate template)
-        {
-            return new DocumentTemplateDto
-            {
-                Id = template.Id,
-                Name = template.Name,
-                Category = template.Category,
-                FileName = template.FileName,
-                Version = template.Version,
-                IsActive = template.IsActive
-            };
-        }
-
+        [AbpAuthorize]
         [HttpGet]
         public async Task<IActionResult> Download(int id)
         {

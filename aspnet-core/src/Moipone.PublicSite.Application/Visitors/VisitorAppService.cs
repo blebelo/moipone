@@ -19,8 +19,7 @@ namespace Moipone.PublicSite.Visitors
     {
         private readonly IRepository<Visitor, Guid> _visitorRepository;
 
-        public VisitorAppService(
-            IRepository<Visitor, Guid> visitorRepository)
+        public VisitorAppService(IRepository<Visitor, Guid> visitorRepository)
             : base(visitorRepository)
         {
             _visitorRepository = visitorRepository;
@@ -62,18 +61,15 @@ namespace Moipone.PublicSite.Visitors
         }
 
         [AbpAuthorize]
-        public override async Task<PagedResultDto<VisitorDto>> GetAllAsync(
-            PagedAndSortedResultRequestDto input)
+        public override async Task<PagedResultDto<VisitorDto>> GetAllAsync(PagedAndSortedResultRequestDto input)
         {
             try
             {
                 var query = Repository.GetAll();
 
-                var totalCount =
-                    await AsyncQueryableExecuter.CountAsync(query);
+                var totalCount = await AsyncQueryableExecuter.CountAsync(query);
 
-                var items =
-                    await AsyncQueryableExecuter.ToListAsync(
+                var items = await AsyncQueryableExecuter.ToListAsync(
                         query
                             .OrderBy(x => x.Id)
                             .Skip(input.SkipCount)
@@ -97,8 +93,7 @@ namespace Moipone.PublicSite.Visitors
         }
 
         [AbpAuthorize]
-        public override async Task<VisitorDto> GetAsync(
-            EntityDto<Guid> input)
+        public override async Task<VisitorDto> GetAsync(EntityDto<Guid> input)
         {
             try
             {
@@ -134,8 +129,7 @@ namespace Moipone.PublicSite.Visitors
         }
 
         [AbpAuthorize]
-        public override async Task<VisitorDto> UpdateAsync(
-            VisitorDto input)
+        public override async Task<VisitorDto> UpdateAsync(VisitorDto input)
         {
             try
             {
@@ -178,8 +172,7 @@ namespace Moipone.PublicSite.Visitors
         }
 
         [AbpAuthorize]
-        public override async Task DeleteAsync(
-            EntityDto<Guid> input)
+        public override async Task DeleteAsync(EntityDto<Guid> input)
         {
             try
             {
@@ -212,8 +205,7 @@ namespace Moipone.PublicSite.Visitors
         }
 
         [HttpGet]
-        public async Task<LightWeightVisitorDto> LookupVisitorAsync(
-            string emailAddress)
+        public async Task<LightWeightVisitorDto> LookupVisitorAsync(string emailAddress)
         {
             try
             {

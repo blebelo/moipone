@@ -51,6 +51,9 @@ public class PublicSiteDbContext : AbpZeroDbContext<Tenant, Role, User, PublicSi
                 .IsUnique();
         });
 
+        modelBuilder.Entity<DocumentTemplate>()
+            .Property(template => template.Version)
+            .IsConcurrencyToken();
 
     }
 }
