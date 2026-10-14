@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Moipone.PublicSite.Authentication.JwtBearer;
+using Moipone.PublicSite.Documents;
 using Moipone.PublicSite.Emails.Rendering;
 using Moipone.PublicSite.EntityFrameworkCore;
 using Moipone.PublicSite.Services.Emails.Rendering;
@@ -53,6 +54,9 @@ namespace Moipone.PublicSite
             ConfigureTokenAuth();
 
             IocManager.Register<IEmailTemplateRenderer, EmailTemplateRenderer>(
+                DependencyLifeStyle.Singleton);
+
+            IocManager.Register<IPdfGenerator, PdfGenerator>(
                 DependencyLifeStyle.Singleton);
         }
 

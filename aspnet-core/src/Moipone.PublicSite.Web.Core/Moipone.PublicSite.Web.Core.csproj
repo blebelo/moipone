@@ -33,6 +33,7 @@
     <PackageReference Include="Abp.ZeroCore" Version="10.3.0" />
     <PackageReference Include="Abp.AspNetCore.SignalR" Version="10.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+    <PackageReference Include="TPDF" Version="0.4.24" />
   </ItemGroup>
 	<ItemGroup>
 		<Content Include="Emails\Templates\**">

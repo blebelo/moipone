@@ -32,8 +32,7 @@ namespace Moipone.PublicSite.Documents.Templates
         [AbpAuthorize]
         [HttpPost]
         [Consumes("multipart/form-data")]
-        public async Task<int> CreateAsync(
-            [FromForm] CreateDocumentTemplateDto input)
+        public async Task<int> CreateAsync([FromForm] CreateDocumentTemplateDto input)
         {
             try
             {
