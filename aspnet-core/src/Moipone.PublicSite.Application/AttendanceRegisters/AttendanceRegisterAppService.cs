@@ -14,19 +14,25 @@ using System.Linq;
 using System.Reflection;
 using System.Transactions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Moipone.PublicSite.Documents.Templates;
+using Moipone.PublicSite.Documents;
+using Moipone.PublicSite.AttendanceRegisters.Models;
 
 namespace Moipone.PublicSite.AttendanceRegisters
 {
-    public class AttendanceRegisterAppService
-        : AsyncCrudAppService<AttendanceRegister, AttendanceRegisterDto, int, PagedAndSortedResultRequestDto, AttendanceRegisterDto, AttendanceRegisterDto>,
-          IAttendanceRegisterAppService
+    public class AttendanceRegisterAppService: AsyncCrudAppService<AttendanceRegister, AttendanceRegisterDto, int, PagedAndSortedResultRequestDto, AttendanceRegisterDto, AttendanceRegisterDto>, IAttendanceRegisterAppService
     {
         private readonly IRepository<AttendanceRegister, int> _attendanceRegisterRepository;
+        private readonly IRepository<DocumentTemplate, int> _documentTemplateRepository;
+        private readonly IPdfGenerator _pdfGenerator;
 
-        public AttendanceRegisterAppService(IRepository<AttendanceRegister, int> attendanceRegisterRepository)
+        public AttendanceRegisterAppService(IRepository<AttendanceRegister, int> attendanceRegisterRepository, IRepository<DocumentTemplate, int> documentTemplateRepository, IPdfGenerator pdfGenerator)
             : base(attendanceRegisterRepository)
         {
             _attendanceRegisterRepository = attendanceRegisterRepository;
+            _documentTemplateRepository = documentTemplateRepository;
+            _pdfGenerator = pdfGenerator;
         }
 
         [AbpAuthorize]
@@ -411,6 +417,91 @@ namespace Moipone.PublicSite.AttendanceRegisters
                     "Could not reopen the attendance register. Please try again.",
                     Abp.Logging.LogSeverity.Error
                 );
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GenerateWeeklyReportAsync()
+        {
+            try
+            {
+                var southAfricanTimeZone =
+                    TimeZoneInfo.FindSystemTimeZoneById("Africa/Johannesburg");
+
+                var today = DateOnly.FromDateTime(
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        DateTime.UtcNow,
+                        southAfricanTimeZone));
+
+                var currentMonday = today.AddDays(
+                    -(((int)today.DayOfWeek + 6) % 7));
+
+                var weekStart = currentMonday.AddDays(-7);
+                var weekEnd = weekStart.AddDays(4);
+
+                var registers = await _attendanceRegisterRepository
+                    .GetAll()
+                    .Where(register =>
+                        register.Date >= weekStart &&
+                        register.Date <= weekEnd)
+                    .Include(register => register.Visits)
+                        .ThenInclude(visit => visit.Visitor)
+                            .ThenInclude(visitor => visitor.VisitorAddress)
+                    .OrderBy(register => register.Date)
+                    .ToListAsync();
+
+                if (!registers.Any())
+                {
+                    throw new UserFriendlyException(
+                        $"No attendance registers found for {weekStart:dd MMM yyyy} - {weekEnd:dd MMM yyyy}.");
+                }
+
+                var template = await _documentTemplateRepository
+                    .GetAll()
+                    .Where(template => template.IsActive)
+                    .Where(template => template.FileName.EndsWith(".docx"))
+                    .OrderByDescending(template => template.Version)
+                    .FirstOrDefaultAsync();
+
+                if (template == null)
+                {
+                    throw new UserFriendlyException(
+                        "No active attendance report DOCX template was found.");
+                }
+
+                var report = ObjectMapper.Map<WeeklyAttendanceReportModel>(registers.AsEnumerable());
+
+                report.ReportingPeriod =
+                    $"{weekStart:dd MMM yyyy} - {weekEnd:dd MMM yyyy}";
+
+                var pdfBytes = await _pdfGenerator.GenerateAsync(
+                    template.Content,
+                    report);
+
+                if (pdfBytes == null || pdfBytes.Length == 0)
+                {
+                    throw new UserFriendlyException(
+                        "The attendance report PDF could not be generated.");
+                }
+
+                return new FileContentResult(pdfBytes, "application/pdf")
+                {
+                    FileDownloadName =
+                        $"Attendance-Report-{weekStart:yyyyMMdd}-{weekEnd:yyyyMMdd}.pdf"
+                };
+            }
+            catch (UserFriendlyException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(
+                    "An error occurred while generating the weekly attendance report.",
+                    ex);
+
+                throw new UserFriendlyException(
+                    "An unexpected error occurred while generating the attendance report.");
             }
         }
     }
