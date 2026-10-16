@@ -17,6 +17,8 @@ import { useVisitorState } from "@/providers/VisitorProvider";
 import { AttendanceEntry } from "@/lib/common/constants";
 import ActionButton from "@/components/ActionButton";
 import ErrorBanner from "@/components/Dashboard/ErrorBanner";
+import AnalyticsSection from "@/components/Dashboard/AnalyticsSection";
+import VisitorDetailsSheet from "@/components/Dashboard/VisitorDetailsSheet";
 
 
 const Dashboard: React.FC = () => {
@@ -278,10 +280,10 @@ const Dashboard: React.FC = () => {
             {/* <AnalyticsSection
               visits={visitState.visits ?? []}
               visitors={visitorState.visitors ?? []}
-              loading={analyticsLoading}
-              error={analyticsError}
+              loading={visitState.isPending || visitorState.isPending}
+              error={"Unable to load analytics data." }
               onRetry={() => void refreshAnalytics()}
-            /> */}
+            />  */}
           </>
         )}
       </main>

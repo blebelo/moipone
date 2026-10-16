@@ -45,7 +45,7 @@ namespace Moipone.PublicSite.AttendanceRegisters.BackgroundWorkers
             {
                 using (var uow = _unitOfWorkManager.Begin(TransactionScopeOption.RequiresNew))
                 {
-                    var register = await _attendanceRegisterRepository.FirstOrDefaultAsync(
+                     var register = await _attendanceRegisterRepository.FirstOrDefaultAsync(
                         r => r.Date == today);
 
                     if (register == null)
