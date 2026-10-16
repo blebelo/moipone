@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Moipone.PublicSite.AttendanceRegisters
@@ -139,18 +140,14 @@ namespace Moipone.PublicSite.AttendanceRegisters
                         address.Country
                     }.Where(value => !string.IsNullOrWhiteSpace(value))),
 
-                ["Residence"] = FormatResidence(visitor?.Residence),
+                ["Residence"] = GetDescription(visitor?.Residence),
                 ["WardNumber"] = visitor?.WardNumber.ToString() ?? string.Empty,
                 ["IsDisabled"] = YesNo(visitor?.IsDisabled),
                 ["IsCsg"] = YesNo(visitor?.IsCsg),
 
-                ["Sexuality"] = visitor == null
-                    ? string.Empty
-                    : $"{visitor.Sex} - {visitor.Sexuality}",
+                ["Sexuality"] = $"{visitor.Sex} - {GetDescription(visitor.Sexuality)}",
 
-                ["DateOfBirth"] = visitor == null
-                    ? string.Empty
-                    : visitor.DateOfBirth.ToString(
+                ["DateOfBirth"] = visitor.DateOfBirth.ToString(
                         "dd MMM yyyy",
                         CultureInfo.InvariantCulture),
 
@@ -176,17 +173,9 @@ namespace Moipone.PublicSite.AttendanceRegisters
                 null => string.Empty
             };
         }
-
-        private static string FormatResidence(
-            RefListResidenceType? residence)
-        {
-            return residence switch
-            {
-                RefListResidenceType.Hostel => "Hostel",
-                RefListResidenceType.InformalSettlement => "Informal settlement",
-                RefListResidenceType.Township => "Township",
-                _ => string.Empty
-            };
-        }
+        private static string GetDescription(Enum value) =>
+            value.GetType().GetField(value.ToString())?
+                .GetCustomAttribute<System.ComponentModel.DescriptionAttribute>()?.Description
+            ?? value.ToString();
     }
 }

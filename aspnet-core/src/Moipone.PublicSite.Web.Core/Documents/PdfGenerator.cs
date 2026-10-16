@@ -15,9 +15,7 @@ namespace Moipone.PublicSite.Documents
 {
     public class PdfGenerator : IPdfGenerator
     {
-        public Task<byte[]> GenerateAsync<TModel>(
-            byte[] documentTemplate,
-            TModel model)
+        public Task<byte[]> GenerateAsync<TModel>(byte[] documentTemplate, TModel model)
         {
             ArgumentNullException.ThrowIfNull(documentTemplate);
             ArgumentNullException.ThrowIfNull(model);
@@ -47,8 +45,7 @@ namespace Moipone.PublicSite.Documents
             return Task.FromResult(pdf);
         }
 
-        private static MailMergeData BuildMergeData<TModel>(
-            TModel model)
+        private static MailMergeData BuildMergeData<TModel>(TModel model)
         {
             var fields =
                 new Dictionary<string, MailMergeValue>(
@@ -98,8 +95,7 @@ namespace Moipone.PublicSite.Documents
                 Regions: regions);
         }
 
-        private static IEnumerable<PropertyInfo> GetReadableProperties(
-            Type type)
+        private static IEnumerable<PropertyInfo> GetReadableProperties(Type type)
         {
             return type.GetProperties(
                     BindingFlags.Public |
@@ -109,9 +105,7 @@ namespace Moipone.PublicSite.Documents
                     property.GetIndexParameters().Length == 0);
         }
 
-        private static IReadOnlyList<
-            IReadOnlyDictionary<string, MailMergeValue>> BuildRows(
-            IEnumerable collection)
+        private static IReadOnlyList<IReadOnlyDictionary<string, MailMergeValue>> BuildRows(IEnumerable collection)
         {
             var rows =
                 new List<IReadOnlyDictionary<string, MailMergeValue>>();
@@ -158,9 +152,7 @@ namespace Moipone.PublicSite.Documents
             return rows;
         }
 
-        private static IReadOnlyList<
-            IReadOnlyDictionary<string, MailMergeValue>> BuildRows(
-            DataTable table)
+        private static IReadOnlyList<IReadOnlyDictionary<string, MailMergeValue>> BuildRows(DataTable table)
         {
             return BuildRows((IEnumerable)table.Rows);
         }

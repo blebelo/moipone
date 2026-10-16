@@ -277,13 +277,13 @@ const Dashboard: React.FC = () => {
                 </div>
             </section>
 
-            <AnalyticsSection
+            {/* <AnalyticsSection
               visits={visitState.visits ?? []}
               visitors={visitorState.visitors ?? []}
               loading={visitState.isPending || visitorState.isPending}
               error={"Unable to load analytics data." }
               onRetry={() => void refreshAnalytics()}
-            /> 
+            />  */}
           </>
         )}
       </main>

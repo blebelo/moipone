@@ -420,25 +420,27 @@ namespace Moipone.PublicSite.AttendanceRegisters
             }
         }
 
+        [AbpAuthorize]
         [HttpGet]
-        public async Task<IActionResult> GenerateWeeklyReportAsync()
+        public async Task<IActionResult> GenerateWeeklyReportAsync(DateOnly weekStart, DateOnly weekEnd)
         {
             try
             {
-                var southAfricanTimeZone =
-                    TimeZoneInfo.FindSystemTimeZoneById("Africa/Johannesburg");
+                if (weekStart == default || weekEnd == default)
+                {
+                    throw new UserFriendlyException(
+                        "Both the start and end dates of the reporting period must be provided.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
 
-                var today = DateOnly.FromDateTime(
-                    TimeZoneInfo.ConvertTimeFromUtc(
-                        DateTime.UtcNow,
-                        southAfricanTimeZone));
-
-                var currentMonday = today.AddDays(
-                    -(((int)today.DayOfWeek + 6) % 7));
-
-                var weekStart = currentMonday.AddDays(-7);
-                var weekEnd = weekStart.AddDays(4);
-
+                if (weekStart > weekEnd)
+                {
+                    throw new UserFriendlyException(
+                        "The start date of the reporting period cannot be later than the end date.",
+                        Abp.Logging.LogSeverity.Warn
+                    );
+                }
                 var registers = await _attendanceRegisterRepository
                     .GetAll()
                     .Where(register =>
@@ -459,35 +461,29 @@ namespace Moipone.PublicSite.AttendanceRegisters
                 var template = await _documentTemplateRepository
                     .GetAll()
                     .Where(template => template.IsActive)
-                    .Where(template => template.FileName.EndsWith(".docx"))
-                    .OrderByDescending(template => template.Version)
+                    .Where(template => template.Name.Contains("Moipone Weekly Visit Report Template"))
                     .FirstOrDefaultAsync();
 
                 if (template == null)
                 {
-                    throw new UserFriendlyException(
-                        "No active attendance report DOCX template was found.");
+                    throw new UserFriendlyException("Moipone Weekly Visit Report Template not found.");
                 }
 
                 var report = ObjectMapper.Map<WeeklyAttendanceReportModel>(registers.AsEnumerable());
 
-                report.ReportingPeriod =
-                    $"{weekStart:dd MMM yyyy} - {weekEnd:dd MMM yyyy}";
+                report.ReportingPeriod = $"{weekStart:dd MMM yyyy} - {weekEnd:dd MMM yyyy}";
 
-                var pdfBytes = await _pdfGenerator.GenerateAsync(
-                    template.Content,
-                    report);
+                var pdfBytes = await _pdfGenerator.GenerateAsync(template.Content, report);
 
                 if (pdfBytes == null || pdfBytes.Length == 0)
                 {
-                    throw new UserFriendlyException(
-                        "The attendance report PDF could not be generated.");
+                    throw new UserFriendlyException("The attendance report PDF could not be generated.");
                 }
 
                 return new FileContentResult(pdfBytes, "application/pdf")
                 {
                     FileDownloadName =
-                        $"Attendance-Report-{weekStart:yyyyMMdd}-{weekEnd:yyyyMMdd}.pdf"
+                        $"Attendance-Aggregate-{weekStart:yyyyMMdd}-{weekEnd:yyyyMMdd}.pdf"
                 };
             }
             catch (UserFriendlyException)

@@ -1,6 +1,7 @@
 using Abp.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moipone.PublicSite.AttendanceRegisters.Dto;
+using System;
 using System.Threading.Tasks;
 
 namespace Moipone.PublicSite.AttendanceRegisters
@@ -10,6 +11,6 @@ namespace Moipone.PublicSite.AttendanceRegisters
         Task<AttendanceRegisterDto> GetTodayAsync();
         Task<AttendanceRegisterDto> CloseAsync(int id);
         Task<AttendanceRegisterDto> ReopenAsync(int id);
-        Task<IActionResult> GenerateWeeklyReportAsync();
+        Task<IActionResult> GenerateWeeklyReportAsync(DateOnly weekStart, DateOnly weekEnd);
     }
 }
